@@ -106,10 +106,10 @@ internal final class libxmlHTMLDocument: HTMLDocument {
         if let cur = html.cString(using: String.Encoding(rawValue: encoding)) {
             let url : String = ""
             docPtr = cur.withUnsafeBufferPointer {
-                cur -> htmlDocPtr? in
+                cur in
                 return cur.baseAddress?.withMemoryRebound(to: xmlChar.self, capacity: cur.count) {
-                    cur -> htmlDocPtr? in
-                    htmlReadDoc(cur, url, String(describing: cfencstr), CInt(option))
+                    cur in
+                    return htmlReadDoc(cur, url, String(describing: cfencstr), CInt(option))
                 }
             }
             rootNode  = libxmlHTMLNode(docPtr: docPtr)
@@ -234,15 +234,13 @@ internal final class libxmlXMLDocument: XMLDocument {
             return nil
         }
         let cfenc : CFStringEncoding = CFStringConvertNSStringEncodingToEncoding(encoding)
-        let cfencstr = CFStringConvertEncodingToIANACharSetName(cfenc)
+        let cfencstr = CFStringConvertEncodingToIANACharSetName(cfenc)!
         
         if let cur = xml.cString(using: String.Encoding(rawValue: encoding)) {
             let url : String = ""
-            docPtr = cur.withUnsafeBufferPointer {
-                cur -> htmlDocPtr? in
-                return cur.baseAddress?.withMemoryRebound(to: xmlChar.self, capacity: cur.count) {
-                    cur -> htmlDocPtr? in
-                    xmlReadDoc(cur, url, String(describing: cfencstr), CInt(option))
+            docPtr = cur.withUnsafeBufferPointer { cur in
+                return cur.baseAddress?.withMemoryRebound(to: xmlChar.self, capacity: cur.count) { cur in
+                    return xmlReadDoc(cur, url, String(describing: cfencstr), CInt(option))
                 }
             }
             rootNode  = libxmlHTMLNode(docPtr: docPtr)

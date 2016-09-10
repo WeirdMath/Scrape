@@ -25,6 +25,7 @@ SOFTWARE.
 import XCTest
 @testable import Scrape
 
+
 class KannaTests: XCTestCase {
     let css2xpath: [(css: String, xpath: String?)] = [
         ("*, div", "//* | //div"),
@@ -91,12 +92,10 @@ class KannaTests: XCTestCase {
     test XML
     */
     func testXml() {
-        let filename = "test_XML_ExcelWorkbook"
-        if let path = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"xml"),
-           let xml = try?
-            
-            Data(contentsOf: URL(fileURLWithPath: path)),
-            let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) {
+        let filename = "test_XML_ExcelWorkbook.xml"
+        let path = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
+        if let xml = try? Data(contentsOf: path),
+           let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) {
                 let namespaces = [
                     "o":  "urn:schemas-microsoft-com:office:office",
                     "ss": "urn:schemas-microsoft-com:office:spreadsheet"
