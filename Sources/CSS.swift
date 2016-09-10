@@ -22,19 +22,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
 import Foundation
 
 /**
 CSS
 */
 public struct CSS {
-    /**
-    CSS3 selector to XPath
-    
-    @param selector CSS3 selector
-    
-    @return XPath
-    */
+
+    /// CSS3 selector to XPath
+    ///
+    /// - parameter selector: CSS3 selector
+    ///
+    /// - returns: XPath
     public static func toXPath(_ selector: String) -> String? {
         var xpath = "//"
         var str = selector

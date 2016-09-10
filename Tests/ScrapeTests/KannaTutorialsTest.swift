@@ -56,7 +56,7 @@ class KannaTutorialsTests: XCTestCase {
     func testParsingOptions() {
         let html = "<html><body><h1>Tutorials</h1></body></html>"
         
-        if let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue, option: .htmlParseUseLibxml(.STRICT)) {
+        if let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue, option: .html(.strict)) {
             XCTAssert(doc.toHTML != nil)
         }
     }

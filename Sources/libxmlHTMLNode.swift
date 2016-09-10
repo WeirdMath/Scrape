@@ -23,12 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import Foundation
 import CLibxml2
 
-/**
-libxmlHTMLNode
-*/
 internal final class libxmlHTMLNode: XMLElement {
     var text: String? {
         if nodePtr != nil {
@@ -251,7 +247,7 @@ private func libxmlGetNodeContent(_ nodePtr: xmlNodePtr?) -> String? {
 }
 
 let entities = [
-    "&": "&amp;",
+    "&" : "&amp;",
     "<" : "&lt;",
     ">" : "&gt;",
 ]

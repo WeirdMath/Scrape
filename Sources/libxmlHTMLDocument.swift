@@ -26,9 +26,6 @@ SOFTWARE.
 import Foundation
 import CLibxml2
 
-/*
-libxmlHTMLDocument
-*/
 internal final class libxmlHTMLDocument: HTMLDocument {
     private var docPtr: htmlDocPtr? = nil
     private var rootNode: XMLElement?
@@ -159,9 +156,6 @@ internal final class libxmlHTMLDocument: HTMLDocument {
     }
 }
 
-/*
-libxmlXMLDocument
-*/
 internal final class libxmlXMLDocument: XMLDocument {
     private var docPtr: xmlDocPtr?
     private var rootNode: XMLElement?

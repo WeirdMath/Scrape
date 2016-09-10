@@ -26,128 +26,110 @@ SOFTWARE.
 import Foundation
 import CLibxml2
 
-/*
-ParseOption
-*/
 public enum ParseOption {
-    // libxml2
-    case xmlParseUseLibxml(Libxml2XMLParserOptions)
-    case htmlParseUseLibxml(Libxml2HTMLParserOptions)
+    case xml(XMLParserOptions)
+    case html(HTMLParserOptions)
+    
+    fileprivate static var defaultXML: ParseOption {
+        return .xml([.recoverOnErrors, .noError, .noWarning])
+    }
+    fileprivate static var defaultHTML: ParseOption {
+        return .html([.relaxedParsing, .noError, .noWarning])
+    }
 }
 
-private let kDefaultXmlParseOption   = ParseOption.xmlParseUseLibxml([.RECOVER, .NOERROR, .NOWARNING])
-private let kDefaultHtmlParseOption  = ParseOption.htmlParseUseLibxml([.RECOVER, .NOERROR, .NOWARNING])
 
-/**
-Parse XML
-
-@param xml      an XML string
-@param url      the base URL to use for the document
-@param encoding the document encoding
-@param options  a ParserOption
-*/
-public func XML(xml: String, url: String?, encoding: UInt, option: ParseOption = kDefaultXmlParseOption) -> XMLDocument? {
+/// Parse XML
+///
+/// - parameter xml:      an XML string
+/// - parameter url:      the base URL to use for the document
+/// - parameter encoding: the document encoding
+/// - parameter option:   a ParserOption
+public func XML(xml: String, url: String?, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
     switch option {
-    case .xmlParseUseLibxml(let opt):
+    case .xml(let opt):
         return libxmlXMLDocument(xml: xml, url: url, encoding: encoding, option: opt.rawValue)
     default:
         return nil
     }
 }
 
-public func XML(xml: String, encoding: UInt, option: ParseOption = kDefaultXmlParseOption) -> XMLDocument? {
+public func XML(xml: String, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
     return XML(xml: xml, url: nil, encoding: encoding, option: option)
 }
 
-// NSData
-public func XML(xml: Data, url: String?, encoding: UInt, option: ParseOption = kDefaultXmlParseOption) -> XMLDocument? {
+public func XML(xml: Data, url: String?, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
     if let xmlStr = NSString(data: xml, encoding: encoding) as? String {
         return XML(xml: xmlStr, url: url, encoding: encoding, option: option)
     }
     return nil
 }
 
-public func XML(xml: Data, encoding: UInt, option: ParseOption = kDefaultXmlParseOption) -> XMLDocument? {
+public func XML(xml: Data, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
     return XML(xml: xml, url: nil, encoding: encoding, option: option)
 }
 
-// NSURL
-public func XML(url: URL, encoding: UInt, option: ParseOption = kDefaultXmlParseOption) -> XMLDocument? {
+public func XML(url: URL, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
     if let data = try? Data(contentsOf: url) {
         return XML(xml: data, url: url.absoluteString, encoding: encoding, option: option)
     }
     return nil
 }
 
-/**
-Parse HTML
-
-@param html     an HTML string
-@param url      the base URL to use for the document
-@param encoding the document encoding
-@param options  a ParserOption
-*/
-public func HTML(html: String, url: String?, encoding: UInt, option: ParseOption = kDefaultHtmlParseOption) -> HTMLDocument? {
+/// Parse HTML
+///
+/// - parameter html:     an HTML string
+/// - parameter url:      the base URL to use for the document
+/// - parameter encoding: the document encoding
+/// - parameter option:   a ParserOption
+public func HTML(html: String, url: String?, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
     switch option {
-    case .htmlParseUseLibxml(let opt):
+    case .html(let opt):
         return libxmlHTMLDocument(html: html, url: url, encoding: encoding, option: opt.rawValue)
     default:
         return nil
     }
 }
 
-public func HTML(html: String, encoding: UInt, option: ParseOption = kDefaultHtmlParseOption) -> HTMLDocument? {
+public func HTML(html: String, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
     return HTML(html: html, url: nil, encoding: encoding, option: option)
 }
 
-// NSData
-public func HTML(html: Data, url: String?, encoding: UInt, option: ParseOption = kDefaultHtmlParseOption) -> HTMLDocument? {
+public func HTML(html: Data, url: String?, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
     if let htmlStr = NSString(data: html, encoding: encoding) as? String {
         return HTML(html: htmlStr, url: url, encoding: encoding, option: option)
     }
     return nil
 }
 
-public func HTML(html: Data, encoding: UInt, option: ParseOption = kDefaultHtmlParseOption) -> HTMLDocument? {
+public func HTML(html: Data, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
     return HTML(html: html, url: nil, encoding: encoding, option: option)
 }
 
-// NSURL
-public func HTML(url: URL, encoding: UInt, option: ParseOption = kDefaultHtmlParseOption) -> HTMLDocument? {
+public func HTML(url: URL, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
     if let data = try? Data(contentsOf: url) {
         return HTML(html: data, url: url.absoluteString, encoding: encoding, option: option)
     }
     return nil
 }
 
-/**
-Searchable
-*/
 public protocol Searchable {
-    /**
-    Search for node from current node by XPath.
-    
-    @param xpath
-     */
+
+    /// Search for node from current node by XPath.
     func xpath(_ xpath: String, namespaces: [String:String]?) -> XPathObject
     func xpath(_ xpath: String) -> XPathObject
     func at_xpath(_ xpath: String, namespaces: [String:String]?) -> XMLElement?
     func at_xpath(_ xpath: String) -> XMLElement?
     
-    /**
-    Search for node from current node by CSS selector.
-    
-    @param selector a CSS selector
-    */
+    /// Search for node from current node by CSS selector.
+    ///
+    /// - parameter selector:   a CSS selector
     func css(_ selector: String, namespaces: [String:String]?) -> XPathObject
     func css(_ selector: String) -> XPathObject
     func at_css(_ selector: String, namespaces: [String:String]?) -> XMLElement?
     func at_css(_ selector: String) -> XMLElement?
 }
 
-/**
-SearchableNode
-*/
 public protocol SearchableNode: Searchable {
     var text: String? { get }
     var toHTML:      String? { get }
@@ -158,9 +140,6 @@ public protocol SearchableNode: Searchable {
     var content:   String? { get set }
 }
 
-/**
-XMLElement
-*/
 public protocol XMLElement: SearchableNode {
     var parent: XMLElement? { get set }
     subscript(attr: String) -> String? { get set }
@@ -170,24 +149,15 @@ public protocol XMLElement: SearchableNode {
     func removeChild(_ node: XMLElement)
 }
 
-/**
-XMLDocument
-*/
 public protocol XMLDocument: SearchableNode {
 }
 
-/**
-HTMLDocument
-*/
 public protocol HTMLDocument: XMLDocument {
     var title: String? { get }
     var head: XMLElement? { get }
     var body: XMLElement? { get }
 }
 
-/**
-XMLNodeSet
-*/
 public final class XMLNodeSet {
     fileprivate var nodes: [XMLElement] = []
     
@@ -263,10 +233,6 @@ extension XMLNodeSet: Sequence {
         }
     }
 }
-
-/**
-XPathObject
-*/
 
 public enum XPathObject {
     case none
