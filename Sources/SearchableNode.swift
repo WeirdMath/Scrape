@@ -18,17 +18,25 @@
 /// - Comments are comment nodes.
 public protocol SearchableNode: Searchable {
     
+    /// Text content of the node. May be `nil` if no content is available.
     var text: String? { get }
     
+    /// HTML content of the node. May be `nil` if no content is available.
     var html: String? { get }
     
+    /// XML content of the node. May be `nil` if no content is available.
     var xml: String? { get }
     
+    /// HTML content of the node without outermost tags. Only available if `html` property is not `nil`.
     var innerHTML: String? { get }
     
+    /// Value of the attribute "class" of the node. This property is `nil` if the node does not have
+    /// "class" attribute
     var className: String? { get }
     
+    /// Name of the corresponding tag for this node.
     var tagName: String? { get set }
     
+    /// Content of the node. May be `nil` if no content is available.
     var content: String? { get set }
 }
