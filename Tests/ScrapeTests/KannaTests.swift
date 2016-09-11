@@ -134,7 +134,7 @@ class KannaTests: XCTestCase {
             }
             let item0 = doc.search(byCSSSelector: "item")[0]
             let item1 = doc.search(byCSSSelector: "item")[1]
-            item0.addPrevSibling(item1)
+            item0.addPreviousSibling(item1)
             XCTAssert(doc.at_css("all_item")!.toXML == modifyPrevXML)
         }
         
@@ -260,7 +260,7 @@ class KannaTests: XCTestCase {
                 let div = doc.at_css("div") else {
                     return
             }
-            div.addPrevSibling(h1)
+            div.addPreviousSibling(h1)
             XCTAssert(doc.body!.toHTML == modifyPrevHTML)
         }
         
