@@ -7,10 +7,14 @@
 //
 
 public protocol XMLElement: SearchableNode {
+    
     var parent: XMLElement? { get set }
-    subscript(attr: String) -> String? { get set }
+    
+    subscript(attribute: String) -> String? { get set }
     
     func addPreviousSibling(_ node: XMLElement)
+    
     func addNextSibling(_ node: XMLElement)
+    
     func removeChild(_ node: XMLElement)
 }
