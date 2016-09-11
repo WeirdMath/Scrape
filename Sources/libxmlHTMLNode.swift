@@ -190,7 +190,7 @@ internal final class libxmlHTMLNode: XMLElement {
         return search(byCSSSelector: selector, namespaces: namespaces).nodeSetValue.first
     }
 
-    func addPrevSibling(_ node: XMLElement) {
+    func addPreviousSibling(_ node: XMLElement) {
         guard let node = node as? libxmlHTMLNode else {
             return
         }
