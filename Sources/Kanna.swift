@@ -32,31 +32,31 @@ import CLibxml2
 /// - parameter url:      the base URL to use for the document
 /// - parameter encoding: the document encoding
 /// - parameter option:   a ParserOption
-public func XML(xml: String, url: String?, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
+public func XML(xml: String, url: String?, encoding: String.Encoding, option: ParseOption = .defaultXML) -> XMLDocument? {
     switch option {
     case .xml(let opt):
-        return LibxmlXMLDocument(xml: xml, url: url, encoding: encoding, option: opt.rawValue)
+        return LibxmlXMLDocument(xml: xml, url: url, encoding: encoding, options: opt)
     default:
         return nil
     }
 }
 
-public func XML(xml: String, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
+public func XML(xml: String, encoding: String.Encoding, option: ParseOption = .defaultXML) -> XMLDocument? {
     return XML(xml: xml, url: nil, encoding: encoding, option: option)
 }
 
-public func XML(xml: Data, url: String?, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
-    if let xmlStr = NSString(data: xml, encoding: encoding) as? String {
+public func XML(xml: Data, url: String?, encoding: String.Encoding, option: ParseOption = .defaultXML) -> XMLDocument? {
+    if let xmlStr = NSString(data: xml, encoding: encoding.rawValue) as? String {
         return XML(xml: xmlStr, url: url, encoding: encoding, option: option)
     }
     return nil
 }
 
-public func XML(xml: Data, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
+public func XML(xml: Data, encoding: String.Encoding, option: ParseOption = .defaultXML) -> XMLDocument? {
     return XML(xml: xml, url: nil, encoding: encoding, option: option)
 }
 
-public func XML(url: URL, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
+public func XML(url: URL, encoding: String.Encoding, option: ParseOption = .defaultXML) -> XMLDocument? {
     if let data = try? Data(contentsOf: url) {
         return XML(xml: data, url: url.absoluteString, encoding: encoding, option: option)
     }

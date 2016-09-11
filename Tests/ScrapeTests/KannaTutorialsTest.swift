@@ -16,7 +16,7 @@ class KannaTutorialsTests: XCTestCase {
         }
         
         let xml = "<root><item><name>Tutorials</name></item></root>"
-        if let xmlDoc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) {
+        if let xmlDoc = XML(xml: xml, encoding: String.Encoding.utf8) {
             XCTAssert(xmlDoc.html != nil)
         }
         
@@ -81,7 +81,7 @@ class KannaTutorialsTests: XCTestCase {
             return
         }
         let xml = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        if let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) {
+        if let doc = XML(xml: xml, encoding: String.Encoding.utf8) {
             for (i, node) in doc.search(byXPath: "//name").enumerated() {
                 XCTAssert(node.text! == TestVersionData[i])
             }
@@ -118,7 +118,7 @@ class KannaTutorialsTests: XCTestCase {
         }
         
         let xml = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        if let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) {
+        if let doc = XML(xml: xml, encoding: String.Encoding.utf8) {
             
             for (i, node) in doc.search(byXPath: "//github:title",
                                         namespaces: ["github" : "https://github.com/"]).enumerated() {
@@ -126,7 +126,7 @@ class KannaTutorialsTests: XCTestCase {
             }
         }
         
-        if let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) {
+        if let doc = XML(xml: xml, encoding: String.Encoding.utf8) {
             
             for (i, node) in doc.search(byXPath: "//bitbucket:title",
                                         namespaces: ["bitbucket": "https://bitbucket.org/"]).enumerated() {

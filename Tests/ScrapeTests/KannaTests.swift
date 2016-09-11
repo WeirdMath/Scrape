@@ -95,7 +95,7 @@ class KannaTests: XCTestCase {
         let filename = "test_XML_ExcelWorkbook.xml"
         let path = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
         if let xml = try? Data(contentsOf: path),
-            let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) {
+            let doc = XML(xml: xml, encoding: String.Encoding.utf8) {
             let namespaces = [
                 "o":  "urn:schemas-microsoft-com:office:office",
                 "ss": "urn:schemas-microsoft-com:office:spreadsheet"
@@ -129,7 +129,7 @@ class KannaTests: XCTestCase {
         let modifyNextXML = "<all_item><item><title>item1</title></item><item><title>item0</title></item></all_item>"
         
         do {
-            guard let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) else {
+            guard let doc = XML(xml: xml, encoding: String.Encoding.utf8) else {
                 return
             }
             let item0 = doc.search(byCSSSelector: "item")[0]
@@ -139,7 +139,7 @@ class KannaTests: XCTestCase {
         }
         
         do {
-            guard let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) else {
+            guard let doc = XML(xml: xml, encoding: String.Encoding.utf8) else {
                 return
             }
             let item0 = doc.search(byCSSSelector: "item")[0]
