@@ -101,13 +101,13 @@ class KannaTests: XCTestCase {
                 "ss": "urn:schemas-microsoft-com:office:spreadsheet"
             ]
             
-            if let author = doc.at_xpath("//o:Author", namespaces: namespaces) {
+            if let author = doc.atXPath("//o:Author", namespaces: namespaces) {
                 XCTAssert(author.text == "_tid_")
             } else {
                 XCTAssert(false, "Author not found.")
             }
             
-            if let createDate = doc.at_xpath("//o:Created", namespaces: namespaces) {
+            if let createDate = doc.atXPath("//o:Created", namespaces: namespaces) {
                 XCTAssert(createDate.text == "2015-07-26T06:00:00Z")
             } else {
                 XCTAssert(false, "Create date not found.")
@@ -135,7 +135,7 @@ class KannaTests: XCTestCase {
             let item0 = doc.search(byCSSSelector: "item")[0]
             let item1 = doc.search(byCSSSelector: "item")[1]
             item0.addPreviousSibling(item1)
-            XCTAssert(doc.at_css("all_item")!.toXML == modifyPrevXML)
+            XCTAssert(doc.atCSSSelector("all_item")!.toXML == modifyPrevXML)
         }
         
         do {
@@ -145,7 +145,7 @@ class KannaTests: XCTestCase {
             let item0 = doc.search(byCSSSelector: "item")[0]
             let item1 = doc.search(byCSSSelector: "item")[1]
             item1.addNextSibling(item0)
-            XCTAssert(doc.at_css("all_item")!.toXML == modifyNextXML)
+            XCTAssert(doc.atCSSSelector("all_item")!.toXML == modifyNextXML)
         }
     }
     
@@ -180,7 +180,7 @@ class KannaTests: XCTestCase {
                 XCTAssert(repo.text == repoName[index])
             }
             
-            if let snTable = doc.at_css("table[id='sequence number']") {
+            if let snTable = doc.atCSSSelector("table[id='sequence number']") {
                 let alphabet = ["a", "b", "c"]
                 for (indexTr, tr) in snTable.search(byCSSSelector: "tr").enumerated() {
                     for (indexTd, td) in tr.search(byCSSSelector: "tr").enumerated() {
@@ -189,8 +189,8 @@ class KannaTests: XCTestCase {
                 }
             }
             
-            if let starTable = doc.at_css("table[id='star table']"),
-                let allStarStr = starTable.at_css("tfoot > tr > td:nth-child(2)")?.text,
+            if let starTable = doc.atCSSSelector("table[id='star table']"),
+                let allStarStr = starTable.atCSSSelector("tfoot > tr > td:nth-child(2)")?.text,
                 let allStar = Int(allStarStr) {
                 var count = 0
                 
@@ -206,7 +206,7 @@ class KannaTests: XCTestCase {
                 XCTAssert(false, "Star not found.")
             }
             
-            if var link = doc.at_xpath("//link") {
+            if var link = doc.atCSSSelector("//link") {
                 let attr = "src-data"
                 let testData = "TestData"
                 link[attr] = testData
@@ -234,8 +234,8 @@ class KannaTests: XCTestCase {
                 return
             }
             
-            XCTAssert(doc.at_css("div#inner")!.innerHTML == "\n        abc<div>def</div>hij<span>klmn</span>opq\n    ")
-            XCTAssert(doc.at_css("#asd")!.innerHTML == "asd")
+            XCTAssert(doc.atCSSSelector("div#inner")!.innerHTML == "\n        abc<div>def</div>hij<span>klmn</span>opq\n    ")
+            XCTAssert(doc.atCSSSelector("#asd")!.innerHTML == "asd")
         } catch {
             XCTAssert(false, "File not found. name: (\(filename)), error: \(error)")
         }
@@ -256,8 +256,8 @@ class KannaTests: XCTestCase {
         
         do {
             guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue),
-                let h1 = doc.at_css("h1"),
-                let div = doc.at_css("div") else {
+                let h1 = doc.atCSSSelector("h1"),
+                let div = doc.atCSSSelector("div") else {
                     return
             }
             div.addPreviousSibling(h1)
@@ -266,8 +266,8 @@ class KannaTests: XCTestCase {
         
         do {
             guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue),
-                let h1 = doc.at_css("h1"),
-                let div = doc.at_css("div") else {
+                let h1 = doc.atCSSSelector("h1"),
+                let div = doc.atCSSSelector("div") else {
                     return
             }
             div.addNextSibling(h1)

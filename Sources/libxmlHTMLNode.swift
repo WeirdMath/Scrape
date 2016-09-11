@@ -171,10 +171,6 @@ internal final class libxmlHTMLNode: XMLElement {
         return XPath(docPtr: docPtr, object: result!.pointee)
     }
     
-    func at_xpath(_ xpath: String, namespaces: [String : String]?) -> XMLElement? {
-        return search(byXPath: xpath, namespaces: namespaces).nodeSetValue.first
-    }
-    
     func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPath {
         if let xpath = CSS.toXPath(selector) {
             if isRoot {
@@ -184,10 +180,6 @@ internal final class libxmlHTMLNode: XMLElement {
             }
         }
         return .none
-    }
-    
-    func at_css(_ selector: String, namespaces: [String:String]?) -> XMLElement? {
-        return search(byCSSSelector: selector, namespaces: namespaces).nodeSetValue.first
     }
 
     func addPreviousSibling(_ node: XMLElement) {

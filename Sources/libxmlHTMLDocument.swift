@@ -102,23 +102,15 @@ internal final class libxmlHTMLDocument: HTMLDocument {
         xmlFreeDoc(self.docPtr)
     }
 
-    var title: String? { return at_xpath("//title")?.text }
-    var head: XMLElement? { return at_xpath("//head") }
-    var body: XMLElement? { return at_xpath("//body") }
+    var title: String? { return atXPath("//title")?.text }
+    var head: XMLElement? { return atXPath("//head") }
+    var body: XMLElement? { return atXPath("//body") }
     
     func search(byXPath xpath: String, namespaces: [String : String]?) -> XPath {
         return rootNode?.search(byXPath: xpath, namespaces: namespaces) ?? .none
     }
     
-    func at_xpath(_ xpath: String, namespaces: [String:String]?) -> XMLElement? {
-        return rootNode?.at_xpath(xpath, namespaces: namespaces)
-    }
-    
     func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPath {
         return rootNode?.search(byCSSSelector: selector, namespaces: namespaces) ?? .none
-    }
-    
-    func at_css(_ selector: String, namespaces: [String:String]?) -> XMLElement? {
-        return rootNode?.at_css(selector, namespaces: namespaces)
     }
 }

@@ -98,7 +98,7 @@ class KannaTutorialsTests: XCTestCase {
             }
             
             XCTAssertEqual(doc.search(byCSSSelector: "tvos name").first!.text, "tvOS 10.0")
-            XCTAssertEqual(doc.at_css("tvos name")?.text, "tvOS 10.0")
+            XCTAssertEqual(doc.atCSSSelector("tvos name")?.text, "tvOS 10.0")
         }
     }
     
@@ -148,7 +148,7 @@ class KannaTutorialsTests: XCTestCase {
             return
         }
         
-        var h1 = doc.at_css("h1")!
+        var h1 = doc.atCSSSelector("h1")!
         h1.content = "Snap, Crackle & Pop"
         
         XCTAssert(doc.body?.toHTML == TestModifyHTML)
@@ -165,8 +165,8 @@ class KannaTutorialsTests: XCTestCase {
         guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) else {
             return
         }
-        var h1  = doc.at_css("h1")!
-        let div = doc.at_css("div")!
+        var h1  = doc.atCSSSelector("h1")!
+        let div = doc.atCSSSelector("div")!
         
         h1.parent = div
         
@@ -187,7 +187,7 @@ class KannaTutorialsTests: XCTestCase {
         guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) else {
             return
         }
-        var h1  = doc.at_css("h1")!
+        var h1  = doc.atCSSSelector("h1")!
         
         h1.tagName = "h2"
         h1["class"] = "show-title"

@@ -104,16 +104,8 @@ internal final class libxmlXMLDocument: XMLDocument {
         return rootNode?.search(byXPath: xpath, namespaces: namespaces) ?? .none
     }
     
-    func at_xpath(_ xpath: String, namespaces: [String:String]?) -> XMLElement? {
-        return rootNode?.at_xpath(xpath, namespaces: namespaces)
-    }
-    
     func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPath {
         return rootNode?.search(byCSSSelector: selector, namespaces: namespaces) ?? .none
-    }
-    
-    func at_css(_ selector: String, namespaces: [String:String]?) -> XMLElement? {
-        return rootNode?.at_css(selector, namespaces: namespaces)
     }
 }
 
