@@ -20,9 +20,9 @@ public protocol SearchableNode: Searchable {
     
     var text: String? { get }
     
-    var toHTML: String? { get }
+    var html: String? { get }
     
-    var toXML: String? { get }
+    var xml: String? { get }
     
     var innerHTML: String? { get }
     

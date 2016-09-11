@@ -25,7 +25,7 @@ public enum XPath {
 
 internal extension XPath {
     
-    init(docPtr: xmlDocPtr?, object: xmlXPathObject) {
+    init(documentPointer: xmlDocPtr, object: xmlXPathObject) {
         
         switch object.type {
         case XPATH_NODESET:
@@ -44,7 +44,7 @@ internal extension XPath {
                 
                 // `nodeTab` is an array of nodes with no particular order
                 let node = nodeSet.pointee.nodeTab[i]!
-                return LibxmlHTMLNode(docPtr: docPtr, node: node)
+                return LibxmlHTMLNode(documentPointer: documentPointer, nodePointer: node)
             }
 
             self = .nodeSet(XMLNodeSet(nodes: nodes))

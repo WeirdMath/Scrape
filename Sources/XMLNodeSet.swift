@@ -14,7 +14,7 @@ public final class XMLNodeSet {
         
         let html = nodes.reduce("") {
             
-            if let text = $1.toHTML {
+            if let text = $1.html {
                 return $0 + text
             }
             

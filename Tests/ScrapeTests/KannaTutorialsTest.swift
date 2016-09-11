@@ -12,12 +12,12 @@ class KannaTutorialsTests: XCTestCase {
     func testParsingFromString() {
         let html = "<html><body><h1>Tutorials</h1></body></html>"
         if let htmlDoc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) {
-            XCTAssert(htmlDoc.toHTML != nil)
+            XCTAssert(htmlDoc.html != nil)
         }
         
         let xml = "<root><item><name>Tutorials</name></item></root>"
         if let xmlDoc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) {
-            XCTAssert(xmlDoc.toXML != nil)
+            XCTAssert(xmlDoc.html != nil)
         }
         
     }
@@ -30,26 +30,26 @@ class KannaTutorialsTests: XCTestCase {
         
         let data = try! Data(contentsOf: URL(fileURLWithPath: filePath))
         if let doc = HTML(html: data, encoding: String.Encoding.utf8.rawValue) {
-            XCTAssert(doc.toHTML != nil)
+            XCTAssert(doc.html != nil)
         }
         
         let html = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
         if let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) {
-            XCTAssert(doc.toHTML != nil)
+            XCTAssert(doc.html != nil)
         }
     }
     
     func testParsingFromInternets() {
         let url = URL(string: "https://en.wikipedia.org/wiki/Cat")
         if let doc = HTML(url: url!, encoding: String.Encoding.utf8.rawValue) {
-            XCTAssert(doc.toHTML != nil)
+            XCTAssert(doc.html != nil)
         }
     }
     
     func testParsingFromEncoding() {
         let html = "<html><body><h1>Tutorials</h1></body></html>"
         if let htmlDoc = HTML(html: html, encoding: String.Encoding.japaneseEUC.rawValue) {
-            XCTAssert(htmlDoc.toHTML != nil)
+            XCTAssert(htmlDoc.html != nil)
         }
     }
     
@@ -57,7 +57,7 @@ class KannaTutorialsTests: XCTestCase {
         let html = "<html><body><h1>Tutorials</h1></body></html>"
         
         if let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue, option: .html(.strict)) {
-            XCTAssert(doc.toHTML != nil)
+            XCTAssert(doc.html != nil)
         }
     }
     
@@ -151,7 +151,7 @@ class KannaTutorialsTests: XCTestCase {
         var h1 = doc.atCSSSelector("h1")!
         h1.content = "Snap, Crackle & Pop"
         
-        XCTAssert(doc.body?.toHTML == TestModifyHTML)
+        XCTAssert(doc.body?.html == TestModifyHTML)
     }
     
     func testModifyingMovingNode() {
@@ -170,11 +170,11 @@ class KannaTutorialsTests: XCTestCase {
         
         h1.parent = div
         
-        XCTAssert(doc.body!.toHTML == TestModifyHTML)
+        XCTAssert(doc.body!.html == TestModifyHTML)
         
         div.addNextSibling(h1)
         
-        XCTAssert(doc.body!.toHTML == TestModifyArrangeHTML)
+        XCTAssert(doc.body!.html == TestModifyArrangeHTML)
     }
     
     func testModifyingNodesAndAttributes() {
@@ -192,6 +192,6 @@ class KannaTutorialsTests: XCTestCase {
         h1.tagName = "h2"
         h1["class"] = "show-title"
         
-        XCTAssert(doc.body?.toHTML == TestModifyHTML)
+        XCTAssert(doc.body?.html == TestModifyHTML)
     }
 }

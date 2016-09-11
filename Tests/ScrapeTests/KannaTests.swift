@@ -135,7 +135,7 @@ class KannaTests: XCTestCase {
             let item0 = doc.search(byCSSSelector: "item")[0]
             let item1 = doc.search(byCSSSelector: "item")[1]
             item0.addPreviousSibling(item1)
-            XCTAssert(doc.atCSSSelector("all_item")!.toXML == modifyPrevXML)
+            XCTAssert(doc.atCSSSelector("all_item")!.xml == modifyPrevXML)
         }
         
         do {
@@ -145,7 +145,7 @@ class KannaTests: XCTestCase {
             let item0 = doc.search(byCSSSelector: "item")[0]
             let item1 = doc.search(byCSSSelector: "item")[1]
             item1.addNextSibling(item0)
-            XCTAssert(doc.atCSSSelector("all_item")!.toXML == modifyNextXML)
+            XCTAssert(doc.atCSSSelector("all_item")!.xml == modifyNextXML)
         }
     }
     
@@ -168,7 +168,7 @@ class KannaTests: XCTestCase {
             XCTAssert(doc.title == "Test HTML4")
             XCTAssert(doc.head != nil)
             XCTAssert(doc.body != nil)
-            XCTAssert(doc.toHTML!.hasPrefix("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html lang=\"en\">"))
+            XCTAssert(doc.html!.hasPrefix("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html lang=\"en\">"))
             
             for link in doc.search(byXPath: "//link") {
                 XCTAssert(link["href"] != nil)
@@ -261,7 +261,7 @@ class KannaTests: XCTestCase {
                     return
             }
             div.addPreviousSibling(h1)
-            XCTAssert(doc.body!.toHTML == modifyPrevHTML)
+            XCTAssert(doc.body!.html == modifyPrevHTML)
         }
         
         do {
@@ -271,7 +271,7 @@ class KannaTests: XCTestCase {
                     return
             }
             div.addNextSibling(h1)
-            XCTAssert(doc.body!.toHTML == modifyNextHTML)
+            XCTAssert(doc.body!.html == modifyNextHTML)
         }
     }
 }

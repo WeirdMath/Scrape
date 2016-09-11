@@ -12,7 +12,7 @@ import CLibxml2
 internal final class LibxmlHTMLDocument: HTMLDocument {
     private var docPtr: htmlDocPtr? = nil
     private var rootNode: XMLElement?
-    private var html: String
+    private var _html: String
     private var url:  String?
     private var encoding: UInt
     
@@ -20,7 +20,7 @@ internal final class LibxmlHTMLDocument: HTMLDocument {
         return rootNode?.text
     }
 
-    var toHTML: String? {
+    var html: String? {
         let buf = xmlBufferCreate()
         defer {
             xmlBufferFree(buf)
@@ -32,7 +32,7 @@ internal final class LibxmlHTMLDocument: HTMLDocument {
         return html
     }
 
-    var toXML: String? {
+    var xml: String? {
         var buf: UnsafeMutablePointer<xmlChar>? = nil
         let size: UnsafeMutablePointer<Int32>? = nil
         defer {
@@ -73,7 +73,7 @@ internal final class LibxmlHTMLDocument: HTMLDocument {
     }
     
     init?(html: String, url: String?, encoding: UInt, option: UInt) {
-        self.html = html
+        self._html = html
         self.url  = url
         self.encoding = encoding
         
@@ -92,7 +92,8 @@ internal final class LibxmlHTMLDocument: HTMLDocument {
                     return htmlReadDoc(cur, url, String(describing: cfencstr), CInt(option))
                 }
             }
-            rootNode  = LibxmlHTMLNode(docPtr: docPtr)
+            // TODO: Do not force unwrap docPtr
+            rootNode = LibxmlHTMLNode(documentPointer: docPtr!)
         } else {
             return nil
         }

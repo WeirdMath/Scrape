@@ -1,174 +1,235 @@
-/**@file LibxmlHTMLNode.swift
-
-Kanna
-
-Copyright (c) 2015 Atsushi Kiwaki (@_tid_)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+//
+//  LibxmlXMLDocument.swift
+//  Scrape
+//
+//  Created by Sergej Jaskiewicz on 11.09.16.
+//
+//
 
 import CLibxml2
 
 internal final class LibxmlHTMLNode: XMLElement {
-    var text: String? {
-        if nodePtr != nil {
-            return libxmlGetNodeContent(nodePtr)
-        }
-        return nil
+    
+    private var documentPointer: htmlDocPtr
+    private var nodePointer: xmlNodePtr
+    private var isRoot: Bool = false
+    
+    init(documentPointer: xmlDocPtr) {
+        
+        self.documentPointer  = documentPointer
+        
+        nodePointer = xmlDocGetRootElement(documentPointer)
+        isRoot = true
     }
     
-    var toHTML: String? {
-        let buf = xmlBufferCreate()
-        htmlNodeDump(buf, docPtr, nodePtr)
-        let html = String.decodeCString(buf?.pointee.content, as: UTF8.self)?.result
-        xmlBufferFree(buf)
-        return html
+    init(documentPointer: xmlDocPtr, nodePointer: xmlNodePtr) {
+        self.documentPointer = documentPointer
+        self.nodePointer = nodePointer
     }
-
-    var toXML: String? {
-        let buf = xmlBufferCreate()
-        xmlNodeDump(buf, docPtr, nodePtr, 0, 0)
-        let html = String.decodeCString(buf?.pointee.content, as: UTF8.self)?.result
-        xmlBufferFree(buf)
-        return html
+    
+    /// Wrapping method for libxml2's `xmlNodeGetContens(const xmlNode * cur)` function
+    ///
+    /// Reads the value of a node, this can be either the text carried directly by this node if it's a TEXT node
+    /// or the aggregate string of the values carried by this node child's (TEXT and ENTITY_REF).
+    /// Entity references are substituted.
+    ///
+    /// - parameter nodePtr: Pointer to the node being read
+    ///
+    /// - returns: A value of the node, or `nil` if no content is available.
+    private func libxmlGetNodeContent(_ nodePointer: xmlNodePtr) -> String? {
+        
+        guard let content = xmlNodeGetContent(nodePointer) else { return nil }
+        defer {
+            content.deallocate(capacity: 1)
+        }
+        
+        return String.decodeCString(content, as: UTF8.self)?.result
+    }
+    
+    private func escape(_ string: String) -> String {
+        
+        let escapingRules = [
+            ("&", "&amp;"),
+            ("<", "&lt;"),
+            (">", "&gt;")
+        ]
+        
+        return escapingRules.reduce(string) { (string, escapingRule) in
+            string.replacingOccurrences(of: escapingRule.0, with: escapingRule.1, options: .regularExpression)
+        }
+    }
+    
+    // MARK: - SearchableNode
+    
+    var text: String? {
+        return libxmlGetNodeContent(nodePointer)
+    }
+    
+    var html: String? {
+        
+        let buffer = xmlBufferCreate()!
+        defer {
+            xmlBufferFree(buffer)
+        }
+        
+        htmlNodeDump(buffer, documentPointer, nodePointer)
+        
+        return String.decodeCString(buffer.pointee.content, as: UTF8.self)?.result
+    }
+    
+    var xml: String? {
+        
+        let outputBuffer = xmlAllocOutputBuffer(xmlGetCharEncodingHandler(XML_CHAR_ENCODING_UTF8))
+        defer {
+            xmlOutputBufferClose(outputBuffer)
+        }
+        
+        xmlNodeDumpOutput(outputBuffer,
+                          documentPointer,
+                          nodePointer,
+                          0,
+                          0,
+                          nil)
+        
+        return String.decodeCString(xmlOutputBufferGetContent(outputBuffer), as: UTF8.self)?.result
     }
     
     var innerHTML: String? {
-        if let html = self.toHTML {
-            let inner = html.replacingOccurrences(of: "</[^>]*>$", with: "", options: .regularExpression, range: nil)
-                            .replacingOccurrences(of: "^<[^>]*>", with: "", options: .regularExpression, range: nil)
-            return inner
+        
+        guard let html = html else {
+            return nil
         }
-        return nil
+        
+        return html
+            .replacingOccurrences(of: "</[^>]*>$", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "^<[^>]*>",  with: "", options: .regularExpression)
     }
     
     var className: String? {
         return self["class"]
     }
     
-    var tagName:   String? {
+    var tagName: String? {
         get {
-            if nodePtr != nil {
-                return String.decodeCString(nodePtr?.pointee.name, as: UTF8.self)?.result
-            }
-            return nil
+            return String.decodeCString(nodePointer.pointee.name, as: UTF8.self)?.result
         }
-
         set {
             if let newValue = newValue {
-                xmlNodeSetName(nodePtr, newValue)
+                xmlNodeSetName(nodePointer, newValue)
             }
         }
     }
-
+    
     var content: String? {
         get {
             return text
         }
-
         set {
             if let newValue = newValue {
-                let v = escape(newValue)
-                xmlNodeSetContent(nodePtr, v)
+                xmlNodeSetContent(nodePointer, escape(newValue))
             }
         }
     }
-
+    
+    // MARK: - XMLElement
+    
     var parent: XMLElement? {
         get {
-            return LibxmlHTMLNode(docPtr: docPtr, node: nodePtr?.pointee.parent)
+            return LibxmlHTMLNode(documentPointer: documentPointer, nodePointer: nodePointer.pointee.parent)
         }
-
         set {
             if let node = newValue as? LibxmlHTMLNode {
                 node.addChild(self)
             }
         }
     }
-
-    private var docPtr:  htmlDocPtr? = nil
-    private var nodePtr: xmlNodePtr? = nil
-    private var isRoot:  Bool       = false
     
-    
-    subscript(attributeName: String) -> String?
-    {
+    subscript(attributeName: String) -> String? {
         get {
-            var attr = nodePtr?.pointee.properties
-            while attr != nil {
-                let mem = attr!.pointee
-                if let tagName = String.decodeCString(mem.name, as: UTF8.self)?.result {
-                    if attributeName == tagName {
-                        return libxmlGetNodeContent(mem.children)
-                    }
+            var attributes = nodePointer.pointee.properties
+            
+            while attributes != nil {
+                let attribute = attributes!.pointee
+                if let tagName = String.decodeCString(attribute.name, as: UTF8.self)?.result,
+                    attributeName == tagName {
+                    return libxmlGetNodeContent(attribute.children)
                 }
-                attr = attr!.pointee.next
+                attributes = attributes!.pointee.next
             }
+            
             return nil
         }
-        
         set(newValue) {
             if let newValue = newValue {
-                xmlSetProp(nodePtr, attributeName, newValue)
+                xmlSetProp(nodePointer, attributeName, newValue)
             } else {
-                xmlUnsetProp(nodePtr, attributeName)
+                xmlUnsetProp(nodePointer, attributeName)
             }
         }
     }
     
-    init(docPtr: xmlDocPtr?) {
-        self.docPtr  = docPtr
-        self.nodePtr = xmlDocGetRootElement(docPtr)
-        self.isRoot  = true
+    func addPreviousSibling(_ node: XMLElement) {
+        guard let node = node as? LibxmlHTMLNode else {
+            return
+        }
+        xmlAddPrevSibling(nodePointer, node.nodePointer)
     }
     
-    init(docPtr: xmlDocPtr?, node: xmlNodePtr?) {
-        self.docPtr  = docPtr
-        self.nodePtr = node
+    func addNextSibling(_ node: XMLElement) {
+        guard let node = node as? LibxmlHTMLNode else {
+            return
+        }
+        xmlAddNextSibling(nodePointer, node.nodePointer)
     }
     
-    // MARK: Searchable
+    func addChild(_ node: XMLElement) {
+        guard let node = node as? LibxmlHTMLNode else {
+            return
+        }
+        xmlUnlinkNode(node.nodePointer)
+        xmlAddChild(nodePointer, node.nodePointer)
+    }
+    
+    func removeChild(_ node: XMLElement) {
+        
+        guard let node = node as? LibxmlHTMLNode else {
+            return
+        }
+        xmlUnlinkNode(node.nodePointer)
+        xmlFree(node.nodePointer)
+    }
+    
+    // MARK: - Searchable
     
     func search(byXPath xpath: String, namespaces: [String : String]?) -> XPath {
         
-        let ctxt = xmlXPathNewContext(docPtr)
-        if ctxt == nil {
+        let xPathContextPointer = xmlXPathNewContext(documentPointer)
+        defer {
+            xmlXPathFreeContext(xPathContextPointer)
+        }
+        
+        guard let contextPointer = xPathContextPointer else {
             return .none
         }
-        ctxt!.pointee.node = nodePtr
         
-        if let nsDictionary = namespaces {
-            for (ns, name) in nsDictionary {
-                xmlXPathRegisterNs(ctxt, ns, name)
+        contextPointer.pointee.node = nodePointer
+        
+        if let namespaces = namespaces {
+            for (prefix, name) in namespaces {
+                xmlXPathRegisterNs(contextPointer, prefix, name)
             }
         }
         
-        let result = xmlXPathEvalExpression(xpath, ctxt)
+        let result = xmlXPathEvalExpression(xpath, contextPointer)
         defer {
             xmlXPathFreeObject(result)
         }
-        xmlXPathFreeContext(ctxt)
-        if result == nil {
+        
+        guard let xPathObjectPointer = result else {
             return .none
         }
         
-        return XPath(docPtr: docPtr, object: result!.pointee)
+        return XPath(documentPointer: documentPointer, object: xPathObjectPointer.pointee)
     }
     
     func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPath {
@@ -181,60 +242,4 @@ internal final class LibxmlHTMLNode: XMLElement {
         }
         return .none
     }
-
-    func addPreviousSibling(_ node: XMLElement) {
-        guard let node = node as? LibxmlHTMLNode else {
-            return
-        }
-        xmlAddPrevSibling(nodePtr, node.nodePtr)
-    }
-
-    func addNextSibling(_ node: XMLElement) {
-        guard let node = node as? LibxmlHTMLNode else {
-            return
-        }
-        xmlAddNextSibling(nodePtr, node.nodePtr)
-    }
-
-    func addChild(_ node: XMLElement) {
-        guard let node = node as? LibxmlHTMLNode else {
-            return
-        }
-        xmlUnlinkNode(node.nodePtr)
-        xmlAddChild(nodePtr, node.nodePtr)
-    }
-    
-    func removeChild(_ node: XMLElement) {
-        
-        guard let node = node as? LibxmlHTMLNode else {
-            return
-        }
-        xmlUnlinkNode(node.nodePtr)
-        xmlFree(node.nodePtr)
-    }
 }
-
-private func libxmlGetNodeContent(_ nodePtr: xmlNodePtr?) -> String? {
-    
-    let content = xmlNodeGetContent(nodePtr)!
-    defer {
-        content.deallocate(capacity: 1)
-    }
-    
-    return String.decodeCString(content, as: UTF8.self)?.result
-}
-
-let entities = [
-    "&" : "&amp;",
-    "<" : "&lt;",
-    ">" : "&gt;",
-]
-
-private func escape(_ str: String) -> String {
-    var newStr = str
-    for (unesc, esc) in entities {
-        newStr = newStr.replacingOccurrences(of: unesc, with: esc, options: .regularExpression, range: nil)
-    }
-    return newStr
-}
-
