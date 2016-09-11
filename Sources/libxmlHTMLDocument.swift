@@ -106,7 +106,7 @@ internal final class libxmlHTMLDocument: HTMLDocument {
     var head: XMLElement? { return at_xpath("//head") }
     var body: XMLElement? { return at_xpath("//body") }
     
-    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathObject {
+    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPath {
         return rootNode?.search(byXPath: xpath, namespaces: namespaces) ?? .none
     }
     
@@ -114,7 +114,7 @@ internal final class libxmlHTMLDocument: HTMLDocument {
         return rootNode?.at_xpath(xpath, namespaces: namespaces)
     }
     
-    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathObject {
+    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPath {
         return rootNode?.search(byCSSSelector: selector, namespaces: namespaces) ?? .none
     }
     

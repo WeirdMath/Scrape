@@ -100,7 +100,7 @@ internal final class libxmlXMLDocument: XMLDocument {
         xmlFreeDoc(self.docPtr)
     }
     
-    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathObject {
+    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPath {
         return rootNode?.search(byXPath: xpath, namespaces: namespaces) ?? .none
     }
     
@@ -108,7 +108,7 @@ internal final class libxmlXMLDocument: XMLDocument {
         return rootNode?.at_xpath(xpath, namespaces: namespaces)
     }
     
-    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathObject {
+    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPath {
         return rootNode?.search(byCSSSelector: selector, namespaces: namespaces) ?? .none
     }
     

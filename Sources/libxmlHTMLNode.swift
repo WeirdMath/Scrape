@@ -145,11 +145,11 @@ internal final class libxmlHTMLNode: XMLElement {
     
     // MARK: Searchable
     
-    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathObject {
+    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPath {
         
         let ctxt = xmlXPathNewContext(docPtr)
         if ctxt == nil {
-            return XPathObject.none
+            return .none
         }
         ctxt!.pointee.node = nodePtr
         
@@ -165,17 +165,17 @@ internal final class libxmlHTMLNode: XMLElement {
         }
         xmlXPathFreeContext(ctxt)
         if result == nil {
-            return XPathObject.none
+            return .none
         }
         
-        return XPathObject(docPtr: docPtr, object: result!.pointee)
+        return XPath(docPtr: docPtr, object: result!.pointee)
     }
     
     func at_xpath(_ xpath: String, namespaces: [String : String]?) -> XMLElement? {
         return search(byXPath: xpath, namespaces: namespaces).nodeSetValue.first
     }
     
-    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathObject {
+    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPath {
         if let xpath = CSS.toXPath(selector) {
             if isRoot {
                 return search(byXPath: xpath, namespaces: namespaces)
@@ -183,7 +183,7 @@ internal final class libxmlHTMLNode: XMLElement {
                 return search(byXPath: "." + xpath, namespaces: namespaces)
             }
         }
-        return XPathObject.none
+        return .none
     }
     
     func at_css(_ selector: String, namespaces: [String:String]?) -> XMLElement? {
