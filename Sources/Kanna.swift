@@ -35,7 +35,7 @@ import CLibxml2
 public func XML(xml: String, url: String?, encoding: UInt, option: ParseOption = .defaultXML) -> XMLDocument? {
     switch option {
     case .xml(let opt):
-        return libxmlXMLDocument(xml: xml, url: url, encoding: encoding, option: opt.rawValue)
+        return LibxmlXMLDocument(xml: xml, url: url, encoding: encoding, option: opt.rawValue)
     default:
         return nil
     }
@@ -72,7 +72,7 @@ public func XML(url: URL, encoding: UInt, option: ParseOption = .defaultXML) -> 
 public func HTML(html: String, url: String?, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
     switch option {
     case .html(let opt):
-        return libxmlHTMLDocument(html: html, url: url, encoding: encoding, option: opt.rawValue)
+        return LibxmlHTMLDocument(html: html, url: url, encoding: encoding, option: opt.rawValue)
     default:
         return nil
     }

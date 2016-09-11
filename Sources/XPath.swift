@@ -44,7 +44,7 @@ internal extension XPath {
                 
                 // `nodeTab` is an array of nodes with no particular order
                 let node = nodeSet.pointee.nodeTab[i]!
-                return libxmlHTMLNode(docPtr: docPtr, node: node)
+                return LibxmlHTMLNode(docPtr: docPtr, node: node)
             }
 
             self = .nodeSet(XMLNodeSet(nodes: nodes))

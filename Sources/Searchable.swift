@@ -6,6 +6,7 @@
 //
 //
 
+/// Instances of conforming types can use XPath or CSS selectors to form a search request.
 public protocol Searchable {
     
     /// Searches for a node from a current node by provided XPath.
