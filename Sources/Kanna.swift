@@ -113,31 +113,14 @@ public func HTML(url: URL, encoding: UInt, option: ParseOption = .defaultHTML) -
     return nil
 }
 
-public protocol Searchable {
-
-    /// Search for node from current node by XPath.
-    func xpath(_ xpath: String, namespaces: [String:String]?) -> XPathObject
-    func xpath(_ xpath: String) -> XPathObject
-    func at_xpath(_ xpath: String, namespaces: [String:String]?) -> XMLElement?
-    func at_xpath(_ xpath: String) -> XMLElement?
-    
-    /// Search for node from current node by CSS selector.
-    ///
-    /// - parameter selector:   a CSS selector
-    func css(_ selector: String, namespaces: [String:String]?) -> XPathObject
-    func css(_ selector: String) -> XPathObject
-    func at_css(_ selector: String, namespaces: [String:String]?) -> XMLElement?
-    func at_css(_ selector: String) -> XMLElement?
-}
-
 public protocol SearchableNode: Searchable {
     var text: String? { get }
-    var toHTML:      String? { get }
-    var toXML:     String? { get }
+    var toHTML: String? { get }
+    var toXML: String? { get }
     var innerHTML: String? { get }
     var className: String? { get }
-    var tagName:   String? { get set }
-    var content:   String? { get set }
+    var tagName: String? { get set }
+    var content: String? { get set }
 }
 
 public protocol XMLElement: SearchableNode {

@@ -1,27 +1,27 @@
 /**@file KannaTests.swift
-
-Kanna
-
-@Copyright (c) 2015 Atsushi Kiwaki (@_tid_)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+ 
+ Kanna
+ 
+ @Copyright (c) 2015 Atsushi Kiwaki (@_tid_)
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+ */
 import XCTest
 @testable import Scrape
 
@@ -79,8 +79,8 @@ class KannaTests: XCTestCase {
     }
     
     /**
-    test CSS to XPath
-    */
+     test CSS to XPath
+     */
     func testCSStoXPath() {
         for testCase in css2xpath {
             let xpath = CSS.toXPath(testCase.css)
@@ -89,70 +89,69 @@ class KannaTests: XCTestCase {
     }
     
     /**
-    test XML
-    */
+     test XML
+     */
     func testXml() {
         let filename = "test_XML_ExcelWorkbook.xml"
         let path = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
         if let xml = try? Data(contentsOf: path),
-           let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) {
-                let namespaces = [
-                    "o":  "urn:schemas-microsoft-com:office:office",
-                    "ss": "urn:schemas-microsoft-com:office:spreadsheet"
-                ]
-                
-                if let author = doc.at_xpath("//o:Author", namespaces: namespaces) {
-                    XCTAssert(author.text == "_tid_")
-                } else {
-                    XCTAssert(false, "Author not found.")
+            let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) {
+            let namespaces = [
+                "o":  "urn:schemas-microsoft-com:office:office",
+                "ss": "urn:schemas-microsoft-com:office:spreadsheet"
+            ]
+            
+            if let author = doc.at_xpath("//o:Author", namespaces: namespaces) {
+                XCTAssert(author.text == "_tid_")
+            } else {
+                XCTAssert(false, "Author not found.")
+            }
+            
+            if let createDate = doc.at_xpath("//o:Created", namespaces: namespaces) {
+                XCTAssert(createDate.text == "2015-07-26T06:00:00Z")
+            } else {
+                XCTAssert(false, "Create date not found.")
+            }
+            
+            for row in doc.search(byXPath: "//ss:Row", namespaces: namespaces) {
+                for cell in row.search(byXPath: "//ss:Data", namespaces: namespaces) {
+                    print(cell.text)
                 }
-                
-                if let createDate = doc.at_xpath("//o:Created", namespaces: namespaces) {
-                    XCTAssert(createDate.text == "2015-07-26T06:00:00Z")
-                } else {
-                    XCTAssert(false, "Create date not found.")
-                }
-                
-                
-                for row in doc.xpath("//ss:Row", namespaces: namespaces) {
-                    for cell in row.xpath("//ss:Data", namespaces: namespaces) {
-                        print(cell.text)
-                    }
-                }
+            }
         } else {
             XCTAssert(false, "File not found. name: (\(filename))")
         }
     }
-
+    
     func testXML_MovingNode() {
         let xml = "<?xml version=\"1.0\"?><all_item><item><title>item0</title></item><item><title>item1</title></item></all_item>"
         let modifyPrevXML = "<all_item><item><title>item1</title></item><item><title>item0</title></item></all_item>"
         let modifyNextXML = "<all_item><item><title>item1</title></item><item><title>item0</title></item></all_item>"
-
-        do {
-            guard let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) else {
-                    return
-            }
-            let item0 = doc.css("item")[0]
-            let item1 = doc.css("item")[1]
-            item0.addPrevSibling(item1)
-            XCTAssert(doc.at_css("all_item")!.toXML == modifyPrevXML)
-        }
-
+        
         do {
             guard let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) else {
                 return
             }
-            let item0 = doc.css("item")[0]
-            let item1 = doc.css("item")[1]
+            let item0 = doc.search(byCSSSelector: "item")[0]
+            let item1 = doc.search(byCSSSelector: "item")[1]
+            item0.addPrevSibling(item1)
+            XCTAssert(doc.at_css("all_item")!.toXML == modifyPrevXML)
+        }
+        
+        do {
+            guard let doc = XML(xml: xml, encoding: String.Encoding.utf8.rawValue) else {
+                return
+            }
+            let item0 = doc.search(byCSSSelector: "item")[0]
+            let item1 = doc.search(byCSSSelector: "item")[1]
             item1.addNextSibling(item0)
             XCTAssert(doc.at_css("all_item")!.toXML == modifyNextXML)
         }
     }
     
     /**
-    test HTML4
-    */
+     test HTML4
+     */
     func testHTML4() {
         // This is an example of a functional test case.
         let filename = "test_HTML4"
@@ -171,51 +170,53 @@ class KannaTests: XCTestCase {
             XCTAssert(doc.body != nil)
             XCTAssert(doc.toHTML!.hasPrefix("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">\n<html lang=\"en\">"))
             
-            for link in doc.xpath("//link") {
+            for link in doc.search(byXPath: "//link") {
                 XCTAssert(link["href"] != nil)
             }
             
             let repoName = ["Kanna", "Swift-HTML-Parser"]
-            for (index, repo) in doc.xpath("//span[@class='repo']").enumerated() {
+            for (index, repo) in doc.search(byXPath: "//span[@class='repo']").enumerated() {
                 XCTAssert(repo["title"] == repoName[index])
                 XCTAssert(repo.text == repoName[index])
             }
             
             if let snTable = doc.at_css("table[id='sequence number']") {
                 let alphabet = ["a", "b", "c"]
-                for (indexTr, tr) in snTable.css("tr").enumerated() {
-                    for (indexTd, td) in tr.css("td").enumerated() {
+                for (indexTr, tr) in snTable.search(byCSSSelector: "tr").enumerated() {
+                    for (indexTd, td) in tr.search(byCSSSelector: "tr").enumerated() {
                         XCTAssert(td.text == "\(alphabet[indexTd])\(indexTr)")
                     }
                 }
             }
             
             if let starTable = doc.at_css("table[id='star table']"),
-               let allStarStr = starTable.at_css("tfoot > tr > td:nth-child(2)")?.text,
-               let allStar = Int(allStarStr) {
-                    var count = 0
-                    for starNode in starTable.css("tbody > tr > td:nth-child(2)") {
-                        if let starStr = starNode.text,
-                           let star    = Int(starStr) {
-                            count += star
-                        }
+                let allStarStr = starTable.at_css("tfoot > tr > td:nth-child(2)")?.text,
+                let allStar = Int(allStarStr) {
+                var count = 0
+                
+                for starNode in starTable.search(byCSSSelector: "tbody > tr > td:nth-child(2)") {
+                    if let starStr = starNode.text,
+                        let star    = Int(starStr) {
+                        count += star
                     }
-                    
-                    XCTAssert(count == allStar)
+                }
+                
+                XCTAssert(count == allStar)
             } else {
                 XCTAssert(false, "Star not found.")
             }
-
+            
             if var link = doc.at_xpath("//link") {
                 let attr = "src-data"
                 let testData = "TestData"
                 link[attr] = testData
                 XCTAssert(link[attr] == testData)
             }
-
-            XCTAssert(doc.xpath("true()").boolValue == true)
-            XCTAssert(doc.xpath("number(123)").numberValue == 123)
-            XCTAssert(doc.xpath("concat((//a/@href)[1], (//a/@href)[2])").stringValue == "/tid-kijyun/Kanna/tid-kijyun/Swift-HTML-Parser")
+            
+            XCTAssertTrue(doc.search(byXPath: "true()").boolValue)
+            XCTAssertEqual(doc.search(byXPath: "number(123)").numberValue, 123)
+            XCTAssertEqual(doc.search(byXPath: "concat((//a/@href)[1], (//a/@href)[2])").stringValue,
+                           "/tid-kijyun/Kanna/tid-kijyun/Swift-HTML-Parser")
         } catch {
             XCTAssert(false, "File not found. name: (\(filename)), error: \(error)")
         }
@@ -242,31 +243,31 @@ class KannaTests: XCTestCase {
     
     func testNSURL() {
         guard let url = URL(string: "https://en.wikipedia.org/wiki/Cat"),
-              let _ = HTML(url: url, encoding: String.Encoding.utf8.rawValue) else {
-            XCTAssert(false)
-            return
+            let _ = HTML(url: url, encoding: String.Encoding.utf8.rawValue) else {
+                XCTAssert(false)
+                return
         }
     }
-
+    
     func testHTML_MovingNode() {
         let html = "<body><div>A love triangle.<h1>Three's Company</h1></div></body>"
         let modifyPrevHTML = "<body>\n<h1>Three's Company</h1>\n<div>A love triangle.</div>\n</body>"
         let modifyNextHTML = "<body>\n<div>A love triangle.</div>\n<h1>Three's Company</h1>\n</body>"
-
+        
         do {
             guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue),
-                  let h1 = doc.at_css("h1"),
-                  let div = doc.at_css("div") else {
+                let h1 = doc.at_css("h1"),
+                let div = doc.at_css("div") else {
                     return
             }
             div.addPrevSibling(h1)
             XCTAssert(doc.body!.toHTML == modifyPrevHTML)
         }
-
+        
         do {
             guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue),
-                  let h1 = doc.at_css("h1"),
-                  let div = doc.at_css("div") else {
+                let h1 = doc.at_css("h1"),
+                let div = doc.at_css("div") else {
                     return
             }
             div.addNextSibling(h1)

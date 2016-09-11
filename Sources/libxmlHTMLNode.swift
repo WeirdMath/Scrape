@@ -144,7 +144,9 @@ internal final class libxmlHTMLNode: XMLElement {
     }
     
     // MARK: Searchable
-    func xpath(_ xpath: String, namespaces: [String:String]?) -> XPathObject {
+    
+    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathObject {
+        
         let ctxt = xmlXPathNewContext(docPtr)
         if ctxt == nil {
             return XPathObject.none
@@ -165,43 +167,27 @@ internal final class libxmlHTMLNode: XMLElement {
         if result == nil {
             return XPathObject.none
         }
-
+        
         return XPathObject(docPtr: docPtr, object: result!.pointee)
     }
     
-    func xpath(_ xpath: String) -> XPathObject {
-        return self.xpath(xpath, namespaces: nil)
+    func at_xpath(_ xpath: String, namespaces: [String : String]?) -> XMLElement? {
+        return search(byXPath: xpath, namespaces: namespaces).nodeSetValue.first
     }
     
-    func at_xpath(_ xpath: String, namespaces: [String:String]?) -> XMLElement? {
-        return self.xpath(xpath, namespaces: namespaces).nodeSetValue.first
-    }
-    
-    func at_xpath(_ xpath: String) -> XMLElement? {
-        return self.at_xpath(xpath, namespaces: nil)
-    }
-    
-    func css(_ selector: String, namespaces: [String:String]?) -> XPathObject {
+    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathObject {
         if let xpath = CSS.toXPath(selector) {
             if isRoot {
-                return self.xpath(xpath, namespaces: namespaces)
+                return search(byXPath: xpath, namespaces: namespaces)
             } else {
-                return self.xpath("." + xpath, namespaces: namespaces)
+                return search(byXPath: "." + xpath, namespaces: namespaces)
             }
         }
         return XPathObject.none
     }
     
-    func css(_ selector: String) -> XPathObject {
-        return self.css(selector, namespaces: nil)
-    }
-    
     func at_css(_ selector: String, namespaces: [String:String]?) -> XMLElement? {
-        return self.css(selector, namespaces: namespaces).nodeSetValue.first
-    }
-    
-    func at_css(_ selector: String) -> XMLElement? {
-        return self.css(selector, namespaces: nil).nodeSetValue.first
+        return search(byCSSSelector: selector, namespaces: namespaces).nodeSetValue.first
     }
 
     func addPrevSibling(_ node: XMLElement) {
