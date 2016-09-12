@@ -6,7 +6,7 @@
 //
 //
 
-public protocol XMLElement: SearchableNode {
+public protocol XMLElement: Node {
     
     var parent: XMLElement? { get set }
     

@@ -11,8 +11,8 @@ import CLibxml2
 
 internal final class LibxmlXMLDocument: XMLDocument {
     
-    private var documentPointer: xmlDocPtr
-    private var rootNode: XMLElement?
+    var documentPointer: xmlDocPtr
+    var rootNode: XMLElement?
     private var _xml: String
     private var url: String?
     private var encoding: String.Encoding
@@ -53,73 +53,6 @@ internal final class LibxmlXMLDocument: XMLDocument {
     
     deinit {
         xmlFreeDoc(documentPointer)
-    }
-    
-    // MARK: - SearchableNode
-    
-    var text: String? {
-        return rootNode?.text
-    }
-    
-    var html: String? {
-        
-        let outputBuffer = xmlAllocOutputBuffer(nil)
-        defer {
-            xmlOutputBufferClose(outputBuffer)
-        }
-        
-        htmlDocContentDumpOutput(outputBuffer, documentPointer, nil)
-
-        return String.decodeCString(xmlOutputBufferGetContent(outputBuffer), as: UTF8.self)?.result
-    }
-    
-    var xml: String? {
-        
-        var buffer: UnsafeMutablePointer<xmlChar>?
-        let size: UnsafeMutablePointer<Int32>? = nil
-        defer {
-            xmlFree(buffer)
-        }
-        
-        xmlDocDumpMemory(documentPointer, &buffer, size)
-        
-        return String.decodeCString(buffer, as: UTF8.self)?.result
-    }
-    
-    var innerHTML: String? {
-        return rootNode?.innerHTML
-    }
-    
-    var className: String? {
-        return rootNode?.className
-    }
-    
-    var tagName: String? {
-        get {
-            return rootNode?.tagName
-        }
-        set {
-            rootNode?.tagName = newValue
-        }
-    }
-    
-    var content: String? {
-        get {
-            return text
-        }
-        set {
-            rootNode?.content = newValue
-        }
-    }
-    
-    // MARK: - Searchable
-    
-    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathResult {
-        return rootNode?.search(byXPath: xpath, namespaces: namespaces) ?? .none
-    }
-    
-    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult {
-        return rootNode?.search(byCSSSelector: selector, namespaces: namespaces) ?? .none
     }
 }
 

@@ -59,7 +59,7 @@ internal final class LibxmlHTMLNode: XMLElement {
         }
     }
     
-    // MARK: - SearchableNode
+    // MARK: - Node
     
     var text: String? {
         return libxmlGetNodeContent(nodePointer)

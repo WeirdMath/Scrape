@@ -1,5 +1,5 @@
 //
-//  SearchableNode.swift
+//  Node.swift
 //  Scrape
 //
 //  Created by Sergej Jaskiewicz on 11.09.16.
@@ -16,7 +16,7 @@
 /// - All HTML/XML attributes are attribute nodes;
 /// - Text inside HTML elements are text nodes;
 /// - Comments are comment nodes.
-public protocol SearchableNode: Searchable {
+public protocol Node: Searchable {
     
     /// Text content of the node. May be `nil` if no content is available.
     var text: String? { get }
