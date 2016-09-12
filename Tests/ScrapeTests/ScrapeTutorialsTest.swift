@@ -1,6 +1,6 @@
 //
-//  KannaTutorialsTest.swift
-//  Kanna
+//  ScrapeTutorialsTest.swift
+//  Scrape
 //
 //  Created by Atsushi Kiwaki on 6/27/16.
 //  Copyright © 2016 tid. All rights reserved.
@@ -49,7 +49,7 @@ class ScrapeTutorialsTests: XCTestCase {
     
     func testParsingFromFile() {
         let filename = "test_HTML4"
-        guard let filePath = Bundle(for: self.classForCoder).path(forResource: filename, ofType: "html") else {
+        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType: "html") else {
             return
         }
         
@@ -112,7 +112,7 @@ class ScrapeTutorialsTests: XCTestCase {
             "iOS 8",
             ]
         let filename = "versions"
-        guard let filePath = Bundle(for: self.classForCoder).path(forResource: filename, ofType:"xml") else {
+        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType:"xml") else {
             return
         }
         let xml = try! String(contentsOfFile: filePath, encoding: .utf8)
@@ -151,7 +151,7 @@ class ScrapeTutorialsTests: XCTestCase {
             ]
         
         let filename = "libraries"
-        guard let filePath = Bundle(for: self.classForCoder).path(forResource: filename, ofType:"xml") else {
+        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType:"xml") else {
             return
         }
         
@@ -183,7 +183,7 @@ class ScrapeTutorialsTests: XCTestCase {
                              "</body>"
         
         let filename = "sample"
-        guard let filePath = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
+        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType:"html") else {
             return
         }
         
@@ -219,7 +219,7 @@ class ScrapeTutorialsTests: XCTestCase {
                                     "</body>"
         
         let filename = "sample"
-        guard let filePath = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
+        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType:"html") else {
             return
         }
         let html = try! String(contentsOfFile: filePath, encoding: .utf8)
@@ -246,7 +246,7 @@ class ScrapeTutorialsTests: XCTestCase {
                              "</body>"
         
         let filename = "sample"
-        guard let filePath = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
+        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType:"html") else {
             return
         }
         let html = try! String(contentsOfFile: filePath, encoding: .utf8)

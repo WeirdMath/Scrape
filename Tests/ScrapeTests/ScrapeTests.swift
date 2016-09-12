@@ -162,7 +162,7 @@ class ScrapeTests: XCTestCase {
     func testHTML4() {
         // This is an example of a functional test case.
         let filename = "test_HTML4"
-        guard let path = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
+        guard let path = Bundle(for: ScrapeTests.self).path(forResource: filename, ofType:"html") else {
             return
         }
         
@@ -236,7 +236,7 @@ class ScrapeTests: XCTestCase {
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testInnerHTML() {
         let filename = "test_HTML4"
-        guard let path = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
+        guard let path = Bundle(for: ScrapeTests.self).path(forResource: filename, ofType:"html") else {
             return
         }
         
