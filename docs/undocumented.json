@@ -57,6 +57,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/sergej/Developer/MMHub/Scrape/Sources/String.swift",
+      "line": 15,
+      "symbol": "String.toXPath()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/sergej/Developer/MMHub/Scrape/Sources/XMLDocument.swift",
       "line": 12,
       "symbol": "XMLDocument",
@@ -149,7 +156,7 @@
     },
     {
       "file": "/Users/sergej/Developer/MMHub/Scrape/Sources/XMLDocumentType.swift",
-      "line": 83,
+      "line": 85,
       "symbol": "XMLDocumentType.search(byCSSSelector:namespaces:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"

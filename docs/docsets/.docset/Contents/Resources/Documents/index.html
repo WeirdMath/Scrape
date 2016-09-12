@@ -13,7 +13,7 @@
     <a title="  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html"> Docs</a> (76% documented)</p>
+        <p><a href="index.html"> Docs</a> (75% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -58,6 +58,9 @@
                 <a href="Extensions/HTMLDocumentType.html">HTMLDocumentType</a>
               </li>
               <li class="nav-group-task">
+                <a href="Extensions/String.html">String</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Extensions/XMLDocumentType.html">XMLDocumentType</a>
               </li>
             </ul>
@@ -80,9 +83,6 @@
             <a href="Structs.html">Structs</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Structs/CSS.html">CSS</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Structs/HTMLParserOptions.html">HTMLParserOptions</a>
               </li>
               <li class="nav-group-task">
@@ -96,123 +96,45 @@
         <section>
           <section class="section">
             
-            <a href='#kanna' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='kanna'>Kanna(鉋)</h1>
+            <a href='#scrape' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='scrape'>Scrape</h1>
 
-<p>Kanna(鉋) is an XML/HTML parser for Mac OS X and iOS. (It was formerly known as Swift-HTML-Parser)</p>
+<p>Cross-platform HTML and XML parser written in Swift.</p>
 
-<p>It was inspired by <a href="https://github.com/sparklemotion/nokogiri">Nokogiri</a>(鋸).</p>
+<table><thead>
+<tr>
+<th></th>
+<th>Status</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Travis-CI</td>
+<td><a href="https://travis-ci.org/SJTBA/Scrape"><img src="https://travis-ci.org/SJTBA/Scrape.svg?branch=master" alt="Build Status"></a></td>
+</tr>
+<tr>
+<td>Code Coverage</td>
+<td><a href="https://codecov.io/gh/SJTBA/Scrape"><img src="https://codecov.io/gh/SJTBA/Scrape/branch/master/graph/badge.svg" alt="codecov"></a></td>
+</tr>
+<tr>
+<td>Code Quality</td>
+<td><a href="https://codebeat.co/projects/github-com-sjtba-scrape"><img src="https://codebeat.co/badges/b4f7ff5c-02e4-40cc-bc48-cd515ff613bd" alt="codebeat badge"></a></td>
+</tr>
+<tr>
+<td>Language</td>
+<td><img src="https://img.shields.io/badge/Swift-3.0-orange.svg" alt="Language"></td>
+</tr>
+<tr>
+<td>Compatibility</td>
+<td><img src="https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20iOS%20%7C%20watchOS%20%7C%20tvOS-lightgrey.svg" alt="Platform"></td>
+</tr>
+</tbody></table>
+<a href='#documentation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='documentation'>Documentation</h2>
 
-<p><a href="https://travis-ci.org/tid-kijyun/Kanna"><img src="https://travis-ci.org/tid-kijyun/Kanna.svg?branch=master" alt="Build Status"></a>
-<a href="http://mit-license.org"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License"></a>
-<a href="https://developer.apple.com/resources/"><img src="http://img.shields.io/badge/platform-ios_osx_tvos-lightgrey.svg?style=flat" alt="Platform"></a>
-<a href="https://developer.apple.com/swift"><img src="http://img.shields.io/badge/language-swift-orange.svg?style=flat" alt="Language"></a>
-<a href="https://github.com/tid-kijyun/Kanna/issues"><img src="https://img.shields.io/github/issues/tid-kijyun/Kanna.svg?style=flat" alt="Issues"></a>
-<a href="http://cocoadocs.org/docsets/Kanna/"><img src="http://img.shields.io/cocoapods/v/Kanna.svg?style=flat" alt="Cocoapod"></a>
-<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible"></a>
-<a href="https://www.versioneye.com/objective-c/kanna/references"><img src="https://www.versioneye.com/objective-c/kanna/reference_badge.svg?style=flat" alt="Reference Status"></a></p>
-
-<p>:information_source: <a href="http://blog.guardlet.com/Kanna/">Documentation</a></p>
-<a href='#features' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='features'>Features:</h1>
-
-<ul>
-<li>[x] XPath 1.0 support for document searching</li>
-<li>[x] CSS3 selector support for document searching</li>
-<li>[x] Support for namespaces</li>
-<li>[x] Comprehensive test suite</li>
-</ul>
-<a href='#installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='installation'>Installation:</h1>
-<a href='#swift-3-x-beta' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='swift-3-x-beta'>Swift 3.x (Beta)</h3>
-
-<p>Open terminal.app and execute <code>sudo xcode-select -switch /Applications/Xcode-beta.app/Contents/Developer</code></p>
-<a href='#carthage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='carthage'>Carthage</h5>
-
-<p>Adding it to your <code>Cartfile</code>:</p>
-<pre class="highlight plaintext"><code>github "tid-kijyun/Kanna" "swift3.0"
-</code></pre>
-
-<ol>
-<li>In the project settings add <code>$(SDKROOT)/usr/include/libxml2</code> to the <q>header search paths</q> field</li>
-</ol>
-<a href='#swift-2-x' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='swift-2-x'>Swift 2.x</h3>
-
-<p>Three means of installation are supported:</p>
-<a href='#cocoapods' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='cocoapods'>CocoaPods</h5>
-
-<p><strong>:warning: CocoaPods (<code>0.39 or later</code>) is required.</strong></p>
-
-<p>Adding it to your <code>Podfile</code>:
-<code>
-use_frameworks!
-pod &#39;Kanna&#39;, &#39;~&gt; 1.1.0&#39;
-</code></p>
-<a href='#carthage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='carthage'>Carthage</h5>
-
-<p>Adding it to your <code>Cartfile</code>:</p>
-<pre class="highlight plaintext"><code>github "tid-kijyun/Kanna" ~&gt; 1.1.0
-</code></pre>
-<a href='#manual-installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h5 id='manual-installation'>Manual Installation</h5>
-
-<ol>
-<li>Add these files to your project:<br>
-<a href="Source/Kanna.swift">Kanna.swift</a><br>
-<a href="Source/CSS.swift">CSS.swift</a><br>
-<a href="Source/libxml/libxmlHTMLDocument.swift">libxmlHTMLDocument.swift</a><br>
-<a href="Source/libxml/libxmlHTMLNode.swift">libxmlHTMLNode.swift</a><br>
-<a href="Source/libxml/libxmlParserOption.swift">libxmlParserOption.swift</a><br></li>
-<li>In the target settings add <code>$(SDKROOT)/usr/include/libxml2</code> to the <code>Search Paths &gt; Header Search Paths</code> field</li>
-<li>In the target settings add <code>-lxml2</code> to the <code>Linking &gt; Other Linker Flags</code> field</li>
-<li>Import <code>libxml</code> headers:</li>
-</ol>
-
-<p>Copy the those import statements:</p>
-<pre class="highlight plaintext"><code>  #import &lt;libxml/HTMLtree.h&gt;
-  #import &lt;libxml/xpath.h&gt;
-  #import &lt;libxml/xpathInternals.h&gt;
-</code></pre>
-
-<p>and paste them into your [Modulename]-Bridging-Header.h</p>
-
-<p><em>Note: With manual installation, this library doesn&rsquo;t need to be imported, or namespace-qualified in your code.</em></p>
-<a href='#synopsis' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='synopsis'>Synopsis:</h1>
-<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">Kanna</span>
-
-<span class="k">let</span> <span class="nv">html</span> <span class="o">=</span> <span class="s">"&lt;html&gt;...&lt;/html&gt;"</span>
-
-<span class="k">if</span> <span class="k">let</span> <span class="nv">doc</span> <span class="o">=</span> <span class="kt">Kanna</span><span class="o">.</span><span class="kt">HTML</span><span class="p">(</span><span class="nv">html</span><span class="p">:</span> <span class="n">html</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="kt">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nf">print</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
-
-    <span class="c1">// Search for nodes by CSS</span>
-    <span class="k">for</span> <span class="n">link</span> <span class="k">in</span> <span class="n">doc</span><span class="o">.</span><span class="nf">css</span><span class="p">(</span><span class="s">"a, link"</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="s">"href"</span><span class="p">])</span>
-    <span class="p">}</span>
-
-    <span class="c1">// Search for nodes by XPath</span>
-    <span class="k">for</span> <span class="n">link</span> <span class="k">in</span> <span class="n">doc</span><span class="o">.</span><span class="nf">xpath</span><span class="p">(</span><span class="s">"//a | //link"</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">link</span><span class="p">[</span><span class="s">"href"</span><span class="p">])</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">xml</span> <span class="o">=</span> <span class="s">"..."</span>
-<span class="k">if</span> <span class="k">let</span> <span class="nv">doc</span> <span class="o">=</span> <span class="kt">Kanna</span><span class="o">.</span><span class="kt">XML</span><span class="p">(</span><span class="nv">xml</span><span class="p">:</span> <span class="n">xml</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="kt">NSUTF8StringEncoding</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">namespaces</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="s">"o"</span><span class="p">:</span>  <span class="s">"urn:schemas-microsoft-com:office:office"</span><span class="p">,</span>
-                    <span class="s">"ss"</span><span class="p">:</span> <span class="s">"urn:schemas-microsoft-com:office:spreadsheet"</span>
-                <span class="p">]</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="nv">author</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="nf">at_xpath</span><span class="p">(</span><span class="s">"//o:Author"</span><span class="p">,</span> <span class="nv">namespaces</span><span class="p">:</span> <span class="n">namespaces</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nf">print</span><span class="p">(</span><span class="n">author</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre>
-<a href='#license' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='license'>License:</h1>
-
-<p>The MIT License. See the LICENSE file for more infomation.</p>
+<p>Available <a href="https://sjtba.github.io/Scrape/">here</a>.</p>
 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-12)</p>
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-13)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
