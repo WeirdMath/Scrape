@@ -6,81 +6,79 @@
 //
 //
 
+import Foundation
 import CLibxml2
 
-public protocol XMLDocument: Node {
-    var rootNode: XMLElement? { get set }
-    var documentPointer: xmlDocPtr { get }
+public final class XMLDocument: XMLDocumentType {
+    
+    var documentPointer: xmlDocPtr
+    var rootNode: XMLElement?
+    
+    private var _xml: String
+    private var url: String?
+    private var encoding: String.Encoding
+    
+    public init?(xml: String,
+                 url: String? = nil,
+                 encoding: String.Encoding,
+                 options: XMLParserOptions = .default) {
+        
+        _xml  = xml
+        self.url  = url
+        self.encoding = encoding
+        
+        guard xml.lengthOfBytes(using: encoding) > 0 else { return nil }
+        
+        // TODO: Remove this check when Foundation has these functions on Linux
+        #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+            let cfEncoding = CFStringConvertNSStringEncodingToEncoding(encoding.rawValue)
+            let cfEncodingName = CFStringConvertEncodingToIANACharSetName(cfEncoding)
+        #endif
+        
+        
+        guard let xmlCString = xml.cString(using: encoding), !xmlCString.isEmpty else { return nil }
+        
+        documentPointer = xmlCString.withUnsafeBufferPointer {
+            return $0.baseAddress!.withMemoryRebound(to: xmlChar.self, capacity: $0.count) {
+                
+                #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+                    
+                    let encodingName: String? =
+                        cfEncodingName == nil ? nil : String(describing: cfEncodingName!)
+                    
+                    return xmlReadDoc($0, url, encodingName, CInt(options.rawValue))
+                #else
+                    return xmlReadDoc($0, url, encoding.ianaName, CInt(options.rawValue))
+                #endif
+            }
+        }
+        
+        rootNode = XMLNode(documentPointer: documentPointer)
+    }
+    
+    public convenience init?(xml: Data,
+                             url: String? = nil,
+                             encoding: String.Encoding,
+                             options: XMLParserOptions = .default) {
+        
+        if let xmlString = String(data: xml, encoding: encoding) {
+            self.init(xml: xmlString, url: url, encoding: encoding, options: options)
+        } else {
+            return nil
+        }
+    }
+    
+    public convenience init?(url: URL, encoding: String.Encoding, options: XMLParserOptions = .default) {
+        
+        if let data = try? Data(contentsOf: url) {
+            self.init(xml: data, url: url.absoluteString, encoding: encoding, options: options)
+        } else {
+            return nil
+        }
+    }
+    
+    deinit {
+        xmlFreeDoc(documentPointer)
+    }
 }
 
-public extension XMLDocument {
-    
-    // MARK: - Node
-    
-    public final var html: String? {
-        
-        let outputBuffer = xmlAllocOutputBuffer(nil)
-        defer {
-            xmlOutputBufferClose(outputBuffer)
-        }
-        
-        htmlDocContentDumpOutput(outputBuffer, documentPointer, nil)
-        
-        return String.decodeCString(xmlOutputBufferGetContent(outputBuffer), as: UTF8.self)?.result
-    }
-    
-    public final var xml: String? {
-        
-        var buffer: UnsafeMutablePointer<xmlChar>?
-        let size: UnsafeMutablePointer<Int32>? = nil
-        defer {
-            xmlFree(buffer)
-            size?.deinitialize()
-            size?.deallocate(capacity: 1)
-        }
-        
-        xmlDocDumpMemory(documentPointer, &buffer, size)
-        
-        return String.decodeCString(buffer, as: UTF8.self)?.result
-    }
-    
-    public final var text: String? {
-        return rootNode?.text
-    }
-    
-    public final var innerHTML: String? {
-        return rootNode?.innerHTML
-    }
-    
-    public final var className: String? {
-        return rootNode?.className
-    }
-    
-    public final var tagName: String? {
-        get {
-            return rootNode?.tagName
-        }
-        set {
-            rootNode?.tagName = newValue
-        }
-    }
-    
-    public final var content: String? {
-        get {
-            return text
-        }
-        set {
-            rootNode?.content = newValue
-        }
-    }
-    
-    // MARK: - Searchable
-    
-    public final func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathResult {
-        return rootNode?.search(byXPath: xpath, namespaces: namespaces) ?? .none
-    }
-    
-    public final func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult {
-        return rootNode?.search(byCSSSelector: selector, namespaces: namespaces) ?? .none
-    }
-}

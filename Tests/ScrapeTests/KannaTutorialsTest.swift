@@ -6,17 +6,17 @@
 //  Copyright © 2016 tid. All rights reserved.
 //
 import XCTest
-@testable import Scrape
+import Scrape
 
 class KannaTutorialsTests: XCTestCase {
     func testParsingFromString() {
         let html = "<html><body><h1>Tutorials</h1></body></html>"
-        if let htmlDoc = HTML(html: html, encoding: .utf8) {
+        if let htmlDoc = HTMLDocument(html: html, encoding: .utf8) {
             XCTAssert(htmlDoc.html != nil)
         }
         
         let xml = "<root><item><name>Tutorials</name></item></root>"
-        if let xmlDoc = XML(xml: xml, encoding: String.Encoding.utf8) {
+        if let xmlDoc = XMLDocument(xml: xml, encoding: .utf8) {
             XCTAssert(xmlDoc.html != nil)
         }
         
@@ -29,26 +29,26 @@ class KannaTutorialsTests: XCTestCase {
         }
         
         let data = try! Data(contentsOf: URL(fileURLWithPath: filePath))
-        if let doc = HTML(html: data, encoding: .utf8) {
+        if let doc = HTMLDocument(html: data, encoding: .utf8) {
             XCTAssert(doc.html != nil)
         }
         
-        let html = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        if let doc = HTML(html: html, encoding: .utf8) {
+        let html = try! String(contentsOfFile: filePath, encoding: .utf8)
+        if let doc = HTMLDocument(html: html, encoding: .utf8) {
             XCTAssert(doc.html != nil)
         }
     }
     
     func testParsingFromInternets() {
         let url = URL(string: "https://en.wikipedia.org/wiki/Cat")
-        if let doc = HTML(url: url!, encoding: .utf8) {
+        if let doc = HTMLDocument(url: url!, encoding: .utf8) {
             XCTAssert(doc.html != nil)
         }
     }
     
     func testParsingFromEncoding() {
         let html = "<html><body><h1>Tutorials</h1></body></html>"
-        if let htmlDoc = HTML(html: html, encoding: .japaneseEUC) {
+        if let htmlDoc = HTMLDocument(html: html, encoding: .japaneseEUC) {
             XCTAssert(htmlDoc.html != nil)
         }
     }
@@ -56,7 +56,7 @@ class KannaTutorialsTests: XCTestCase {
     func testParsingOptions() {
         let html = "<html><body><h1>Tutorials</h1></body></html>"
         
-        if let doc = HTML(html: html, encoding: .utf8, options: .html(.strict)) {
+        if let doc = HTMLDocument(html: html, encoding: .utf8, options: .strict) {
             XCTAssert(doc.html != nil)
         }
     }
@@ -80,8 +80,8 @@ class KannaTutorialsTests: XCTestCase {
         guard let filePath = Bundle(for: self.classForCoder).path(forResource: filename, ofType:"xml") else {
             return
         }
-        let xml = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        if let doc = XML(xml: xml, encoding: String.Encoding.utf8) {
+        let xml = try! String(contentsOfFile: filePath, encoding: .utf8)
+        if let doc = XMLDocument(xml: xml, encoding: .utf8) {
             for (i, node) in doc.search(byXPath: "//name").enumerated() {
                 XCTAssert(node.text! == TestVersionData[i])
             }
@@ -117,8 +117,8 @@ class KannaTutorialsTests: XCTestCase {
             return
         }
         
-        let xml = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        if let doc = XML(xml: xml, encoding: String.Encoding.utf8) {
+        let xml = try! String(contentsOfFile: filePath, encoding: .utf8)
+        if let doc = XMLDocument(xml: xml, encoding: .utf8) {
             
             for (i, node) in doc.search(byXPath: "//github:title",
                                         namespaces: ["github" : "https://github.com/"]).enumerated() {
@@ -126,7 +126,7 @@ class KannaTutorialsTests: XCTestCase {
             }
         }
         
-        if let doc = XML(xml: xml, encoding: String.Encoding.utf8) {
+        if let doc = XMLDocument(xml: xml, encoding: String.Encoding.utf8) {
             
             for (i, node) in doc.search(byXPath: "//bitbucket:title",
                                         namespaces: ["bitbucket": "https://bitbucket.org/"]).enumerated() {
@@ -143,8 +143,8 @@ class KannaTutorialsTests: XCTestCase {
         }
         
         
-        let html = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        guard let doc = HTML(html: html, encoding: .utf8) else {
+        let html = try! String(contentsOfFile: filePath, encoding: .utf8)
+        guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
             return
         }
         
@@ -161,8 +161,8 @@ class KannaTutorialsTests: XCTestCase {
         guard let filePath = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
             return
         }
-        let html = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        guard let doc = HTML(html: html, encoding: .utf8) else {
+        let html = try! String(contentsOfFile: filePath, encoding: .utf8)
+        guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
             return
         }
         var h1  = doc.atCSSSelector("h1")!
@@ -183,8 +183,8 @@ class KannaTutorialsTests: XCTestCase {
         guard let filePath = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
             return
         }
-        let html = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        guard let doc = HTML(html: html, encoding: .utf8) else {
+        let html = try! String(contentsOfFile: filePath, encoding: .utf8)
+        guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
             return
         }
         var h1  = doc.atCSSSelector("h1")!

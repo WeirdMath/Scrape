@@ -1,5 +1,5 @@
 //
-//  LibxmlHTMLNode.swift
+//  XMLNode.swift
 //  Scrape
 //
 //  Created by Sergej Jaskiewicz on 11.09.16.
@@ -8,7 +8,7 @@
 
 import CLibxml2
 
-internal final class LibxmlHTMLNode: XMLElement {
+public final class XMLNode: XMLElement {
     
     private var documentPointer: htmlDocPtr
     private var nodePointer: xmlNodePtr
@@ -61,11 +61,11 @@ internal final class LibxmlHTMLNode: XMLElement {
     
     // MARK: - Node
     
-    var text: String? {
+    public var text: String? {
         return libxmlGetNodeContent(nodePointer)
     }
     
-    var html: String? {
+    public var html: String? {
         
         let outputBuffer = xmlAllocOutputBuffer(nil)
         defer {
@@ -77,7 +77,7 @@ internal final class LibxmlHTMLNode: XMLElement {
         return String.decodeCString(xmlOutputBufferGetContent(outputBuffer), as: UTF8.self)?.result
     }
     
-    var xml: String? {
+    public var xml: String? {
         
         let outputBuffer = xmlAllocOutputBuffer(nil)
         defer {
@@ -94,7 +94,7 @@ internal final class LibxmlHTMLNode: XMLElement {
         return String.decodeCString(xmlOutputBufferGetContent(outputBuffer), as: UTF8.self)?.result
     }
     
-    var innerHTML: String? {
+    public var innerHTML: String? {
         
         guard let html = html else {
             return nil
@@ -105,11 +105,11 @@ internal final class LibxmlHTMLNode: XMLElement {
             .replacingOccurrences(of: "^<[^>]*>",  with: "", options: .regularExpression)
     }
     
-    var className: String? {
+    public var className: String? {
         return self["class"]
     }
     
-    var tagName: String? {
+    public var tagName: String? {
         get {
             return String.decodeCString(nodePointer.pointee.name, as: UTF8.self)?.result
         }
@@ -120,7 +120,7 @@ internal final class LibxmlHTMLNode: XMLElement {
         }
     }
     
-    var content: String? {
+    public var content: String? {
         get {
             return text
         }
@@ -133,18 +133,18 @@ internal final class LibxmlHTMLNode: XMLElement {
     
     // MARK: - XMLElement
     
-    var parent: XMLElement? {
+    public var parent: XMLElement? {
         get {
-            return LibxmlHTMLNode(documentPointer: documentPointer, nodePointer: nodePointer.pointee.parent)
+            return XMLNode(documentPointer: documentPointer, nodePointer: nodePointer.pointee.parent)
         }
         set {
-            if let node = newValue as? LibxmlHTMLNode {
+            if let node = newValue as? XMLNode {
                 node.addChild(self)
             }
         }
     }
     
-    subscript(attributeName: String) -> String? {
+    public subscript(attributeName: String) -> String? {
         get {
             var attributes = nodePointer.pointee.properties
             
@@ -168,31 +168,31 @@ internal final class LibxmlHTMLNode: XMLElement {
         }
     }
     
-    func addPreviousSibling(_ node: XMLElement) {
-        guard let node = node as? LibxmlHTMLNode else {
+    public func addPreviousSibling(_ node: XMLElement) {
+        guard let node = node as? XMLNode else {
             return
         }
         xmlAddPrevSibling(nodePointer, node.nodePointer)
     }
     
-    func addNextSibling(_ node: XMLElement) {
-        guard let node = node as? LibxmlHTMLNode else {
+    public func addNextSibling(_ node: XMLElement) {
+        guard let node = node as? XMLNode else {
             return
         }
         xmlAddNextSibling(nodePointer, node.nodePointer)
     }
     
     func addChild(_ node: XMLElement) {
-        guard let node = node as? LibxmlHTMLNode else {
+        guard let node = node as? XMLNode else {
             return
         }
         xmlUnlinkNode(node.nodePointer)
         xmlAddChild(nodePointer, node.nodePointer)
     }
     
-    func removeChild(_ node: XMLElement) {
+    public func removeChild(_ node: XMLElement) {
         
-        guard let node = node as? LibxmlHTMLNode else {
+        guard let node = node as? XMLNode else {
             return
         }
         xmlUnlinkNode(node.nodePointer)
@@ -201,7 +201,7 @@ internal final class LibxmlHTMLNode: XMLElement {
     
     // MARK: - Searchable
     
-    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathResult {
+    public func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathResult {
         
         let xPathContextPointer = xmlXPathNewContext(documentPointer)
         defer {
@@ -232,7 +232,7 @@ internal final class LibxmlHTMLNode: XMLElement {
         return XPathResult(documentPointer: documentPointer, object: xPathObjectPointer.pointee)
     }
     
-    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult {
+    public func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult {
         if let xpath = CSS.toXPath(selector) {
             if isRoot {
                 return search(byXPath: xpath, namespaces: namespaces)

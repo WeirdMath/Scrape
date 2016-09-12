@@ -22,6 +22,11 @@ public struct XMLParserOptions: OptionSet {
         rawValue = UInt(opt.rawValue)
     }
     
+    /// Default parsing option.
+    ///
+    /// Equivalent to `[.recoverOnErrors, .noError, .noWarning]`.
+    public static let `default`: XMLParserOptions = [.recoverOnErrors, .noError, .noWarning]
+    
     /// Creates a new instance of `XMLParserOptions` initialized with zero raw value.
     public static var allZeros: XMLParserOptions {
         return .init(rawValue: 0)
