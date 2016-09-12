@@ -1,5 +1,5 @@
 //
-//  LibxmlXMLDocument.swift
+//  LibxmlHTMLDocument.swift
 //  Scrape
 //
 //  Created by Sergej Jaskiewicz on 11.09.16.

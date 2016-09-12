@@ -1,5 +1,5 @@
 //
-//  LibxmlXMLDocument.swift
+//  LibxmlHTMLNode.swift
 //  Scrape
 //
 //  Created by Sergej Jaskiewicz on 11.09.16.
@@ -67,19 +67,19 @@ internal final class LibxmlHTMLNode: XMLElement {
     
     var html: String? {
         
-        let buffer = xmlBufferCreate()!
+        let outputBuffer = xmlAllocOutputBuffer(nil)
         defer {
-            xmlBufferFree(buffer)
+            xmlOutputBufferClose(outputBuffer)
         }
         
-        htmlNodeDump(buffer, documentPointer, nodePointer)
+        htmlNodeDumpOutput(outputBuffer, documentPointer, nodePointer, nil)
         
-        return String.decodeCString(buffer.pointee.content, as: UTF8.self)?.result
+        return String.decodeCString(xmlOutputBufferGetContent(outputBuffer), as: UTF8.self)?.result
     }
     
     var xml: String? {
         
-        let outputBuffer = xmlAllocOutputBuffer(xmlGetCharEncodingHandler(XML_CHAR_ENCODING_UTF8))
+        let outputBuffer = xmlAllocOutputBuffer(nil)
         defer {
             xmlOutputBufferClose(outputBuffer)
         }

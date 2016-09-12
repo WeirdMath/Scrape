@@ -65,27 +65,28 @@ internal final class LibxmlXMLDocument: XMLDocument {
     }
     
     var html: String? {
-        let buf = xmlBufferCreate()
+        
+        let outputBuffer = xmlAllocOutputBuffer(nil)
         defer {
-            xmlBufferFree(buf)
+            xmlOutputBufferClose(outputBuffer)
         }
         
-        let outputBuf = xmlOutputBufferCreateBuffer(buf, nil)
-        htmlDocContentDumpOutput(outputBuf, documentPointer, nil)
-        let html = String.decodeCString(xmlOutputBufferGetContent(outputBuf), as: UTF8.self)?.result
-        return html
+        htmlDocContentDumpOutput(outputBuffer, documentPointer, nil)
+
+        return String.decodeCString(xmlOutputBufferGetContent(outputBuffer), as: UTF8.self)?.result
     }
     
     var xml: String? {
-        var buf: UnsafeMutablePointer<xmlChar>?
+        
+        var buffer: UnsafeMutablePointer<xmlChar>?
         let size: UnsafeMutablePointer<Int32>? = nil
         defer {
-            xmlFree(buf)
+            xmlFree(buffer)
         }
         
-        xmlDocDumpMemory(documentPointer, &buf, size)
+        xmlDocDumpMemory(documentPointer, &buffer, size)
         
-        return String.decodeCString(buf, as: UTF8.self)?.result
+        return String.decodeCString(buffer, as: UTF8.self)?.result
     }
     
     var innerHTML: String? {
@@ -93,16 +94,15 @@ internal final class LibxmlXMLDocument: XMLDocument {
     }
     
     var className: String? {
-        return nil
+        return rootNode?.className
     }
     
-    var tagName:   String? {
+    var tagName: String? {
         get {
-            return nil
+            return rootNode?.tagName
         }
-        
         set {
-            
+            rootNode?.tagName = newValue
         }
     }
     
@@ -110,7 +110,6 @@ internal final class LibxmlXMLDocument: XMLDocument {
         get {
             return text
         }
-        
         set {
             rootNode?.content = newValue
         }
