@@ -92,13 +92,15 @@ class ScrapeTests: XCTestCase {
     }
     #endif
     
-    /**
-     test XML
-     */
     func testXml() {
-        let filename = "test_XML_ExcelWorkbook.xml"
-        let path = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
-        if let xml = try? Data(contentsOf: path),
+        
+        let filename = "test_XML_ExcelWorkbook"
+        
+        guard let filePath = Bundle.main.path(forResource: filename, ofType: "xml") else {
+            return
+        }
+
+        if let xml = try? Data(contentsOf: URL(string: filePath)!),
             let doc = XMLDocument(xml: xml, encoding: .utf8) {
             let namespaces = [
                 "o":  "urn:schemas-microsoft-com:office:office",
@@ -162,7 +164,7 @@ class ScrapeTests: XCTestCase {
     func testHTML4() {
         // This is an example of a functional test case.
         let filename = "test_HTML4"
-        guard let path = Bundle(for: ScrapeTests.self).path(forResource: filename, ofType:"html") else {
+        guard let path = Bundle.main.path(forResource: filename, ofType:"html") else {
             return
         }
         
@@ -236,7 +238,7 @@ class ScrapeTests: XCTestCase {
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testInnerHTML() {
         let filename = "test_HTML4"
-        guard let path = Bundle(for: ScrapeTests.self).path(forResource: filename, ofType:"html") else {
+        guard let path = Bundle.main.path(forResource: filename, ofType:"html") else {
             return
         }
         

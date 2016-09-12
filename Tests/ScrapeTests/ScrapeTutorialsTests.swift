@@ -49,7 +49,7 @@ class ScrapeTutorialsTests: XCTestCase {
     
     func testParsingFromFile() {
         let filename = "test_HTML4"
-        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType: "html") else {
+        guard let filePath = Bundle.main.path(forResource: filename, ofType: "html") else {
             return
         }
         
@@ -112,7 +112,7 @@ class ScrapeTutorialsTests: XCTestCase {
             "iOS 8",
             ]
         let filename = "versions"
-        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType:"xml") else {
+        guard let filePath = Bundle.main.path(forResource: filename, ofType:"xml") else {
             return
         }
         let xml = try! String(contentsOfFile: filePath, encoding: .utf8)
@@ -151,7 +151,7 @@ class ScrapeTutorialsTests: XCTestCase {
             ]
         
         let filename = "libraries"
-        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType:"xml") else {
+        guard let filePath = Bundle.main.path(forResource: filename, ofType:"xml") else {
             return
         }
         
@@ -164,7 +164,7 @@ class ScrapeTutorialsTests: XCTestCase {
             }
         }
         
-        if let doc = XMLDocument(xml: xml, encoding: String.Encoding.utf8) {
+        if let doc = XMLDocument(xml: xml, encoding: .utf8) {
             
             for (i, node) in doc.search(byXPath: "//bitbucket:title",
                                         namespaces: ["bitbucket": "https://bitbucket.org/"]).enumerated() {
@@ -183,7 +183,7 @@ class ScrapeTutorialsTests: XCTestCase {
                              "</body>"
         
         let filename = "sample"
-        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType:"html") else {
+        guard let filePath = Bundle.main.path(forResource: filename, ofType:"html") else {
             return
         }
         
@@ -219,7 +219,7 @@ class ScrapeTutorialsTests: XCTestCase {
                                     "</body>"
         
         let filename = "sample"
-        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType:"html") else {
+        guard let filePath = Bundle.main.path(forResource: filename, ofType: "html") else {
             return
         }
         let html = try! String(contentsOfFile: filePath, encoding: .utf8)
@@ -246,7 +246,7 @@ class ScrapeTutorialsTests: XCTestCase {
                              "</body>"
         
         let filename = "sample"
-        guard let filePath = Bundle(for: ScrapeTutorialsTests.self).path(forResource: filename, ofType:"html") else {
+        guard let filePath = Bundle.main.path(forResource: filename, ofType: "html") else {
             return
         }
         let html = try! String(contentsOfFile: filePath, encoding: .utf8)
