@@ -115,11 +115,11 @@ internal final class LibxmlXMLDocument: XMLDocument {
         }
     }
     
-    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPath {
+    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathResult {
         return rootNode?.search(byXPath: xpath, namespaces: namespaces) ?? .none
     }
     
-    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPath {
+    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult {
         return rootNode?.search(byCSSSelector: selector, namespaces: namespaces) ?? .none
     }
 }

@@ -201,7 +201,7 @@ internal final class LibxmlHTMLNode: XMLElement {
     
     // MARK: - Searchable
     
-    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPath {
+    func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathResult {
         
         let xPathContextPointer = xmlXPathNewContext(documentPointer)
         defer {
@@ -229,10 +229,10 @@ internal final class LibxmlHTMLNode: XMLElement {
             return .none
         }
         
-        return XPath(documentPointer: documentPointer, object: xPathObjectPointer.pointee)
+        return XPathResult(documentPointer: documentPointer, object: xPathObjectPointer.pointee)
     }
     
-    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPath {
+    func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult {
         if let xpath = CSS.toXPath(selector) {
             if isRoot {
                 return search(byXPath: xpath, namespaces: namespaces)

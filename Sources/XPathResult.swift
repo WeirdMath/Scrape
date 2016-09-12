@@ -1,5 +1,5 @@
 //
-//  XPath.swift
+//  XPathResult.swift
 //  Scrape
 //
 //  Created by Sergej Jaskiewicz on 11.09.16.
@@ -15,7 +15,7 @@ import CLibxml2
 /// - bool:    The value is a boolean
 /// - number:  The value is a number
 /// - string:  The value is a string
-public enum XPath {
+public enum XPathResult {
     case none
     case nodeSet(XMLNodeSet)
     case bool(Bool)
@@ -23,7 +23,7 @@ public enum XPath {
     case string(String)
 }
 
-internal extension XPath {
+internal extension XPathResult {
     
     init(documentPointer: xmlDocPtr, object: xmlXPathObject) {
         
@@ -89,7 +89,7 @@ internal extension XPath {
     }
 }
 
-extension XPath: Collection {
+extension XPathResult: Collection {
     
     public var startIndex: Int {
         return nodeSetValue.startIndex
