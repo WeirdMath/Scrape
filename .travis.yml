@@ -3,10 +3,6 @@ os:
   - osx
   - linux
 
-matrix:
-  allow_failures:
-    - os: linux
-
 sudo: required
 dist: trusty
 osx_image: xcode8
