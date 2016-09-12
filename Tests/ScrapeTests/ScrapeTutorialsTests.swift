@@ -1,5 +1,5 @@
 //
-//  ScrapeTutorialsTest.swift
+//  ScrapeTutorialsTests.swift
 //  Scrape
 //
 //  Created by Atsushi Kiwaki on 6/27/16.

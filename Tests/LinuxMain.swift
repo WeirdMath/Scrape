@@ -11,5 +11,5 @@ import XCTest
 
 XCTMain([
     testCase(ScrapeTests.allTests),
-    testCase(ScrapeTutorialsTest.allTests)
+    testCase(ScrapeTutorialsTests.allTests)
 ])
