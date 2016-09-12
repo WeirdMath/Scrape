@@ -27,7 +27,7 @@ public protocol Node: Searchable {
     /// XML content of the node. May be `nil` if no content is available.
     var xml: String? { get }
     
-    /// HTML content of the node without outermost tags. Only available if `html` property is not `nil`.
+    /// HTML content of the node without outermost tags. Only available if the `html` property is not `nil`.
     var innerHTML: String? { get }
     
     /// Value of the attribute "class" of the node. This property is `nil` if the node does not have
@@ -35,6 +35,8 @@ public protocol Node: Searchable {
     var className: String? { get }
     
     /// Name of the corresponding tag for this node.
+    ///
+    /// - note: Setting this property to `nil` does not make any change.
     var tagName: String? { get set }
     
     /// Content of the node. May be `nil` if no content is available.

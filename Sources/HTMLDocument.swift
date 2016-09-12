@@ -14,22 +14,8 @@ public final class HTMLDocument: HTMLDocumentType {
     var documentPointer: htmlDocPtr
     var rootNode: XMLElement?
     private var _html: String
-    private var url:  String?
-    private var encoding: String.Encoding
-    
-    // MARK: - HTMLDocumentType
-    
-    public var title: String? {
-        return head?.atXPath("title")?.text
-    }
-    
-    public var head: XMLElement? {
-        return atXPath("//head")
-    }
-    
-    public var body: XMLElement? {
-        return atXPath("//body")
-    }
+    private var _url:  String?
+    private var _encoding: String.Encoding
     
     public init?(html: String,
                  url: String? = nil,
@@ -37,8 +23,8 @@ public final class HTMLDocument: HTMLDocumentType {
                  options: HTMLParserOptions = .default) {
         
         _html = html
-        self.url  = url
-        self.encoding = encoding
+        _url  = url
+        _encoding = encoding
         
         guard html.lengthOfBytes(using: encoding) > 0 else { return nil }
         

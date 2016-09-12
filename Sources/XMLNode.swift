@@ -127,6 +127,8 @@ public final class XMLNode: XMLElement {
         set {
             if let newValue = newValue {
                 xmlNodeSetContent(nodePointer, escape(newValue))
+            } else {
+                xmlNodeSetContent(nodePointer, "")
             }
         }
     }

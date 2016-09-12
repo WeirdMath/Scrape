@@ -9,7 +9,7 @@
 #if !(os(macOS) || os(iOS) || os(watchOS) || os(tvOS))
 internal extension String.Encoding {
     
-    private let encodingIANANames: [String.Encoding : String] = [
+    private let _encodingIANANames: [String.Encoding : String] = [
     .ascii              : "us-ascii",
     .nextstep           : "x-nextstep",
     .japaneseEUC        : "euc-jp",
@@ -35,7 +35,7 @@ internal extension String.Encoding {
     ]
     
     var ianaName: String? {
-        return encodingIANANames[self]
+        return _encodingIANANames[self]
     }
 }
 #endif

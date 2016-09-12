@@ -8,18 +8,28 @@
 
 import CLibxml2
 
-/// This enum wraps libxml2's `xmlXPathObject` structure.
+/// This enum represents a result of a search by an XPath.
 ///
-/// - none:    The value is undefined
-/// - nodeSet: The value is a node set
-/// - bool:    The value is a boolean
-/// - number:  The value is a number
-/// - string:  The value is a string
+/// - none:    The result value is undefined
+/// - nodeSet: The result value is a node set
+/// - bool:    The result value is a boolean
+/// - number:  The result value is a number
+/// - string:  The result value is a string
 public enum XPathResult {
+    
+    /// The result value is undefined
     case none
+    
+    /// The result value is a node set
     case nodeSet(XMLNodeSet)
+    
+    /// The result value is a boolean
     case bool(Bool)
+    
+    /// The result value is a number
     case number(Double)
+    
+    /// The result value is a string
     case string(String)
 }
 
@@ -49,10 +59,17 @@ internal extension XPathResult {
 
             self = .nodeSet(XMLNodeSet(nodes: nodes))
             
-        case XPATH_BOOLEAN: self = .bool(object.boolval != 0)
-        case XPATH_NUMBER: self = .number(object.floatval)
-        case XPATH_STRING: self = .string(String.decodeCString(object.stringval, as: UTF8.self)?.result ?? "")
-        default: self = .none
+        case XPATH_BOOLEAN:
+            self = .bool(object.boolval != 0)
+            
+        case XPATH_NUMBER:
+            self = .number(object.floatval)
+            
+        case XPATH_STRING:
+            self = .string(String.decodeCString(object.stringval, as: UTF8.self)?.result ?? "")
+            
+        default:
+            self = .none
         }
     }
     

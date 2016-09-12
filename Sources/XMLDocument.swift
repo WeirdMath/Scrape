@@ -15,8 +15,8 @@ public final class XMLDocument: XMLDocumentType {
     var rootNode: XMLElement?
     
     private var _xml: String
-    private var url: String?
-    private var encoding: String.Encoding
+    private var _url: String?
+    private var _encoding: String.Encoding
     
     public init?(xml: String,
                  url: String? = nil,
@@ -24,8 +24,8 @@ public final class XMLDocument: XMLDocumentType {
                  options: XMLParserOptions = .default) {
         
         _xml  = xml
-        self.url  = url
-        self.encoding = encoding
+        _url  = url
+        _encoding = encoding
         
         guard xml.lengthOfBytes(using: encoding) > 0 else { return nil }
         

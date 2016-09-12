@@ -50,7 +50,7 @@ public extension Searchable {
     /// - parameter xpath:      XPath to search by.
     ///
     /// - returns: `XPath` enum case with an associated value.
-    public func search(byXPath xpath: String) -> XPathResult {
+    public final func search(byXPath xpath: String) -> XPathResult {
         return search(byXPath: xpath, namespaces: nil)
     }
     
@@ -60,7 +60,7 @@ public extension Searchable {
     /// - parameter namespaces: XML namespace to search in. Default value is `nil`.
     ///
     /// - returns: The first element matching given XPath. `nil` if XPath does not contain any nodes.
-    public func atXPath(_ xpath: String, namespaces: [String : String]?) -> XMLElement? {
+    public final func atXPath(_ xpath: String, namespaces: [String : String]?) -> XMLElement? {
         return search(byXPath: xpath, namespaces: namespaces).nodeSetValue.first
     }
     
@@ -69,7 +69,7 @@ public extension Searchable {
     /// - parameter xpath:      XPath to search by.
     ///
     /// - returns: The first element matching given XPath. `nil` if XPath does not contain any nodes.
-    public func atXPath(_ xpath: String) -> XMLElement? {
+    public final func atXPath(_ xpath: String) -> XMLElement? {
         return atXPath(xpath, namespaces: nil)
     }
     
@@ -78,7 +78,7 @@ public extension Searchable {
     /// - parameter selector:   CSS selector to search by.
     ///
     /// - returns: `XPath` enum case with an associated value.
-    public func search(byCSSSelector selector: String) -> XPathResult {
+    public final func search(byCSSSelector selector: String) -> XPathResult {
         return search(byCSSSelector: selector, namespaces: nil)
     }
     
@@ -89,7 +89,7 @@ public extension Searchable {
     ///
     /// - returns: The first element matching given selector. `nil` if corresponding XPath does not
     /// contain any nodes.
-    public func atCSSSelector(_ selector: String, namespaces: [String : String]?) -> XMLElement? {
+    public final func atCSSSelector(_ selector: String, namespaces: [String : String]?) -> XMLElement? {
         return search(byCSSSelector: selector, namespaces: namespaces).nodeSetValue.first
     }
     
@@ -99,7 +99,7 @@ public extension Searchable {
     ///
     /// - returns: The first element matching given selector. `nil` if corresponding XPath does not
     /// contain any nodes.
-    public func atCSSSelector(_ selector: String) -> XMLElement? {
+    public final func atCSSSelector(_ selector: String) -> XMLElement? {
         return atCSSSelector(selector, namespaces: nil)
     }
 }

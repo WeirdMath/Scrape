@@ -24,6 +24,20 @@ public final class XMLNodeSet {
         return html.isEmpty ? nil : html
     }
     
+    public var xml: String? {
+        
+        let xml = nodes.reduce("") {
+            
+            if let text = $1.xml {
+                return $0 + text
+            }
+            
+            return $0
+        }
+        
+        return xml.isEmpty ? nil : xml
+    }
+    
     public var innerHTML: String? {
         
         let html = nodes.reduce("") {
