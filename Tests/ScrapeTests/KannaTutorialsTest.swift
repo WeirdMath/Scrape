@@ -113,12 +113,15 @@ class KannaTutorialsTests: XCTestCase {
                 XCTAssert(node.text! == TestVersionDataIOS[i])
             }
             
+            // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+            #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
             for (i, node) in doc.search(byCSSSelector: "ios name").enumerated() {
                 XCTAssert(node.text! == TestVersionDataIOS[i])
             }
             
             XCTAssertEqual(doc.search(byCSSSelector: "tvos name").first!.text, "tvOS 10.0")
             XCTAssertEqual(doc.atCSSSelector("tvos name")?.text, "tvOS 10.0")
+            #endif
         }
     }
     
@@ -155,6 +158,8 @@ class KannaTutorialsTests: XCTestCase {
         }
     }
     
+    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testModifyingChangingTextContents() {
         
         let TestModifyHTML = "<body>\n"                             +
@@ -178,7 +183,10 @@ class KannaTutorialsTests: XCTestCase {
         
         XCTAssert(doc.body?.html == TestModifyHTML)
     }
+    #endif
     
+    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testModifyingMovingNode() {
         
         let TestModifyHTML = "<body>\n"                         +
@@ -237,4 +245,5 @@ class KannaTutorialsTests: XCTestCase {
         
         XCTAssert(doc.body?.html == TestModifyHTML)
     }
+    #endif
 }

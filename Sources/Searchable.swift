@@ -25,6 +25,8 @@ public protocol Searchable {
     /// - returns: The first element matching given XPath. `nil` if XPath does not contain any nodes.
     func atXPath(_ xpath: String, namespaces: [String : String]?) -> XMLElement?
     
+    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     /// Searches for a node from a current node by provided CSS selector.
     ///
     /// - parameter selector:   CSS selector to search by.
@@ -41,6 +43,7 @@ public protocol Searchable {
     /// - returns: The first element matching given selector. `nil` if corresponding XPath does not
     /// contain any nodes.
     func atCSSSelector(_ selector: String, namespaces: [String : String]?) -> XMLElement?
+    #endif
 }
 
 public extension Searchable {
@@ -73,6 +76,8 @@ public extension Searchable {
         return atXPath(xpath, namespaces: nil)
     }
     
+    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     /// Searches for a node from a current node by provided CSS selector.
     ///
     /// - parameter selector:   CSS selector to search by.
@@ -102,4 +107,5 @@ public extension Searchable {
     public final func atCSSSelector(_ selector: String) -> XMLElement? {
         return atCSSSelector(selector, namespaces: nil)
     }
+    #endif
 }

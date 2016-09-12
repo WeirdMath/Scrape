@@ -373,6 +373,8 @@ public final class XMLNode: XMLElement {
         return XPathResult(documentPointer: documentPointer, object: xPathObjectPointer.pointee)
     }
     
+    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     /// Searches for a node from a current node by provided CSS selector.
     ///
     /// - parameter selector:   CSS selector to search by.
@@ -380,7 +382,7 @@ public final class XMLNode: XMLElement {
     ///
     /// - returns: `XPath` enum case with an associated value.
     public func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult {
-        if let xpath = CSS.toXPath(selector) {
+        if let xpath = selector.toXPath() {
             if isRoot {
                 return search(byXPath: xpath, namespaces: namespaces)
             } else {
@@ -389,4 +391,5 @@ public final class XMLNode: XMLElement {
         }
         return .none
     }
+    #endif
 }

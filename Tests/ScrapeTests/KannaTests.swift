@@ -68,25 +68,18 @@ class KannaTests: XCTestCase {
         ("o|Author", "//o:Author")
     ]
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
+    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     /**
      test CSS to XPath
      */
     func testCSStoXPath() {
         for testCase in css2xpath {
-            let xpath = CSS.toXPath(testCase.css)
+            let xpath = testCase.css.toXPath()
             XCTAssert(xpath == testCase.xpath, "Create XPath = [\(xpath)] != [\(testCase.xpath)]")
         }
     }
+    #endif
     
     /**
      test XML
@@ -123,6 +116,8 @@ class KannaTests: XCTestCase {
         }
     }
     
+    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testXML_MovingNode() {
         let xml = "<?xml version=\"1.0\"?><all_item><item><title>item0</title></item><item><title>item1</title></item></all_item>"
         let modifyPrevXML = "<all_item><item><title>item1</title></item><item><title>item0</title></item></all_item>"
@@ -148,6 +143,7 @@ class KannaTests: XCTestCase {
             XCTAssert(doc.atCSSSelector("all_item")!.xml == modifyNextXML)
         }
     }
+    #endif
     
     /**
      test HTML4
@@ -180,38 +176,41 @@ class KannaTests: XCTestCase {
                 XCTAssert(repo.text == repoName[index])
             }
             
-            if let snTable = doc.atCSSSelector("table[id='sequence number']") {
-                let alphabet = ["a", "b", "c"]
-                for (indexTr, tr) in snTable.search(byCSSSelector: "tr").enumerated() {
-                    for (indexTd, td) in tr.search(byCSSSelector: "tr").enumerated() {
-                        XCTAssert(td.text == "\(alphabet[indexTd])\(indexTr)")
-                    }
-                }
-            }
-            
-            if let starTable = doc.atCSSSelector("table[id='star table']"),
-                let allStarStr = starTable.atCSSSelector("tfoot > tr > td:nth-child(2)")?.text,
-                let allStar = Int(allStarStr) {
-                var count = 0
-                
-                for starNode in starTable.search(byCSSSelector: "tbody > tr > td:nth-child(2)") {
-                    if let starStr = starNode.text,
-                        let star    = Int(starStr) {
-                        count += star
+            // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+            #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+                if let snTable = doc.atCSSSelector("table[id='sequence number']") {
+                    let alphabet = ["a", "b", "c"]
+                    for (indexTr, tr) in snTable.search(byCSSSelector: "tr").enumerated() {
+                        for (indexTd, td) in tr.search(byCSSSelector: "tr").enumerated() {
+                            XCTAssert(td.text == "\(alphabet[indexTd])\(indexTr)")
+                        }
                     }
                 }
                 
-                XCTAssert(count == allStar)
-            } else {
-                XCTAssert(false, "Star not found.")
-            }
-            
-            if var link = doc.atCSSSelector("//link") {
-                let attr = "src-data"
-                let testData = "TestData"
-                link[attr] = testData
-                XCTAssert(link[attr] == testData)
-            }
+                if let starTable = doc.atCSSSelector("table[id='star table']"),
+                    let allStarStr = starTable.atCSSSelector("tfoot > tr > td:nth-child(2)")?.text,
+                    let allStar = Int(allStarStr) {
+                    var count = 0
+                    
+                    for starNode in starTable.search(byCSSSelector: "tbody > tr > td:nth-child(2)") {
+                        if let starStr = starNode.text,
+                            let star    = Int(starStr) {
+                            count += star
+                        }
+                    }
+                    
+                    XCTAssert(count == allStar)
+                } else {
+                    XCTAssert(false, "Star not found.")
+                }
+                
+                if var link = doc.atCSSSelector("//link") {
+                    let attr = "src-data"
+                    let testData = "TestData"
+                    link[attr] = testData
+                    XCTAssert(link[attr] == testData)
+                }
+            #endif
             
             XCTAssertTrue(doc.search(byXPath: "true()").boolValue)
             XCTAssertEqual(doc.search(byXPath: "number(123)").numberValue, 123)
@@ -222,6 +221,8 @@ class KannaTests: XCTestCase {
         }
     }
     
+    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testInnerHTML() {
         let filename = "test_HTML4"
         guard let path = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
@@ -240,6 +241,7 @@ class KannaTests: XCTestCase {
             XCTAssert(false, "File not found. name: (\(filename)), error: \(error)")
         }
     }
+    #endif
     
     func testNSURL() {
         guard let url = URL(string: "https://en.wikipedia.org/wiki/Cat"),
@@ -249,6 +251,8 @@ class KannaTests: XCTestCase {
         }
     }
     
+    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testHTML_MovingNode() {
         let html = "<body><div>A love triangle.<h1>Three's Company</h1></div></body>"
         let modifyPrevHTML = "<body>\n<h1>Three's Company</h1>\n<div>A love triangle.</div>\n</body>"
@@ -274,4 +278,5 @@ class KannaTests: XCTestCase {
             XCTAssert(doc.body!.html == modifyNextHTML)
         }
     }
+    #endif
 }

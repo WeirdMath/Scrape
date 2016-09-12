@@ -1,43 +1,20 @@
-/**@file CSS.swift
-
-Kanna
-
-Copyright (c) 2015 Atsushi Kiwaki (@_tid_)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+//
+//  String.swift
+//  Scrape
+//
+//  Created by Sergej Jaskiewicz on 12.09.16.
+//
+//
 
 import Foundation
 
-/**
-CSS
-*/
-public struct CSS {
+// TODO: Remove this check when NSRegularExpression is fully supported on Linux
+#if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+public extension String {
 
-    /// CSS3 selector to XPath
-    ///
-    /// - parameter selector: CSS3 selector
-    ///
-    /// - returns: XPath
-    public static func toXPath(_ selector: String) -> String? {
+    public func toXPath() -> String? {
         var xpath = "//"
-        var str = selector
+        var str = self
         var prev = str
 
         while str.utf16.count > 0 {
@@ -75,7 +52,7 @@ public struct CSS {
             }
 
             if str == prev {
-                print("CSS Syntax Error: Unsupport syntax '\(selector)'")
+                print("CSS Syntax Error: Unsupport syntax '\(self)'")
                 return nil
             }
             prev = str
@@ -333,3 +310,4 @@ private func genCombinator(_ str: inout String, skip: Bool = true) -> String? {
     }
     return nil
 }
+#endif
