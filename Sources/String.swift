@@ -14,32 +14,33 @@ public extension String {
 
     public func toXPath() -> String? {
         var xpath = "//"
-        var str = self
-        var prev = str
+        var string = self
+        var prev = string
 
-        while str.utf16.count > 0 {
+        while string.utf16.count > 0 {
+            
             var attributes: [String] = []
             var combinator: String = ""
             
-            if let result = matchBlank(str) {
-                str = (str as NSString).substring(from: result.range.length)
+            if let result = matchBlank(string) {
+                string = string.substring(from: string.index(string.startIndex, offsetBy: result.range.length))
             }
             
             // element
-            let element = getElement(&str)
+            let element = getElement(&string)
             
             // class / id
-            while let attr = getClassId(&str) {
+            while let attr = getClassId(&string) {
                 attributes.append(attr)
             }
             
             // attribute
-            while let attr = getAttribute(&str) {
+            while let attr = getAttribute(&string) {
                 attributes.append(attr)
             }
             
             // matchCombinator
-            if let combi = genCombinator(&str) {
+            if let combi = genCombinator(&string) {
                 combinator = combi
             }
             
@@ -51,11 +52,11 @@ public extension String {
                 xpath += "\(element)[\(attr)]\(combinator)"
             }
 
-            if str == prev {
+            if string == prev {
                 print("CSS Syntax Error: Unsupport syntax '\(self)'")
                 return nil
             }
-            prev = str
+            prev = string
         }
         return xpath
     }
