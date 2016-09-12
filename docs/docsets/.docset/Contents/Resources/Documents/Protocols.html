@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Protocols  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="Protocols  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html"> Docs</a> (76% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html"> Reference</a>
+        <img id="carat" src="img/carat.png" />
+        Protocols  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/HTMLDocument.html">HTMLDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/XMLDocument.html">XMLDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/XMLNode.html">XMLNode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/XMLNodeSet.html">XMLNodeSet</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/XPathResult.html">XPathResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/HTMLDocumentType.html">HTMLDocumentType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/XMLDocumentType.html">XMLDocumentType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/Node.html">Node</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Searchable.html">Searchable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/XMLElement.html">XMLElement</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs/CSS.html">CSS</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/HTMLParserOptions.html">HTMLParserOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/XMLParserOptions.html">XMLParserOptions</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Protocols</h1>
+            <p>The following protocols are available globally.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P6Scrape4Node"></a>
+                    <a name="//apple_ref/swift/Protocol/Node" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Scrape4Node">Node</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Instances of conforming types represent a document object model node
+that can be searched by an XPath or CSS selector and also provide the node&rsquo;s underlying data in a
+number of ways.</p>
+
+<p>In the HTML/XML DOM (Document Object Model), everything is a node:
+- The document itself is a document node;
+- All HTML/XML elements are element nodes;
+- All HTML/XML attributes are attribute nodes;
+- Text inside HTML elements are text nodes;
+- Comments are comment nodes.</p>
+
+                        <a href="Protocols/Node.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Node</span><span class="p">:</span> <span class="kt"><a href="Protocols/Searchable.html">Searchable</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P6Scrape10Searchable"></a>
+                    <a name="//apple_ref/swift/Protocol/Searchable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Scrape10Searchable">Searchable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Instances of conforming types can use XPath or CSS selectors to form a search request.</p>
+
+                        <a href="Protocols/Searchable.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Searchable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:P6Scrape10XMLElement"></a>
+                    <a name="//apple_ref/swift/Protocol/XMLElement" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P6Scrape10XMLElement">XMLElement</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Instances of conforming types can provide a number of means to see and edit an internal structure
+of XML nodes.</p>
+
+                        <a href="Protocols/XMLElement.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">XMLElement</span><span class="p">:</span> <span class="kt"><a href="Protocols/Node.html">Node</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-12)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

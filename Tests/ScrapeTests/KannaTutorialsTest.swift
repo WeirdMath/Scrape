@@ -10,12 +10,22 @@ import Scrape
 
 class KannaTutorialsTests: XCTestCase {
     func testParsingFromString() {
-        let html = "<html><body><h1>Tutorials</h1></body></html>"
+        let html = "<html>"                 +
+                     "<body>"               +
+                       "<h1>Tutorials</h1>" +
+                     "</body>"              +
+                   "</html>"
+        
         if let htmlDoc = HTMLDocument(html: html, encoding: .utf8) {
             XCTAssert(htmlDoc.html != nil)
         }
         
-        let xml = "<root><item><name>Tutorials</name></item></root>"
+        let xml = "<root>"                      +
+                    "<item>"                    +
+                      "<name>Tutorials</name>"  +
+                    "</item>"                   +
+                  "</root>"
+        
         if let xmlDoc = XMLDocument(xml: xml, encoding: .utf8) {
             XCTAssert(xmlDoc.html != nil)
         }
@@ -47,14 +57,24 @@ class KannaTutorialsTests: XCTestCase {
     }
     
     func testParsingFromEncoding() {
-        let html = "<html><body><h1>Tutorials</h1></body></html>"
+        
+        let html = "<html>"                 +
+                     "<body>"               +
+                       "<h1>Tutorials</h1>" +
+                     "</body>"              +
+                   "</html>"
+        
         if let htmlDoc = HTMLDocument(html: html, encoding: .japaneseEUC) {
             XCTAssert(htmlDoc.html != nil)
         }
     }
     
     func testParsingOptions() {
-        let html = "<html><body><h1>Tutorials</h1></body></html>"
+        let html = "<html>"                 +
+                     "<body>"               +
+                       "<h1>Tutorials</h1>" +
+                     "</body>"              +
+                   "</html>"
         
         if let doc = HTMLDocument(html: html, encoding: .utf8, options: .strict) {
             XCTAssert(doc.html != nil)
@@ -136,7 +156,12 @@ class KannaTutorialsTests: XCTestCase {
     }
     
     func testModifyingChangingTextContents() {
-        let TestModifyHTML = "<body>\n    <h1>Snap, Crackle &amp; Pop</h1>\n    <div>A love triangle.</div>\n</body>"
+        
+        let TestModifyHTML = "<body>\n"                             +
+                             "  <h1>Snap, Crackle &amp; Pop</h1>\n" +
+                             "  <div>A love triangle.</div>\n"      +
+                             "</body>"
+        
         let filename = "sample"
         guard let filePath = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
             return
@@ -155,8 +180,21 @@ class KannaTutorialsTests: XCTestCase {
     }
     
     func testModifyingMovingNode() {
-        let TestModifyHTML = "<body>\n    \n    <div>A love triangle.<h1>Three\'s Company</h1>\n</div>\n</body>"
-        let TestModifyArrangeHTML = "<body>\n    \n    <div>A love triangle.</div>\n<h1>Three\'s Company</h1>\n</body>"
+        
+        let TestModifyHTML = "<body>\n"                         +
+                             "  \n"                             +
+                             "  <div>\n"                        +
+                             "    A love triangle.\n"           +
+                             "    <h1>Three\'s Company</h1>\n"  +
+                             "  </div>\n"                       +
+                             "</body>"
+        
+        let TestModifyArrangeHTML = "<body>\n"                          +
+                                    "  \n"                              +
+                                    "  <div>A love triangle.</div>\n"   +
+                                    "  <h1>Three\'s Company</h1>\n"     +
+                                    "</body>"
+        
         let filename = "sample"
         guard let filePath = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
             return
@@ -178,7 +216,12 @@ class KannaTutorialsTests: XCTestCase {
     }
     
     func testModifyingNodesAndAttributes() {
-        let TestModifyHTML = "<body>\n    <h2 class=\"show-title\">Three\'s Company</h2>\n    <div>A love triangle.</div>\n</body>"
+        
+        let TestModifyHTML = "<body>\n"                                             +
+                             "  <h2 class=\"show-title\">Three\'s Company</h2>\n"   +
+                             "  <div>A love triangle.</div>\n"                      +
+                             "</body>"
+        
         let filename = "sample"
         guard let filePath = Bundle(for:self.classForCoder).path(forResource: filename, ofType:"html") else {
             return

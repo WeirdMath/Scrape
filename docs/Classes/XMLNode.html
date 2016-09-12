@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>XMLNode Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/XMLNode" class="dashAnchor"></a>
+    <a title="XMLNode Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (76% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        XMLNode Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/HTMLDocument.html">HTMLDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/XMLDocument.html">XMLDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/XMLNode.html">XMLNode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/XMLNodeSet.html">XMLNodeSet</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/XPathResult.html">XPathResult</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/HTMLDocumentType.html">HTMLDocumentType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/XMLDocumentType.html">XMLDocumentType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Node.html">Node</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Searchable.html">Searchable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/XMLElement.html">XMLElement</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/CSS.html">CSS</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/HTMLParserOptions.html">HTMLParserOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/XMLParserOptions.html">XMLParserOptions</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>XMLNode</h1>
+            <p>Undocumented</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:iC6Scrape7XMLNode9subscriptFSSGSqSS_"></a>
+                    <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:iC6Scrape7XMLNode9subscriptFSSGSqSS_">subscript(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a value of a specified <code>attribute</code> of <code>self</code>.</p>
+
+<p>In the following example let&rsquo;s assume that <code>foo</code> is of type <code>XMLNode</code> and
+represents the <q>foo</q> tag. In this case the value of <code>foo[&quot;class&quot;]</code> is <code>&quot;top-header&quot;</code>.</p>
+
+<pre class="highlight xml"><code><span class="nt">&lt;foo</span> <span class="na">class=</span><span class="s">"top-header"</span><span class="nt">&gt;</span>Hello, World!<span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+
+<p>Attribute value can also be set. If initially there were no attibute with
+the specified name, it will be created, otherwise its value will be rewritten.
+For example, if we use <code>foo[&quot;class&quot;] = &quot;subheader&quot;</code>,
+then we get the following:</p>
+
+<pre class="highlight xml"><code><span class="nt">&lt;foo</span> <span class="na">class=</span><span class="s">"subheader"</span><span class="nt">&gt;</span>Hello, World!<span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+
+<p>If the value we set is <code>nil</code>, the attribute will be removed:</p>
+
+<pre class="highlight xml"><code><span class="nt">&lt;foo&gt;</span>Hello, World!<span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    <p>O(n), where n is the number of attributes.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="nv">attributeName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>attribute</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of an attribute.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A value of a specified <code>attribute</code> of <code>self</code>, or <code>nil</code> if no such attribute exist.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Node"></a>
+                <a name="//apple_ref/swift/Section/Node" class="dashAnchor"></a>
+                <a href="#/Node">
+                  <h3 class="section-name">Node</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Scrape7XMLNode4textGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/text" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Scrape7XMLNode4textGSqSS_">text</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Text content of the node. May be <code>nil</code> if no content is available.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Scrape7XMLNode4htmlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/html" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Scrape7XMLNode4htmlGSqSS_">html</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>HTML content of the node. May be <code>nil</code> if no content is available.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">html</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Scrape7XMLNode3xmlGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/xml" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Scrape7XMLNode3xmlGSqSS_">xml</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>XML content of the node. May be <code>nil</code> if no content is available.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">xml</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Scrape7XMLNode9innerHTMLGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/innerHTML" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Scrape7XMLNode9innerHTMLGSqSS_">innerHTML</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>HTML content of the node without outermost tags. Only available if the <code><a href="../Classes/XMLNode.html#/s:vC6Scrape7XMLNode4htmlGSqSS_">html</a></code> property is not <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">innerHTML</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Scrape7XMLNode9classNameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/className" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Scrape7XMLNode9classNameGSqSS_">className</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Value of the attribute <q>class</q> of the node. This property is <code>nil</code> if the node does not have
+<q>class</q> attribute</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">className</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Scrape7XMLNode7tagNameGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/tagName" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Scrape7XMLNode7tagNameGSqSS_">tagName</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Name of the corresponding tag for this node.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Setting this property to <code>nil</code> does not make any change.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">tagName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Scrape7XMLNode7contentGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/content" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Scrape7XMLNode7contentGSqSS_">content</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Content of the node. May be <code>nil</code> if no content is available.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">content</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/XMLElement"></a>
+                <a name="//apple_ref/swift/Section/XMLElement" class="dashAnchor"></a>
+                <a href="#/XMLElement">
+                  <h3 class="section-name">XMLElement</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC6Scrape7XMLNode6parentGSqPS_10XMLElement__"></a>
+                    <a name="//apple_ref/swift/Property/parent" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC6Scrape7XMLNode6parentGSqPS_10XMLElement__">parent</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Parent node of <code>self</code> in the DOM.</p>
+
+<p>In the following example <q>foo</q> is a parent for nodes <q>bar</q> and <q>baz</q>:</p>
+
+<pre class="highlight xml"><code><span class="nt">&lt;foo&gt;</span>
+  <span class="nt">&lt;bar&gt;</span>Hello<span class="nt">&lt;/bar&gt;</span>
+  <span class="nt">&lt;baz&gt;</span>World<span class="nt">&lt;/baz&gt;</span>
+<span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+
+<p>If we now set <q>baz</q> to be a parent of <q>bar</q>, then we get the following:</p>
+
+<pre class="highlight xml"><code><span class="nt">&lt;foo&gt;</span>
+  <span class="nt">&lt;baz&gt;</span>
+    World
+    <span class="nt">&lt;bar&gt;</span>Hello<span class="nt">&lt;/bar&gt;</span>
+  <span class="nt">&lt;/baz&gt;</span>
+<span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">parent</span><span class="p">:</span> <span class="kt"><a href="../Protocols/XMLElement.html">XMLElement</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Scrape7XMLNode18addPreviousSiblingFPS_10XMLElement_T_"></a>
+                    <a name="//apple_ref/swift/Method/addPreviousSibling(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Scrape7XMLNode18addPreviousSiblingFPS_10XMLElement_T_">addPreviousSibling(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a new <code>node</code> as the previous sibling of <code>self</code>. If the new node was already inserted
+in a document, it is first unlinked from its existing context.</p>
+
+<p>Suppose we have the following:</p>
+
+<pre class="highlight xml"><code><span class="nt">&lt;foo&gt;</span>
+  <span class="nt">&lt;baz&gt;</span>
+    World
+    <span class="nt">&lt;bar&gt;</span>Hello<span class="nt">&lt;/bar&gt;</span>
+  <span class="nt">&lt;/baz&gt;</span>
+<span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+
+<p>Let <code>self</code> represents the tag <q>baz</q> and <code>bar</code> represents the tag <q>bar</q>.
+After calling <code>addPreviousSibling(bar)</code> on <code>self</code>, here will be the result:</p>
+
+<pre class="highlight xml"><code><span class="nt">&lt;foo&gt;</span>
+  <span class="nt">&lt;bar&gt;</span>Hello<span class="nt">&lt;/bar&gt;</span>
+  <span class="nt">&lt;baz&gt;</span>World<span class="nt">&lt;/baz&gt;</span>
+<span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addPreviousSibling</span><span class="p">(</span><span class="n">_</span> <span class="nv">node</span><span class="p">:</span> <span class="kt"><a href="../Protocols/XMLElement.html">XMLElement</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>node</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A node to add as a previous sibling of <code>self</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Scrape7XMLNode14addNextSiblingFPS_10XMLElement_T_"></a>
+                    <a name="//apple_ref/swift/Method/addNextSibling(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Scrape7XMLNode14addNextSiblingFPS_10XMLElement_T_">addNextSibling(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a new <code>node</code> as the next sibling of <code>self</code>. If the new node was already inserted
+in a document, it is first unlinked from its existing context.</p>
+
+<p>Suppose we have the following:</p>
+
+<pre class="highlight xml"><code><span class="nt">&lt;foo&gt;</span>
+  <span class="nt">&lt;baz&gt;</span>
+    Hello
+    <span class="nt">&lt;bar&gt;</span>World<span class="nt">&lt;/bar&gt;</span>
+  <span class="nt">&lt;/baz&gt;</span>
+<span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+
+<p>Let <code>self</code> represents the tag <q>baz</q> and <code>bar</code> represents the tag <q>bar</q>.
+After calling <code>addNextSibling(bar)</code> on <code>self</code>, here will be the result:</p>
+
+<pre class="highlight xml"><code><span class="nt">&lt;foo&gt;</span>
+  <span class="nt">&lt;baz&gt;</span>Hello<span class="nt">&lt;/baz&gt;</span>
+  <span class="nt">&lt;bar&gt;</span>World<span class="nt">&lt;/bar&gt;</span>
+<span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addNextSibling</span><span class="p">(</span><span class="n">_</span> <span class="nv">node</span><span class="p">:</span> <span class="kt"><a href="../Protocols/XMLElement.html">XMLElement</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>node</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A node to add as a next sibling of <code>self</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Scrape7XMLNode11removeChildFPS_10XMLElement_T_"></a>
+                    <a name="//apple_ref/swift/Method/removeChild(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Scrape7XMLNode11removeChildFPS_10XMLElement_T_">removeChild(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Removes a child node of <code>self</code>.</p>
+
+<p>In the example below let <q>foo</q> tag is representet by <code>self</code>, whereas <q>bar</q> tag is represented
+by <code>bar</code>.</p>
+
+<pre class="highlight xml"><code><span class="nt">&lt;foo&gt;</span>
+  Hello
+  <span class="nt">&lt;bar&gt;</span>World<span class="nt">&lt;/bar&gt;</span>
+<span class="nt">&lt;/foo&gt;</span>
+</code></pre>
+
+<p>Calling <code>removeChild(bar)</code> results in the following:
+<code>xml
+&lt;foo&gt;
+  Hello
+&lt;/foo&gt;
+</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">removeChild</span><span class="p">(</span><span class="n">_</span> <span class="nv">node</span><span class="p">:</span> <span class="kt"><a href="../Protocols/XMLElement.html">XMLElement</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>node</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A node to remove. <code>self</code> must be the parent of the <code>node.</code></p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Searchable"></a>
+                <a name="//apple_ref/swift/Section/Searchable" class="dashAnchor"></a>
+                <a href="#/Searchable">
+                  <h3 class="section-name">Searchable</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Scrape7XMLNode6searchFT7byXPathSS10namespacesGSqGVs10DictionarySSSS___OS_11XPathResult"></a>
+                    <a name="//apple_ref/swift/Method/search(byXPath:namespaces:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Scrape7XMLNode6searchFT7byXPathSS10namespacesGSqGVs10DictionarySSSS___OS_11XPathResult">search(byXPath:namespaces:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Searches for a node from a current node by provided XPath.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="n">byXPath</span> <span class="nv">xpath</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">namespaces</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">String</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/XPathResult.html">XPathResult</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>xpath</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>XPath to search by.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>namespaces</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>XML namespace to search in. Default value is <code>nil</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>XPath</code> enum case with an associated value.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC6Scrape7XMLNode6searchFT13byCSSSelectorSS10namespacesGSqGVs10DictionarySSSS___OS_11XPathResult"></a>
+                    <a name="//apple_ref/swift/Method/search(byCSSSelector:namespaces:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC6Scrape7XMLNode6searchFT13byCSSSelectorSS10namespacesGSqGVs10DictionarySSSS___OS_11XPathResult">search(byCSSSelector:namespaces:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Searches for a node from a current node by provided CSS selector.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="n">byCSSSelector</span> <span class="nv">selector</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">namespaces</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">String</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/XPathResult.html">XPathResult</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>selector</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>CSS selector to search by.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>namespaces</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>XML namespace to search in. Default value is <code>nil</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p><code>XPath</code> enum case with an associated value.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-12)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
