@@ -22,11 +22,22 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  SOFTWARE.
  */
+
 import XCTest
+import Foundation
 @testable import Scrape
 
 
-class KannaTests: XCTestCase {
+class ScrapeTests: XCTestCase {
+    
+    static var allTests = {
+        return [
+            ("testXml", testXml),
+            ("testHTML4", testHTML4),
+            ("testURL", testURL)
+        ]
+    }()
+    
     let css2xpath: [(css: String, xpath: String?)] = [
         ("*, div", "//* | //div"),
         (".myclass", "//*[contains(concat(' ', normalize-space(@class), ' '), ' myclass ')]"),
@@ -243,7 +254,7 @@ class KannaTests: XCTestCase {
     }
     #endif
     
-    func testNSURL() {
+    func testURL() {
         guard let url = URL(string: "https://en.wikipedia.org/wiki/Cat"),
             let _ = HTMLDocument(url: url, encoding: .utf8) else {
                 XCTAssert(false)

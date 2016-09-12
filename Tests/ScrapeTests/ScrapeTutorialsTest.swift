@@ -5,10 +5,25 @@
 //  Created by Atsushi Kiwaki on 6/27/16.
 //  Copyright © 2016 tid. All rights reserved.
 //
+
 import XCTest
+import Foundation
 import Scrape
 
-class KannaTutorialsTests: XCTestCase {
+class ScrapeTutorialsTests: XCTestCase {
+    
+    static var allTests = {
+        return [
+            ("testParsingFromString", testParsingFromString),
+            ("testParsingFromFile", testParsingFromFile),
+            ("testParsingFromInternets", testParsingFromInternets),
+            ("testParsingFromEncoding", testParsingFromEncoding),
+            ("testParsingOptions", testParsingOptions),
+            ("testSearchingBasicSearching", testSearchingBasicSearching),
+            ("testSearchingNamespaces", testSearchingNamespaces)
+        ]
+    }()
+    
     func testParsingFromString() {
         let html = "<html>"                 +
                      "<body>"               +
