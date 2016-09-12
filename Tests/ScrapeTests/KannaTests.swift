@@ -160,8 +160,8 @@ class KannaTests: XCTestCase {
         }
         
         do {
-            let html = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-            guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) else {
+            let html = try String(contentsOfFile: path, encoding: .utf8)
+            guard let doc = HTML(html: html, encoding: .utf8) else {
                 return
             }
             // Check title
@@ -229,8 +229,8 @@ class KannaTests: XCTestCase {
         }
         
         do {
-            let html = try String(contentsOfFile: path, encoding: String.Encoding.utf8)
-            guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) else {
+            let html = try String(contentsOfFile: path, encoding: .utf8)
+            guard let doc = HTML(html: html, encoding: .utf8) else {
                 return
             }
             
@@ -243,7 +243,7 @@ class KannaTests: XCTestCase {
     
     func testNSURL() {
         guard let url = URL(string: "https://en.wikipedia.org/wiki/Cat"),
-            let _ = HTML(url: url, encoding: String.Encoding.utf8.rawValue) else {
+            let _ = HTML(url: url, encoding: .utf8) else {
                 XCTAssert(false)
                 return
         }
@@ -255,7 +255,7 @@ class KannaTests: XCTestCase {
         let modifyNextHTML = "<body>\n<div>A love triangle.</div>\n<h1>Three's Company</h1>\n</body>"
         
         do {
-            guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue),
+            guard let doc = HTML(html: html, encoding: .utf8),
                 let h1 = doc.atCSSSelector("h1"),
                 let div = doc.atCSSSelector("div") else {
                     return
@@ -265,7 +265,7 @@ class KannaTests: XCTestCase {
         }
         
         do {
-            guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue),
+            guard let doc = HTML(html: html, encoding: .utf8),
                 let h1 = doc.atCSSSelector("h1"),
                 let div = doc.atCSSSelector("div") else {
                     return

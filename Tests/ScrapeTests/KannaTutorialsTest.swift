@@ -11,7 +11,7 @@ import XCTest
 class KannaTutorialsTests: XCTestCase {
     func testParsingFromString() {
         let html = "<html><body><h1>Tutorials</h1></body></html>"
-        if let htmlDoc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) {
+        if let htmlDoc = HTML(html: html, encoding: .utf8) {
             XCTAssert(htmlDoc.html != nil)
         }
         
@@ -29,26 +29,26 @@ class KannaTutorialsTests: XCTestCase {
         }
         
         let data = try! Data(contentsOf: URL(fileURLWithPath: filePath))
-        if let doc = HTML(html: data, encoding: String.Encoding.utf8.rawValue) {
+        if let doc = HTML(html: data, encoding: .utf8) {
             XCTAssert(doc.html != nil)
         }
         
         let html = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        if let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) {
+        if let doc = HTML(html: html, encoding: .utf8) {
             XCTAssert(doc.html != nil)
         }
     }
     
     func testParsingFromInternets() {
         let url = URL(string: "https://en.wikipedia.org/wiki/Cat")
-        if let doc = HTML(url: url!, encoding: String.Encoding.utf8.rawValue) {
+        if let doc = HTML(url: url!, encoding: .utf8) {
             XCTAssert(doc.html != nil)
         }
     }
     
     func testParsingFromEncoding() {
         let html = "<html><body><h1>Tutorials</h1></body></html>"
-        if let htmlDoc = HTML(html: html, encoding: String.Encoding.japaneseEUC.rawValue) {
+        if let htmlDoc = HTML(html: html, encoding: .japaneseEUC) {
             XCTAssert(htmlDoc.html != nil)
         }
     }
@@ -56,7 +56,7 @@ class KannaTutorialsTests: XCTestCase {
     func testParsingOptions() {
         let html = "<html><body><h1>Tutorials</h1></body></html>"
         
-        if let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue, option: .html(.strict)) {
+        if let doc = HTML(html: html, encoding: .utf8, options: .html(.strict)) {
             XCTAssert(doc.html != nil)
         }
     }
@@ -144,7 +144,7 @@ class KannaTutorialsTests: XCTestCase {
         
         
         let html = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) else {
+        guard let doc = HTML(html: html, encoding: .utf8) else {
             return
         }
         
@@ -162,7 +162,7 @@ class KannaTutorialsTests: XCTestCase {
             return
         }
         let html = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) else {
+        guard let doc = HTML(html: html, encoding: .utf8) else {
             return
         }
         var h1  = doc.atCSSSelector("h1")!
@@ -184,7 +184,7 @@ class KannaTutorialsTests: XCTestCase {
             return
         }
         let html = try! String(contentsOfFile: filePath, encoding: String.Encoding.utf8)
-        guard let doc = HTML(html: html, encoding: String.Encoding.utf8.rawValue) else {
+        guard let doc = HTML(html: html, encoding: .utf8) else {
             return
         }
         var h1  = doc.atCSSSelector("h1")!

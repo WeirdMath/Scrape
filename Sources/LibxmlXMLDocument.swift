@@ -22,20 +22,16 @@ internal final class LibxmlXMLDocument: XMLDocument {
         self.url  = url
         self.encoding = encoding
         
-        if xml.lengthOfBytes(using: encoding) <= 0 {
-            return nil
-        }
+        guard xml.lengthOfBytes(using: encoding) > 0 else { return nil }
         
-        // TODO: Remove this check when Foundation has this functions on Linux
+        // TODO: Remove this check when Foundation has these functions on Linux
         #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
             let cfEncoding = CFStringConvertNSStringEncodingToEncoding(encoding.rawValue)
-            let cfEncodingString = CFStringConvertEncodingToIANACharSetName(cfEncoding)
+            let cfEncodingName = CFStringConvertEncodingToIANACharSetName(cfEncoding)
         #endif
         
         
-        guard let xmlCString = xml.cString(using: encoding), !xmlCString.isEmpty else {
-            return nil
-        }
+        guard let xmlCString = xml.cString(using: encoding), !xmlCString.isEmpty else { return nil }
         
         documentPointer = xmlCString.withUnsafeBufferPointer {
             return $0.baseAddress!.withMemoryRebound(to: xmlChar.self, capacity: $0.count) {
@@ -43,11 +39,10 @@ internal final class LibxmlXMLDocument: XMLDocument {
                 #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
                     
                     let encodingName: String? =
-                        cfEncodingString == nil ? nil : String(describing: cfEncodingString!)
+                        cfEncodingName == nil ? nil : String(describing: cfEncodingName!)
                     
                     return xmlReadDoc($0, url, encodingName, CInt(options.rawValue))
                 #else
-                    
                     return xmlReadDoc($0, url, encoding.ianaName, CInt(options.rawValue))
                 #endif
             }
@@ -59,6 +54,8 @@ internal final class LibxmlXMLDocument: XMLDocument {
     deinit {
         xmlFreeDoc(documentPointer)
     }
+    
+    // MARK: - SearchableNode
     
     var text: String? {
         return rootNode?.text
@@ -114,6 +111,8 @@ internal final class LibxmlXMLDocument: XMLDocument {
             rootNode?.content = newValue
         }
     }
+    
+    // MARK: - Searchable
     
     func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathResult {
         return rootNode?.search(byXPath: xpath, namespaces: namespaces) ?? .none

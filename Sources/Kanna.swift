@@ -69,33 +69,33 @@ public func XML(url: URL, encoding: String.Encoding, option: ParseOption = .defa
 /// - parameter url:      the base URL to use for the document
 /// - parameter encoding: the document encoding
 /// - parameter option:   a ParserOption
-public func HTML(html: String, url: String?, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
-    switch option {
+public func HTML(html: String, url: String?, encoding: String.Encoding, options: ParseOption = .defaultHTML) -> HTMLDocument? {
+    switch options {
     case .html(let opt):
-        return LibxmlHTMLDocument(html: html, url: url, encoding: encoding, option: opt.rawValue)
+        return LibxmlHTMLDocument(html: html, url: url, encoding: encoding, options: opt)
     default:
         return nil
     }
 }
 
-public func HTML(html: String, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
-    return HTML(html: html, url: nil, encoding: encoding, option: option)
+public func HTML(html: String, encoding: String.Encoding, options: ParseOption = .defaultHTML) -> HTMLDocument? {
+    return HTML(html: html, url: nil, encoding: encoding, options: options)
 }
 
-public func HTML(html: Data, url: String?, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
-    if let htmlStr = NSString(data: html, encoding: encoding) as? String {
-        return HTML(html: htmlStr, url: url, encoding: encoding, option: option)
+public func HTML(html: Data, url: String?, encoding: String.Encoding, options: ParseOption = .defaultHTML) -> HTMLDocument? {
+    if let htmlStr = NSString(data: html, encoding: encoding.rawValue) as? String {
+        return HTML(html: htmlStr, url: url, encoding: encoding, options: options)
     }
     return nil
 }
 
-public func HTML(html: Data, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
-    return HTML(html: html, url: nil, encoding: encoding, option: option)
+public func HTML(html: Data, encoding: String.Encoding, options: ParseOption = .defaultHTML) -> HTMLDocument? {
+    return HTML(html: html, url: nil, encoding: encoding, options: options)
 }
 
-public func HTML(url: URL, encoding: UInt, option: ParseOption = .defaultHTML) -> HTMLDocument? {
+public func HTML(url: URL, encoding: String.Encoding, options: ParseOption = .defaultHTML) -> HTMLDocument? {
     if let data = try? Data(contentsOf: url) {
-        return HTML(html: data, url: url.absoluteString, encoding: encoding, option: option)
+        return HTML(html: data, url: url.absoluteString, encoding: encoding, options: options)
     }
     return nil
 }
