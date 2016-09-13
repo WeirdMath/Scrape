@@ -91,3 +91,19 @@ extension XMLNodeSet: Collection {
         return nodes.index(after: i)
     }
 }
+
+extension XMLNodeSet: CustomStringConvertible {
+    
+    public var description: String {
+        
+        let nodesDescription = nodes.map { node -> String in
+            let rows = String(describing: node).characters.split(separator: "\n").map(String.init)
+            let indentedRows = rows.map { row -> String in
+                return row.isEmpty ? "" : "\n    " + row
+            }
+            return indentedRows.joined()
+        }.joined(separator: ",")
+        
+        return "[" + nodesDescription + "\n]"
+    }
+}

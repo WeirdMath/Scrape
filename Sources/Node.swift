@@ -16,7 +16,7 @@
 /// - All HTML/XML attributes are attribute nodes;
 /// - Text inside HTML elements are text nodes;
 /// - Comments are comment nodes.
-public protocol Node: Searchable {
+public protocol Node: Searchable, CustomStringConvertible {
     
     /// Text content of the node. May be `nil` if no content is available.
     var text: String? { get }
@@ -41,4 +41,27 @@ public protocol Node: Searchable {
     
     /// Content of the node. May be `nil` if no content is available.
     var content: String? { get set }
+}
+
+extension Node {
+    
+    public var description: String {
+        
+        if let xml = xml {
+            
+            let rows = xml.characters
+                .split(separator: "\n")
+                .map(String.init)
+            
+            let indentedRows = rows.map { row -> String in
+                return row.isEmpty ? "" : "\n    " + row
+            }
+            
+            return "\(type(of: self)): {" +
+                indentedRows.joined() +
+            "\n}"
+        } else {
+            return "\(type(of: self))(empty)"
+        }
+    }
 }

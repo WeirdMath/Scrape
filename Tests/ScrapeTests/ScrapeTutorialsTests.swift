@@ -48,17 +48,15 @@ class ScrapeTutorialsTests: XCTestCase {
     }
     
     func testParsingFromFile() {
-        let filename = "test_HTML4"
-        guard let filePath = Bundle.main.path(forResource: filename, ofType: "html") else {
-            return
-        }
+        let filename = "test_HTML4.html"
+        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
         
-        let data = try! Data(contentsOf: URL(fileURLWithPath: filePath))
+        let data = try! Data(contentsOf: filePath)
         if let doc = HTMLDocument(html: data, encoding: .utf8) {
             XCTAssert(doc.html != nil)
         }
         
-        let html = try! String(contentsOfFile: filePath, encoding: .utf8)
+        let html = try! String(contentsOf: filePath)
         if let doc = HTMLDocument(html: html, encoding: .utf8) {
             XCTAssert(doc.html != nil)
         }
@@ -111,11 +109,9 @@ class ScrapeTutorialsTests: XCTestCase {
             "iOS 9",
             "iOS 8",
             ]
-        let filename = "versions"
-        guard let filePath = Bundle.main.path(forResource: filename, ofType:"xml") else {
-            return
-        }
-        let xml = try! String(contentsOfFile: filePath, encoding: .utf8)
+        let filename = "versions.xml"
+        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
+        let xml = try! String(contentsOf: filePath)
         if let doc = XMLDocument(xml: xml, encoding: .utf8) {
             for (i, node) in doc.search(byXPath: "//name").enumerated() {
                 XCTAssert(node.text! == TestVersionData[i])
@@ -150,12 +146,10 @@ class ScrapeTutorialsTests: XCTestCase {
             "Hoge",
             ]
         
-        let filename = "libraries"
-        guard let filePath = Bundle.main.path(forResource: filename, ofType:"xml") else {
-            return
-        }
+        let filename = "libraries.xml"
+        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
         
-        let xml = try! String(contentsOfFile: filePath, encoding: .utf8)
+        let xml = try! String(contentsOf: filePath)
         if let doc = XMLDocument(xml: xml, encoding: .utf8) {
             
             for (i, node) in doc.search(byXPath: "//github:title",
@@ -178,25 +172,23 @@ class ScrapeTutorialsTests: XCTestCase {
     func testModifyingChangingTextContents() {
         
         let TestModifyHTML = "<body>\n"                             +
-                             "  <h1>Snap, Crackle &amp; Pop</h1>\n" +
-                             "  <div>A love triangle.</div>\n"      +
+                             "    <h1>Snap, Crackle &amp; Pop</h1>\n" +
+                             "    <div>A love triangle.</div>\n"      +
                              "</body>"
         
-        let filename = "sample"
-        guard let filePath = Bundle.main.path(forResource: filename, ofType:"html") else {
-            return
-        }
+        let filename = "sample.html"
+        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
         
-        
-        let html = try! String(contentsOfFile: filePath, encoding: .utf8)
+        let html = try! String(contentsOf: filePath)
         guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
+            XCTAssert(false, "File not found. name: (\(filename))")
             return
         }
         
         var h1 = doc.atCSSSelector("h1")!
         h1.content = "Snap, Crackle & Pop"
         
-        XCTAssert(doc.body?.html == TestModifyHTML)
+        XCTAssertEqual(doc.body?.html, TestModifyHTML)
     }
     #endif
     
@@ -204,25 +196,21 @@ class ScrapeTutorialsTests: XCTestCase {
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testModifyingMovingNode() {
         
-        let TestModifyHTML = "<body>\n"                         +
-                             "  \n"                             +
-                             "  <div>\n"                        +
-                             "    A love triangle.\n"           +
-                             "    <h1>Three\'s Company</h1>\n"  +
-                             "  </div>\n"                       +
+        let TestModifyHTML = "<body>\n"                                                 +
+                             "    \n"                                                   +
+                             "    <div>A love triangle.<h1>Three\'s Company</h1>\n"     +
+                             "</div>\n"                                                 +
                              "</body>"
         
         let TestModifyArrangeHTML = "<body>\n"                          +
-                                    "  \n"                              +
-                                    "  <div>A love triangle.</div>\n"   +
-                                    "  <h1>Three\'s Company</h1>\n"     +
+                                    "    \n"                              +
+                                    "    <div>A love triangle.</div>\n"   +
+                                    "<h1>Three\'s Company</h1>\n"     +
                                     "</body>"
         
-        let filename = "sample"
-        guard let filePath = Bundle.main.path(forResource: filename, ofType: "html") else {
-            return
-        }
-        let html = try! String(contentsOfFile: filePath, encoding: .utf8)
+        let filename = "sample.html"
+        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
+        let html = try! String(contentsOf: filePath)
         guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
             return
         }
@@ -231,25 +219,23 @@ class ScrapeTutorialsTests: XCTestCase {
         
         h1.parent = div
         
-        XCTAssert(doc.body!.html == TestModifyHTML)
-        
+        XCTAssertEqual(doc.body?.html, TestModifyHTML)
+
         div.addNextSibling(h1)
         
-        XCTAssert(doc.body!.html == TestModifyArrangeHTML)
+        XCTAssertEqual(doc.body?.html, TestModifyArrangeHTML)
     }
     
     func testModifyingNodesAndAttributes() {
         
         let TestModifyHTML = "<body>\n"                                             +
-                             "  <h2 class=\"show-title\">Three\'s Company</h2>\n"   +
-                             "  <div>A love triangle.</div>\n"                      +
+                             "    <h2 class=\"show-title\">Three\'s Company</h2>\n"   +
+                             "    <div>A love triangle.</div>\n"                      +
                              "</body>"
         
-        let filename = "sample"
-        guard let filePath = Bundle.main.path(forResource: filename, ofType: "html") else {
-            return
-        }
-        let html = try! String(contentsOfFile: filePath, encoding: .utf8)
+        let filename = "sample.html"
+        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
+        let html = try! String(contentsOf: filePath)
         guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
             return
         }
@@ -258,7 +244,7 @@ class ScrapeTutorialsTests: XCTestCase {
         h1.tagName = "h2"
         h1["class"] = "show-title"
         
-        XCTAssert(doc.body?.html == TestModifyHTML)
+        XCTAssertEqual(doc.body?.html, TestModifyHTML)
     }
     #endif
 }

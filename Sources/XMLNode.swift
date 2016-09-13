@@ -10,7 +10,7 @@ import CLibxml2
 
 public final class XMLNode: XMLElement {
     
-    private var documentPointer: htmlDocPtr
+    private var documentPointer: xmlDocPtr
     private var nodePointer: xmlNodePtr
     private var isRoot: Bool = false
     
@@ -328,7 +328,7 @@ public final class XMLNode: XMLElement {
         
         guard let node = node as? XMLNode,
             (node.parent as? XMLNode)?.nodePointer == self.nodePointer else {
-            return
+                return
         }
         xmlUnlinkNode(node.nodePointer)
         xmlFree(node.nodePointer)

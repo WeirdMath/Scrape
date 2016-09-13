@@ -94,13 +94,11 @@ class ScrapeTests: XCTestCase {
     
     func testXml() {
         
-        let filename = "test_XML_ExcelWorkbook"
+        let filename = "test_XML_ExcelWorkbook.xml"
         
-        guard let filePath = Bundle.main.path(forResource: filename, ofType: "xml") else {
-            return
-        }
+        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
 
-        if let xml = try? Data(contentsOf: URL(string: filePath)!),
+        if let xml = try? Data(contentsOf: filePath),
             let doc = XMLDocument(xml: xml, encoding: .utf8) {
             let namespaces = [
                 "o":  "urn:schemas-microsoft-com:office:office",
@@ -117,12 +115,6 @@ class ScrapeTests: XCTestCase {
                 XCTAssert(createDate.text == "2015-07-26T06:00:00Z")
             } else {
                 XCTAssert(false, "Create date not found.")
-            }
-            
-            for row in doc.search(byXPath: "//ss:Row", namespaces: namespaces) {
-                for cell in row.search(byXPath: "//ss:Data", namespaces: namespaces) {
-                    print(cell.text)
-                }
             }
         } else {
             XCTAssert(false, "File not found. name: (\(filename))")
@@ -163,13 +155,11 @@ class ScrapeTests: XCTestCase {
      */
     func testHTML4() {
         // This is an example of a functional test case.
-        let filename = "test_HTML4"
-        guard let path = Bundle.main.path(forResource: filename, ofType:"html") else {
-            return
-        }
+        let filename = "test_HTML4.html"
+        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
         
         do {
-            let html = try String(contentsOfFile: path, encoding: .utf8)
+            let html = try String.init(contentsOf: filePath)
             guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
                 return
             }
@@ -194,7 +184,7 @@ class ScrapeTests: XCTestCase {
                 if let snTable = doc.atCSSSelector("table[id='sequence number']") {
                     let alphabet = ["a", "b", "c"]
                     for (indexTr, tr) in snTable.search(byCSSSelector: "tr").enumerated() {
-                        for (indexTd, td) in tr.search(byCSSSelector: "tr").enumerated() {
+                        for (indexTd, td) in tr.search(byCSSSelector: "td").enumerated() {
                             XCTAssert(td.text == "\(alphabet[indexTd])\(indexTr)")
                         }
                     }
@@ -237,13 +227,12 @@ class ScrapeTests: XCTestCase {
     // TODO: Remove this check when NSRegularExpression is fully supported on Linux
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testInnerHTML() {
-        let filename = "test_HTML4"
-        guard let path = Bundle.main.path(forResource: filename, ofType:"html") else {
-            return
-        }
+        let filename = "test_HTML4.html"
+        
+        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
         
         do {
-            let html = try String(contentsOfFile: path, encoding: .utf8)
+            let html = try String(contentsOf: filePath)
             guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
                 return
             }
