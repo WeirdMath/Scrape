@@ -86,7 +86,7 @@ class ScrapeTests: XCTestCase {
      */
     func testCSStoXPath() {
         for testCase in css2xpath {
-            let xpath = testCase.css.toXPath()
+            let xpath = CSSSelector(testCase.css)?.xpath
             XCTAssert(xpath == testCase.xpath, "Create XPath = [\(xpath)] != [\(testCase.xpath)]")
         }
     }
@@ -159,7 +159,7 @@ class ScrapeTests: XCTestCase {
         let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
         
         do {
-            let html = try String.init(contentsOf: filePath)
+            let html = try String(contentsOf: filePath)
             guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
                 return
             }

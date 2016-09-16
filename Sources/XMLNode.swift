@@ -382,7 +382,7 @@ public final class XMLNode: XMLElement {
     ///
     /// - returns: `XPath` enum case with an associated value.
     public func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult {
-        if let xpath = selector.toXPath() {
+        if let xpath = CSSSelector(selector)?.xpath {
             if isRoot {
                 return search(byXPath: xpath, namespaces: namespaces)
             } else {
