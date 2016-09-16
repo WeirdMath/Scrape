@@ -80,7 +80,6 @@ extension XMLDocumentType {
         return rootNode?.search(byXPath: xpath, namespaces: namespaces) ?? .none
     }
     
-    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     public final func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult {
         return rootNode?.search(byCSSSelector: selector, namespaces: namespaces) ?? .none

@@ -124,7 +124,7 @@ class ScrapeTutorialsTests: XCTestCase {
                 XCTAssert(node.text! == TestVersionDataIOS[i])
             }
             
-            // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+
             #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
             for (i, node) in doc.search(byCSSSelector: "ios name").enumerated() {
                 XCTAssert(node.text! == TestVersionDataIOS[i])
@@ -167,7 +167,7 @@ class ScrapeTutorialsTests: XCTestCase {
         }
     }
     
-    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testModifyingChangingTextContents() {
         
@@ -192,7 +192,7 @@ class ScrapeTutorialsTests: XCTestCase {
     }
     #endif
     
-    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testModifyingMovingNode() {
         

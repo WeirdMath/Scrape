@@ -373,7 +373,6 @@ public final class XMLNode: XMLElement {
         return XPathResult(documentPointer: documentPointer, object: xPathObjectPointer.pointee)
     }
     
-    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     /// Searches for a node from a current node by provided CSS selector.
     ///

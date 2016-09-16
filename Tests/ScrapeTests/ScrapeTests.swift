@@ -79,7 +79,6 @@ class ScrapeTests: XCTestCase {
         ("o|Author", "//o:Author")
     ]
     
-    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     /**
      test CSS to XPath
@@ -121,7 +120,7 @@ class ScrapeTests: XCTestCase {
         }
     }
     
-    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testXML_MovingNode() {
         let xml = "<?xml version=\"1.0\"?><all_item><item><title>item0</title></item><item><title>item1</title></item></all_item>"
@@ -159,7 +158,8 @@ class ScrapeTests: XCTestCase {
         let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
         
         do {
-            let html = try String(contentsOf: filePath)
+            let data = try! Data(contentsOf: filePath)
+            let html = String(data: data, encoding: .utf8)!
             guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
                 return
             }
@@ -179,7 +179,7 @@ class ScrapeTests: XCTestCase {
                 XCTAssert(repo.text == repoName[index])
             }
             
-            // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+
             #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
                 if let snTable = doc.atCSSSelector("table[id='sequence number']") {
                     let alphabet = ["a", "b", "c"]
@@ -224,7 +224,7 @@ class ScrapeTests: XCTestCase {
         }
     }
     
-    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testInnerHTML() {
         let filename = "test_HTML4.html"
@@ -253,7 +253,7 @@ class ScrapeTests: XCTestCase {
         }
     }
     
-    // TODO: Remove this check when NSRegularExpression is fully supported on Linux
+
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testHTML_MovingNode() {
         let html = "<body><div>A love triangle.<h1>Three's Company</h1></div></body>"
