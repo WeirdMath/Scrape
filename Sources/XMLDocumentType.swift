@@ -9,7 +9,7 @@
 import CLibxml2
 
 internal protocol XMLDocumentType: Node {
-    var rootNode: XMLElement? { get set }
+    var rootNode: XMLElement { get set }
     var documentPointer: xmlDocPtr { get }
 }
 
@@ -45,23 +45,23 @@ extension XMLDocumentType {
     }
     
     public final var text: String? {
-        return rootNode?.text
+        return rootNode.text
     }
     
     public final var innerHTML: String? {
-        return rootNode?.innerHTML
+        return rootNode.innerHTML
     }
     
     public final var className: String? {
-        return rootNode?.className
+        return rootNode.className
     }
     
     public final var tagName: String? {
         get {
-            return rootNode?.tagName
+            return rootNode.tagName
         }
         set {
-            rootNode?.tagName = newValue
+            rootNode.tagName = newValue
         }
     }
     
@@ -70,19 +70,19 @@ extension XMLDocumentType {
             return text
         }
         set {
-            rootNode?.content = newValue
+            rootNode.content = newValue
         }
     }
     
     // MARK: - Searchable
     
     public final func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathResult {
-        return rootNode?.search(byXPath: xpath, namespaces: namespaces) ?? .none
+        return rootNode.search(byXPath: xpath, namespaces: namespaces)
     }
     
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     public final func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult {
-        return rootNode?.search(byCSSSelector: selector, namespaces: namespaces) ?? .none
+        return rootNode.search(byCSSSelector: selector, namespaces: namespaces)
     }
     #endif
 }

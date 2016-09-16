@@ -32,122 +32,9 @@ class ScrapeTests: XCTestCase {
     
     static var allTests = {
         return [
-            ("testXml", testXml),
             ("testHTML4", testHTML4),
-            ("testURL", testURL)
         ]
     }()
-    
-    let css2xpath: [(css: String, xpath: String?)] = [
-        ("*, div", "//* | //div"),
-        (".myclass", "//*[contains(concat(' ', normalize-space(@class), ' '), ' myclass ')]"),
-        ("#myid", "//*[@id = 'myid']"),
-        ("div.myclass#myid", "//div[contains(concat(' ', normalize-space(@class), ' '), ' myclass ') and @id = 'myid']"),
-        (".myclass.myclass2", "//*[contains(concat(' ', normalize-space(@class), ' '), ' myclass ') and contains(concat(' ', normalize-space(@class), ' '), ' myclass2 ')]"),
-        ("div span", "//div//span"),
-        ("ul.info li.favo", "//ul[contains(concat(' ', normalize-space(@class), ' '), ' info ')]//li[contains(concat(' ', normalize-space(@class), ' '), ' favo ')]"),
-        ("div > span", "//div/span"),
-        ("div + span", "//div/following-sibling::*[1]/self::span"),
-        ("div[attr]", "//div[@attr]"),
-        ("div[attr='val']", "//div[@attr = 'val']"),
-        ("div[attr~='val']", "//div[contains(concat(' ', @attr, ' '),concat(' ', 'val', ' '))]"),
-        ("div[attr|='val']", "//div[@attr = 'val' or starts-with(@attr,concat('val', '-'))]"),
-        ("div[attr*='val']", "//div[contains(@attr, 'val')]"),
-        ("div[attr^='val']", "//div[starts-with(@attr, 'val')]"),
-        ("div[attr$='val']", "//div[substring(@attr, string-length(@attr) - string-length('val') + 1, string-length('val')) = 'val']"),
-        ("div:first-child", "//div[count(preceding-sibling::*) = 0]"),
-        ("div:last-child", "//div[count(following-sibling::*) = 0]"),
-        ("div:only-child", "//div[count(preceding-sibling::*) = 0 and count(following-sibling::*) = 0]"),
-        ("div:first-of-type", "//div[position() = 1]"),
-        ("div:last-of-type", "//div[position() = last()]"),
-        ("div:only-of-type", "//div[last() = 1]"),
-        ("div:empty", "//div[not(node())]"),
-        ("div:nth-child(0)", "//div[count(preceding-sibling::*) = -1]"),
-        ("div:nth-child(3)", "//div[count(preceding-sibling::*) = 2]"),
-        ("div:nth-child(odd)", "//div[((count(preceding-sibling::*) + 1) >= 1) and ((((count(preceding-sibling::*) + 1)-1) mod 2) = 0)]"),
-        ("div:nth-child(even)", "//div[((count(preceding-sibling::*) + 1) mod 2) = 0]"),
-        ("div:nth-child(3n)", "//div[((count(preceding-sibling::*) + 1) mod 3) = 0]"),
-        ("div:nth-last-child(2)", "//div[count(following-sibling::*) = 1]"),
-        ("div:nth-of-type(odd)", "//div[(position() >= 1) and (((position()-1) mod 2) = 0)]"),
-        ("*:root", "//*[not(parent::*)]"),
-        ("div:contains('foo')", "//div[contains(., 'foo')]"),
-        ("div:not([type='text'])", "//div[not(@type = 'text')]"),
-        ("*:not(div)", "//*[not(self::div)]"),
-        ("#content > p:not(.article-meta)", "//*[@id = 'content']/p[not(contains(concat(' ', normalize-space(@class), ' '), ' article-meta '))]"),
-        ("div:not(:nth-child(-n+2))", "//div[not((count(preceding-sibling::*) + 1) <= 2)]"),
-        ("*:not(:not(div))", "//*[not(not(self::div))]"),
-        ("o|Author", "//o:Author")
-    ]
-    
-    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
-    /**
-     test CSS to XPath
-     */
-    func testCSStoXPath() {
-        for testCase in css2xpath {
-            let xpath = CSSSelector(testCase.css)?.xpath
-            XCTAssert(xpath == testCase.xpath, "Create XPath = [\(xpath)] != [\(testCase.xpath)]")
-        }
-    }
-    #endif
-    
-    func testXml() {
-        
-        let filename = "test_XML_ExcelWorkbook.xml"
-        
-        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
-
-        if let xml = try? Data(contentsOf: filePath),
-            let doc = XMLDocument(xml: xml, encoding: .utf8) {
-            let namespaces = [
-                "o":  "urn:schemas-microsoft-com:office:office",
-                "ss": "urn:schemas-microsoft-com:office:spreadsheet"
-            ]
-            
-            if let author = doc.atXPath("//o:Author", namespaces: namespaces) {
-                XCTAssert(author.text == "_tid_")
-            } else {
-                XCTAssert(false, "Author not found.")
-            }
-            
-            if let createDate = doc.atXPath("//o:Created", namespaces: namespaces) {
-                XCTAssert(createDate.text == "2015-07-26T06:00:00Z")
-            } else {
-                XCTAssert(false, "Create date not found.")
-            }
-        } else {
-            XCTAssert(false, "File not found. name: (\(filename))")
-        }
-    }
-    
-
-    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
-    func testXML_MovingNode() {
-        let xml = "<?xml version=\"1.0\"?><all_item><item><title>item0</title></item><item><title>item1</title></item></all_item>"
-        let modifyPrevXML = "<all_item><item><title>item1</title></item><item><title>item0</title></item></all_item>"
-        let modifyNextXML = "<all_item><item><title>item1</title></item><item><title>item0</title></item></all_item>"
-        
-        do {
-            guard let doc = XMLDocument(xml: xml, encoding: .utf8) else {
-                return
-            }
-            let item0 = doc.search(byCSSSelector: "item")[0]
-            let item1 = doc.search(byCSSSelector: "item")[1]
-            item0.addPreviousSibling(item1)
-            XCTAssert(doc.atCSSSelector("all_item")!.xml == modifyPrevXML)
-        }
-        
-        do {
-            guard let doc = XMLDocument(xml: xml, encoding: .utf8) else {
-                return
-            }
-            let item0 = doc.search(byCSSSelector: "item")[0]
-            let item1 = doc.search(byCSSSelector: "item")[1]
-            item1.addNextSibling(item0)
-            XCTAssert(doc.atCSSSelector("all_item")!.xml == modifyNextXML)
-        }
-    }
-    #endif
     
     /**
      test HTML4
@@ -159,7 +46,10 @@ class ScrapeTests: XCTestCase {
         
         do {
             let data = try! Data(contentsOf: filePath)
-            let html = String(data: data, encoding: .utf8)!
+            let html = data.withUnsafeBytes { (pointer: UnsafePointer<CChar>) -> String in
+                return String(cString: pointer)
+            }
+            
             guard let doc = HTMLDocument(html: html, encoding: .utf8) else {
                 return
             }
@@ -244,14 +134,6 @@ class ScrapeTests: XCTestCase {
         }
     }
     #endif
-    
-    func testURL() {
-        guard let url = URL(string: "https://en.wikipedia.org/wiki/Cat"),
-            let _ = HTMLDocument(url: url, encoding: .utf8) else {
-                XCTAssert(false)
-                return
-        }
-    }
     
 
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)

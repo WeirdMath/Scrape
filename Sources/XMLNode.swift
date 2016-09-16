@@ -14,11 +14,16 @@ public final class XMLNode: XMLElement {
     private var nodePointer: xmlNodePtr
     private var isRoot: Bool = false
     
-    init(documentPointer: xmlDocPtr) {
+    init?(documentPointer: xmlDocPtr) {
         
         self.documentPointer  = documentPointer
         
-        nodePointer = xmlDocGetRootElement(documentPointer)
+        if let nodePointer = xmlDocGetRootElement(documentPointer) {
+            self.nodePointer = nodePointer
+        } else {
+            return nil
+        }
+        
         isRoot = true
     }
     

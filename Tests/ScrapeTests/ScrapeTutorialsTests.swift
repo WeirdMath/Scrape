@@ -16,11 +16,8 @@ class ScrapeTutorialsTests: XCTestCase {
         return [
             ("testParsingFromString", testParsingFromString),
             ("testParsingFromFile", testParsingFromFile),
-            ("testParsingFromInternets", testParsingFromInternets),
             ("testParsingFromEncoding", testParsingFromEncoding),
             ("testParsingOptions", testParsingOptions),
-            ("testSearchingBasicSearching", testSearchingBasicSearching),
-            ("testSearchingNamespaces", testSearchingNamespaces)
         ]
     }()
     
@@ -34,17 +31,6 @@ class ScrapeTutorialsTests: XCTestCase {
         if let htmlDoc = HTMLDocument(html: html, encoding: .utf8) {
             XCTAssert(htmlDoc.html != nil)
         }
-        
-        let xml = "<root>"                      +
-                    "<item>"                    +
-                      "<name>Tutorials</name>"  +
-                    "</item>"                   +
-                  "</root>"
-        
-        if let xmlDoc = XMLDocument(xml: xml, encoding: .utf8) {
-            XCTAssert(xmlDoc.html != nil)
-        }
-        
     }
     
     func testParsingFromFile() {
@@ -58,13 +44,6 @@ class ScrapeTutorialsTests: XCTestCase {
         
         let html = try! String(contentsOf: filePath)
         if let doc = HTMLDocument(html: html, encoding: .utf8) {
-            XCTAssert(doc.html != nil)
-        }
-    }
-    
-    func testParsingFromInternets() {
-        let url = URL(string: "https://en.wikipedia.org/wiki/Cat")
-        if let doc = HTMLDocument(url: url!, encoding: .utf8) {
             XCTAssert(doc.html != nil)
         }
     }
@@ -91,79 +70,6 @@ class ScrapeTutorialsTests: XCTestCase {
         
         if let doc = HTMLDocument(html: html, encoding: .utf8, options: .strict) {
             XCTAssert(doc.html != nil)
-        }
-    }
-    
-    func testSearchingBasicSearching() {
-        let TestVersionData = [
-            "iOS 10",
-            "iOS 9",
-            "iOS 8",
-            "macOS 10.12",
-            "macOS 10.11",
-            "tvOS 10.0",
-            ]
-        
-        let TestVersionDataIOS = [
-            "iOS 10",
-            "iOS 9",
-            "iOS 8",
-            ]
-        let filename = "versions.xml"
-        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
-        let xml = try! String(contentsOf: filePath)
-        if let doc = XMLDocument(xml: xml, encoding: .utf8) {
-            for (i, node) in doc.search(byXPath: "//name").enumerated() {
-                XCTAssert(node.text! == TestVersionData[i])
-            }
-            
-            let nodes = doc.search(byXPath: "//name")
-            XCTAssert(nodes[0].text! == TestVersionData[0])
-            
-            for (i, node) in doc.search(byXPath: "//ios//name").enumerated() {
-                XCTAssert(node.text! == TestVersionDataIOS[i])
-            }
-            
-
-            #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
-            for (i, node) in doc.search(byCSSSelector: "ios name").enumerated() {
-                XCTAssert(node.text! == TestVersionDataIOS[i])
-            }
-            
-            XCTAssertEqual(doc.search(byCSSSelector: "tvos name").first!.text, "tvOS 10.0")
-            XCTAssertEqual(doc.atCSSSelector("tvos name")?.text, "tvOS 10.0")
-            #endif
-        }
-    }
-    
-    func testSearchingNamespaces() {
-        let TestLibrariesDataGitHub = [
-            "Kanna",
-            "Alamofire",
-            ]
-        
-        let TestLibrariesDataBitbucket = [
-            "Hoge",
-            ]
-        
-        let filename = "libraries.xml"
-        let filePath = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(filename)
-        
-        let xml = try! String(contentsOf: filePath)
-        if let doc = XMLDocument(xml: xml, encoding: .utf8) {
-            
-            for (i, node) in doc.search(byXPath: "//github:title",
-                                        namespaces: ["github" : "https://github.com/"]).enumerated() {
-                XCTAssert(node.text! == TestLibrariesDataGitHub[i])
-            }
-        }
-        
-        if let doc = XMLDocument(xml: xml, encoding: .utf8) {
-            
-            for (i, node) in doc.search(byXPath: "//bitbucket:title",
-                                        namespaces: ["bitbucket": "https://bitbucket.org/"]).enumerated() {
-                                            XCTAssert(node.text! == TestLibrariesDataBitbucket[i])
-            }
         }
     }
     

@@ -1,7 +1,7 @@
 <root>
     <host xmlns="https://github.com/">
-        <title>Kanna</title>
-        <title>Alamofire</title>
+        <title>Scrape</title>
+        <title>SwiftyJSON</title>
     </host>
     <host xmlns="https://bitbucket.org/">
         <title>Hoge</title>

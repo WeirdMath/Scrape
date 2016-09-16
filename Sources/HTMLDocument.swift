@@ -12,7 +12,7 @@ import CLibxml2
 public final class HTMLDocument: HTMLDocumentType {
     
     var documentPointer: htmlDocPtr
-    var rootNode: XMLElement?
+    var rootNode: XMLElement
     private var _html: String
     private var _url:  String?
     private var _encoding: String.Encoding
@@ -36,7 +36,7 @@ public final class HTMLDocument: HTMLDocumentType {
         
         guard let htmlCString = html.cString(using: encoding), !htmlCString.isEmpty else { return nil }
         
-        documentPointer = htmlCString.withUnsafeBufferPointer {
+        let documentPointer: xmlDocPtr? = htmlCString.withUnsafeBufferPointer {
             return $0.baseAddress!.withMemoryRebound(to: xmlChar.self, capacity: $0.count) {
                 
                 #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
@@ -50,7 +50,12 @@ public final class HTMLDocument: HTMLDocumentType {
             }
         }
         
-        rootNode = XMLNode(documentPointer: documentPointer)
+        if let documentPointer = documentPointer, let rootNode = XMLNode(documentPointer: documentPointer) {
+            self.documentPointer = documentPointer
+            self.rootNode = rootNode
+        } else {
+            return nil
+        }
     }
     
     public convenience init?(html: Data,
