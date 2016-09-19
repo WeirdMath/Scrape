@@ -14,7 +14,7 @@ public protocol Searchable {
     /// - parameter xpath:      XPath to search by.
     /// - parameter namespaces: XML namespace to search in. Default value is `nil`.
     ///
-    /// - returns: `XPath` enum case with an associated value.
+    /// - returns: `XPathResult` enum case with an associated value.
     func search(byXPath xpath: String, namespaces: [String : String]?) -> XPathResult
     
     /// Searches for a node from a current node by provided XPath and returns the first match.
@@ -31,7 +31,7 @@ public protocol Searchable {
     /// - parameter selector:   CSS selector to search by.
     /// - parameter namespaces: XML namespace to search in. Default value is `nil`.
     ///
-    /// - returns: `XPath` enum case with an associated value.
+    /// - returns: `XPathResult` enum case with an associated value.
     func search(byCSSSelector selector: String, namespaces: [String : String]?) -> XPathResult
     
     /// Searches for a node from a current node by provided CSS selector and returns the first match.
@@ -51,7 +51,7 @@ public extension Searchable {
     ///
     /// - parameter xpath:      XPath to search by.
     ///
-    /// - returns: `XPath` enum case with an associated value.
+    /// - returns: `XPathResult` enum case with an associated value.
     public final func search(byXPath xpath: String) -> XPathResult {
         return search(byXPath: xpath, namespaces: nil)
     }
@@ -80,7 +80,7 @@ public extension Searchable {
     ///
     /// - parameter selector:   CSS selector to search by.
     ///
-    /// - returns: `XPath` enum case with an associated value.
+    /// - returns: `XPathResult` enum case with an associated value.
     public final func search(byCSSSelector selector: String) -> XPathResult {
         return search(byCSSSelector: selector, namespaces: nil)
     }

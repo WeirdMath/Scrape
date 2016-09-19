@@ -55,7 +55,7 @@ class HTMLDocumentTests: XCTestCase {
             "http://github.com/libharu/libharu")
     }
     
-    // MARK: - Test loading
+    // MARK: - Loading
     
     func testLoadHTMLFromData() {
         
@@ -65,7 +65,7 @@ class HTMLDocumentTests: XCTestCase {
             return
         }
         
-        let incorrectData = "💩".data(using: .utf32LittleEndian)!
+        let incorrectData = "💩".data(using: .utf32)!
         
         // When
         let documentFromCorrectData = HTMLDocument(html: correctData, encoding: .utf8)
@@ -134,7 +134,7 @@ class HTMLDocumentTests: XCTestCase {
         XCTAssertNotNil(document, "HTMLDocument should be initialized even with ptions other than default")
     }
     
-    // MARK: - Test HTMLDocument properties
+    // MARK: - HTMLDocument properties
     
     func testHTMLGetHead() {
         
@@ -180,7 +180,7 @@ class HTMLDocumentTests: XCTestCase {
         XCTAssertEqual(expectedTitle, returnedTitle)
     }
     
-    // MARK: - Test XPath queries
+    // MARK: - XPath queries
     
     func testXPathTagWithAttributeQuery() {
         
@@ -232,7 +232,7 @@ class HTMLDocumentTests: XCTestCase {
         XCTAssertEqual(expectedStringValue, returnedStringValue)
     }
     
-    // MARK: - Test CSS selector queries
+    // MARK: - CSS selector queries
     
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testCSSSelectorTagWithAttributeQuery() {

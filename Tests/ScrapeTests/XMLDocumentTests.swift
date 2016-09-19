@@ -19,16 +19,23 @@ final class XMLDocumentTests: XCTestCase {
             ("testLoadXMLFromURL", testLoadXMLFromURL),
             ("testLoadXMLWithDifferentEncoding", testLoadXMLWithDifferentEncoding),
             ("testLoadXMLWithParsingOptions", testLoadXMLWithParsingOptions),
+            ("testGetHTML", testGetHTML),
+            ("testGetXML", testGetXML),
+            ("testGetText", testGetText),
+            ("testGetInnerHTML", testGetInnerHTML),
+            ("testGetClassName", testGetClassName),
+            ("testGetSetTagName", testGetSetTagName),
+            ("testGetSetContent", testGetSetContent),
             ("testXPathTagQuery", testXPathTagQuery),
             ("testXPathTagQueryWithNamespaces", testXPathTagQueryWithNamespaces),
             ("testAddingAsPreviousSibling", testAddingAsPreviousSibling)
-            ]
+        ]
     }()
     
     private struct Seeds {
         
         static let xmlString = "<?xml version=\"1.0\"?><all_item><item><title>item0</title></item>" +
-            "<item><title>item1</title></item></all_item>"
+        "<item><title>item1</title></item></all_item>"
         
         static let allVersions = ["iOS 10", "iOS 9", "iOS 8", "macOS 10.12", "macOS 10.11", "tvOS 10.0"]
         static let iosVersions = ["iOS 10", "iOS 9", "iOS 8"]
@@ -38,7 +45,7 @@ final class XMLDocumentTests: XCTestCase {
         static let librariesBitbucket = ["Hoge"]
     }
     
-    // MARK: - Test loading
+    // MARK: - Loading
     
     func testLoadXMLFromData() {
         
@@ -48,7 +55,7 @@ final class XMLDocumentTests: XCTestCase {
             return
         }
         
-        let incorrectData = "💩".data(using: .utf32LittleEndian)!
+        let incorrectData = "💩".data(using: .utf32)!
         
         // When
         let documentFromCorrectData = XMLDocument(xml: correctData, encoding: .utf8)
@@ -117,7 +124,220 @@ final class XMLDocumentTests: XCTestCase {
         XCTAssertNotNil(document, "XMLDocument should be initialized even with options other than default")
     }
     
-    // MARK: - Test XPath queries
+    // MARK: - Readonly properties
+    
+    func testGetHTML() {
+        
+        // Given
+        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
+            XCTFail("Could not find a testing resource")
+            return
+        }
+        
+        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
+            XCTFail("Could not initialize an XMLDocument instance")
+            return
+        }
+        
+        let expectedHTML = "<root>\n" +
+            "    <host xmlns=\"https://github.com/\">\n" +
+            "        <title>Scrape</title>\n" +
+            "        <title>SwiftyJSON</title>\n" +
+            "    </host>\n" +
+            "    <host xmlns=\"https://bitbucket.org/\">\n" +
+            "        <title>Hoge</title>\n" +
+            "    </host>\n" +
+        "</root>\n"
+        
+        // When
+        let returnedHTML = document.html
+        
+        // Then
+        XCTAssertEqual(expectedHTML, returnedHTML)
+    }
+    
+    func testGetXML() {
+        
+        // Given
+        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
+            XCTFail("Could not find a testing resource")
+            return
+        }
+        
+        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
+            XCTFail("Could not initialize an XMLDocument instance")
+            return
+        }
+        
+        let expectedXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+            "<root>\n" +
+            "    <host xmlns=\"https://github.com/\">\n" +
+            "        <title>Scrape</title>\n" +
+            "        <title>SwiftyJSON</title>\n" +
+            "    </host>\n" +
+            "    <host xmlns=\"https://bitbucket.org/\">\n" +
+            "        <title>Hoge</title>\n" +
+            "    </host>\n" +
+        "</root>\n"
+        
+        // When
+        let returnedXML = document.xml
+        
+        // Then
+        XCTAssertEqual(expectedXML, returnedXML)
+    }
+    
+    func testGetText() {
+        
+        // Given
+        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
+            XCTFail("Could not find a testing resource")
+            return
+        }
+        
+        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
+            XCTFail("Could not initialize an XMLDocument instance")
+            return
+        }
+        
+        let expectedText = "\n    \n        Scrape\n        SwiftyJSON\n    \n    \n        Hoge\n    \n"
+        
+        // When
+        let returnedText = document.text
+        
+        // Then
+        XCTAssertEqual(expectedText, returnedText)
+    }
+    
+    func testGetInnerHTML() {
+        
+        // Given
+        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
+            XCTFail("Could not find a testing resource")
+            return
+        }
+        
+        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
+            XCTFail("Could not initialize an XMLDocument instance")
+            return
+        }
+        
+        let expectedInnerHTML = "\n    <host xmlns=\"https://github.com/\">\n" +
+        "        <title>Scrape</title>\n" +
+        "        <title>SwiftyJSON</title>\n" +
+        "    </host>\n" +
+        "    <host xmlns=\"https://bitbucket.org/\">\n" +
+        "        <title>Hoge</title>\n" +
+        "    </host>\n"
+        
+        // When
+        let returnedInnerHTML = document.innerHTML
+        
+        // Then
+        XCTAssertEqual(expectedInnerHTML, returnedInnerHTML)
+    }
+    
+    func testGetClassName() {
+        
+        // Given
+        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
+            XCTFail("Could not find a testing resource")
+            return
+        }
+        
+        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
+            XCTFail("Could not initialize an XMLDocument instance")
+            return
+        }
+        
+        // When
+        let returnedInnerHTML = document.className
+        
+        // Then
+        XCTAssertNil(returnedInnerHTML)
+    }
+    
+    // MARK: - Settable properties
+    
+    func testGetSetTagName() {
+        
+        // Given
+        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
+            XCTFail("Could not find a testing resource")
+            return
+        }
+        
+        guard var document = XMLDocument(xml: librariesData, encoding: .utf8) else {
+            XCTFail("Could not initialize an XMLDocument instance")
+            return
+        }
+        
+        let expectedTagName = "root"
+        
+        let expectedModifiedHTML = "<foo>\n" +
+        "    <host xmlns=\"https://github.com/\">\n" +
+            "        <title>Scrape</title>\n" +
+            "        <title>SwiftyJSON</title>\n" +
+            "    </host>\n" +
+            "    <host xmlns=\"https://bitbucket.org/\">\n" +
+            "        <title>Hoge</title>\n" +
+            "    </host>\n" +
+        "</foo>\n"
+        
+        // When
+        let returnedTagName = document.tagName
+        
+        // Then
+        XCTAssertEqual(expectedTagName, returnedTagName)
+        
+        // When
+        document.tagName = "foo"
+        let returnedModifiedHTML = document.html
+        
+        // Then
+        XCTAssertEqual(expectedModifiedHTML, returnedModifiedHTML)
+    }
+    
+    func testGetSetContent() {
+        
+        // Given
+        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
+            XCTFail("Could not find a testing resource")
+            return
+        }
+        
+        guard var document = XMLDocument(xml: librariesData, encoding: .utf8) else {
+            XCTFail("Could not initialize an XMLDocument instance")
+            return
+        }
+        
+        let expectedContent = "\n    \n        Scrape\n        SwiftyJSON\n    \n    \n        Hoge\n    \n"
+        
+        let expectedModifiedHTML = "<root>foo</root>\n"
+        let expectedDeletedContentHTML = "<root></root>\n"
+        
+        // When
+        let returnedContent = document.content
+        
+        // Then
+        XCTAssertEqual(expectedContent, returnedContent)
+        
+        // When
+        document.content = "foo"
+        let returnedModifiedHTML = document.html
+        
+        // Then
+        XCTAssertEqual(expectedModifiedHTML, returnedModifiedHTML)
+        
+        // When
+        document.content = nil
+        let returnedDeletedContentHTML = document.html
+        
+        // Then
+        XCTAssertEqual(expectedDeletedContentHTML, returnedDeletedContentHTML)
+    }
+    
+    // MARK: - XPath queries
     
     func testXPathTagQuery() {
         
@@ -134,7 +354,7 @@ final class XMLDocumentTests: XCTestCase {
         
         let expectedVersionsForTagName = Seeds.allVersions
         let expectedVersionsForTagsIOSName = Seeds.iosVersions
-
+        
         // When
         let returnedVersionsForTagName = document.search(byXPath: "//name").map { $0.text ?? "" }
         let returnedVersionsForTagsIOSName = document.search(byXPath: "//ios//name").map { $0.text ?? "" }
@@ -195,7 +415,7 @@ final class XMLDocumentTests: XCTestCase {
             XCTFail("Could not initialize an XMLDocument instance")
             return
         }
-
+        
         // After:
         //
         // <all_item>
@@ -272,7 +492,7 @@ final class XMLDocumentTests: XCTestCase {
         XCTAssertEqual(expectedModifiedXML, actualModifiedXML)
     }
     
-    // MARK: - Test CSS selector queries
+    // MARK: - CSS selector queries
     
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testCSSSelectorTagQuery() {
