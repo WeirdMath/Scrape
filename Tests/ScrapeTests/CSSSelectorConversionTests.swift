@@ -12,7 +12,7 @@ import XCTest
 import Scrape
 import Foundation
 
-final class CSSSelectorTests: XCTestCase {
+final class CSSSelectorConversionTests: XCTestCase {
     
     static let allTests = {
         return [

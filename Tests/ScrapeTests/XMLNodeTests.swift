@@ -10,7 +10,7 @@ import Foundation
 import Scrape
 import XCTest
 
-class XMLNodeTests: XCTestCase {
+final class XMLNodeTests: XCTestCase {
     
     static let allTests = {
         return [

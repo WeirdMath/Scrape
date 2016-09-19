@@ -13,5 +13,4 @@ XCTMain([
     testCase(XMLDocumentTests.allTests),
     testCase(HTMLDocumentTests.allTests),
     testCase(XMLNodeTests.allTests),
-    testCase(CSSSelectorTests.allTests)
 ])
