@@ -28,9 +28,13 @@ final class XMLDocumentTests: XCTestCase {
             ("testGetSetContent", testGetSetContent),
             ("testXPathTagQuery", testXPathTagQuery),
             ("testXPathTagQueryWithNamespaces", testXPathTagQueryWithNamespaces),
-            ("testAddingAsPreviousSibling", testAddingAsPreviousSibling)
+            ("testAddingAsPreviousSibling", testAddingAsPreviousSibling),
+            ("testAddingAsNextSibling", testAddingAsNextSibling)
         ]
     }()
+    
+    var libraries: Scrape.XMLDocument!
+    var versions: Scrape.XMLDocument!
     
     private struct Seeds {
         
@@ -43,6 +47,26 @@ final class XMLDocumentTests: XCTestCase {
         
         static let librariesGithub = ["Scrape", "SwiftyJSON"]
         static let librariesBitbucket = ["Hoge"]
+    }
+    
+    override func setUp() {
+        super.setUp()
+        
+        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml"),
+            let versionsData = getTestingResource(fromFile: "Versions", ofType: "xml") else {
+                
+            XCTFail("Could not find a testing resource")
+            return
+        }
+        
+        guard let libraries = XMLDocument(xml: librariesData, encoding: .utf8),
+            let versions = XMLDocument(xml: versionsData, encoding: .utf8) else {
+            XCTFail("Could not initialize an XMLDocument instance")
+            return
+        }
+        
+        self.libraries = libraries
+        self.versions = versions
     }
     
     // MARK: - Loading
@@ -129,16 +153,6 @@ final class XMLDocumentTests: XCTestCase {
     func testGetHTML() {
         
         // Given
-        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
-        
         let expectedHTML = "<root>\n" +
             "    <host xmlns=\"https://github.com/\">\n" +
             "        <title>Scrape</title>\n" +
@@ -150,7 +164,7 @@ final class XMLDocumentTests: XCTestCase {
         "</root>\n"
         
         // When
-        let returnedHTML = document.html
+        let returnedHTML = libraries.html
         
         // Then
         XCTAssertEqual(expectedHTML, returnedHTML)
@@ -159,16 +173,6 @@ final class XMLDocumentTests: XCTestCase {
     func testGetXML() {
         
         // Given
-        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
-        
         let expectedXML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
             "<root>\n" +
             "    <host xmlns=\"https://github.com/\">\n" +
@@ -181,7 +185,7 @@ final class XMLDocumentTests: XCTestCase {
         "</root>\n"
         
         // When
-        let returnedXML = document.xml
+        let returnedXML = libraries.xml
         
         // Then
         XCTAssertEqual(expectedXML, returnedXML)
@@ -190,20 +194,10 @@ final class XMLDocumentTests: XCTestCase {
     func testGetText() {
         
         // Given
-        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
-        
         let expectedText = "\n    \n        Scrape\n        SwiftyJSON\n    \n    \n        Hoge\n    \n"
         
         // When
-        let returnedText = document.text
+        let returnedText = libraries.text
         
         // Then
         XCTAssertEqual(expectedText, returnedText)
@@ -212,16 +206,6 @@ final class XMLDocumentTests: XCTestCase {
     func testGetInnerHTML() {
         
         // Given
-        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
-        
         let expectedInnerHTML = "\n    <host xmlns=\"https://github.com/\">\n" +
         "        <title>Scrape</title>\n" +
         "        <title>SwiftyJSON</title>\n" +
@@ -231,7 +215,7 @@ final class XMLDocumentTests: XCTestCase {
         "    </host>\n"
         
         // When
-        let returnedInnerHTML = document.innerHTML
+        let returnedInnerHTML = libraries.innerHTML
         
         // Then
         XCTAssertEqual(expectedInnerHTML, returnedInnerHTML)
@@ -239,22 +223,11 @@ final class XMLDocumentTests: XCTestCase {
     
     func testGetClassName() {
         
-        // Given
-        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
-        
         // When
-        let returnedInnerHTML = document.className
+        let returnedClassName = libraries.className
         
         // Then
-        XCTAssertNil(returnedInnerHTML)
+        XCTAssertNil(returnedClassName)
     }
     
     // MARK: - Settable properties
@@ -262,16 +235,6 @@ final class XMLDocumentTests: XCTestCase {
     func testGetSetTagName() {
         
         // Given
-        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard var document = XMLDocument(xml: librariesData, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
-        
         let expectedTagName = "root"
         
         let expectedModifiedHTML = "<foo>\n" +
@@ -285,14 +248,14 @@ final class XMLDocumentTests: XCTestCase {
         "</foo>\n"
         
         // When
-        let returnedTagName = document.tagName
+        let returnedTagName = libraries.tagName
         
         // Then
         XCTAssertEqual(expectedTagName, returnedTagName)
         
         // When
-        document.tagName = "foo"
-        let returnedModifiedHTML = document.html
+        libraries.tagName = "foo"
+        let returnedModifiedHTML = libraries.html
         
         // Then
         XCTAssertEqual(expectedModifiedHTML, returnedModifiedHTML)
@@ -301,37 +264,27 @@ final class XMLDocumentTests: XCTestCase {
     func testGetSetContent() {
         
         // Given
-        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard var document = XMLDocument(xml: librariesData, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
-        
         let expectedContent = "\n    \n        Scrape\n        SwiftyJSON\n    \n    \n        Hoge\n    \n"
         
         let expectedModifiedHTML = "<root>foo</root>\n"
         let expectedDeletedContentHTML = "<root></root>\n"
         
         // When
-        let returnedContent = document.content
+        let returnedContent = libraries.content
         
         // Then
         XCTAssertEqual(expectedContent, returnedContent)
         
         // When
-        document.content = "foo"
-        let returnedModifiedHTML = document.html
+        libraries.content = "foo"
+        let returnedModifiedHTML = libraries.html
         
         // Then
         XCTAssertEqual(expectedModifiedHTML, returnedModifiedHTML)
         
         // When
-        document.content = nil
-        let returnedDeletedContentHTML = document.html
+        libraries.content = nil
+        let returnedDeletedContentHTML = libraries.html
         
         // Then
         XCTAssertEqual(expectedDeletedContentHTML, returnedDeletedContentHTML)
@@ -342,22 +295,12 @@ final class XMLDocumentTests: XCTestCase {
     func testXPathTagQuery() {
         
         // Given
-        guard let versionsData = getTestingResource(fromFile: "Versions", ofType: "xml") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = XMLDocument(xml: versionsData, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
-        
         let expectedVersionsForTagName = Seeds.allVersions
         let expectedVersionsForTagsIOSName = Seeds.iosVersions
         
         // When
-        let returnedVersionsForTagName = document.search(byXPath: "//name").map { $0.text ?? "" }
-        let returnedVersionsForTagsIOSName = document.search(byXPath: "//ios//name").map { $0.text ?? "" }
+        let returnedVersionsForTagName = versions.search(byXPath: "//name").map { $0.text ?? "" }
+        let returnedVersionsForTagsIOSName = versions.search(byXPath: "//ios//name").map { $0.text ?? "" }
         
         // Then
         XCTAssertEqual(expectedVersionsForTagName, returnedVersionsForTagName)
@@ -367,25 +310,15 @@ final class XMLDocumentTests: XCTestCase {
     func testXPathTagQueryWithNamespaces() {
         
         // Given
-        guard let librariesData = getTestingResource(fromFile: "Libraries", ofType: "xml") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = XMLDocument(xml: librariesData, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
-        
         let expectedValuesInGithubNamespace = Seeds.librariesGithub
         let expectedValuesInBitbucketNamespace = Seeds.librariesBitbucket
         
         // When
-        let returnedValuesInGithubNamespace = document
+        let returnedValuesInGithubNamespace = libraries
             .search(byXPath: "//github:title", namespaces: ["github" : "https://github.com/"])
             .map { $0.text ?? "" }
         
-        let returnedValuesInBitbucketNamespace = document
+        let returnedValuesInBitbucketNamespace = libraries
             .search(byXPath: "//bitbucket:title", namespaces: ["bitbucket": "https://bitbucket.org/"])
             .map { $0.text ?? "" }
         
@@ -498,22 +431,12 @@ final class XMLDocumentTests: XCTestCase {
     func testCSSSelectorTagQuery() {
         
         // Given
-        guard let versionsData = getTestingResource(fromFile: "Versions", ofType: "xml") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = XMLDocument(xml: versionsData, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
-        
         let expectedVersionsForTagsIOSName = Seeds.iosVersions
         let expectedVersionForTagsTVOSName = Seeds.tvOSVErsion
         
         // When
-        let returnedVersionsForTagsIOSName = document.search(byCSSSelector: "ios name").map { $0.text ?? "" }
-        let returnedVersionForTagsTVOSName = document.atCSSSelector("tvos name")?.text
+        let returnedVersionsForTagsIOSName = versions.search(byCSSSelector: "ios name").map { $0.text ?? "" }
+        let returnedVersionForTagsTVOSName = versions.atCSSSelector("tvos name")?.text
         
         // Then
         XCTAssertEqual(expectedVersionsForTagsIOSName, returnedVersionsForTagsIOSName)

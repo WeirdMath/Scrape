@@ -10,7 +10,7 @@ import Foundation
 import Scrape
 import XCTest
 
-class HTMLDocumentTests: XCTestCase {
+final class HTMLDocumentTests: XCTestCase {
     
     static let allTests = {
         return [
@@ -25,6 +25,8 @@ class HTMLDocumentTests: XCTestCase {
             ("testXPathResultScalarValues", testXPathResultScalarValues)
         ]
     }()
+    
+    var document: HTMLDocument!
     
     private struct Seeds {
         
@@ -53,6 +55,22 @@ class HTMLDocumentTests: XCTestCase {
         static let xpathNumberValue = XPathResult.number(123)
         static let xpathStringValue = XPathResult.string("http://github.com/jessesquires/JSQCoreDataKit" +
             "http://github.com/libharu/libharu")
+    }
+    
+    override func setUp() {
+        super.setUp()
+        
+        guard let htmlExampleData = getTestingResource(fromFile: "HTMLExample", ofType: "html") else {
+            XCTFail("Could not find a testing resource")
+            return
+        }
+        
+        guard let document = HTMLDocument(html: htmlExampleData, encoding: .utf8) else {
+            XCTFail("Could not initialize an HTMLDocument instance")
+            return
+        }
+        
+        self.document = document
     }
     
     // MARK: - Loading
@@ -139,16 +157,6 @@ class HTMLDocumentTests: XCTestCase {
     func testHTMLGetHead() {
         
         // Given
-        guard let htmlExampleData = getTestingResource(fromFile: "HTMLExample", ofType: "html") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = HTMLDocument(html: htmlExampleData, encoding: .utf8) else {
-            XCTFail("Could not initialize an HTMLDocument instance")
-            return
-        }
-        
         let expectedHead = Seeds.htmlExampleHead
         
         // When
@@ -161,16 +169,6 @@ class HTMLDocumentTests: XCTestCase {
     func testHTMLGetTitle() {
         
         // Given
-        guard let htmlExampleData = getTestingResource(fromFile: "HTMLExample", ofType: "html") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = HTMLDocument(html: htmlExampleData, encoding: .utf8) else {
-            XCTFail("Could not initialize an HTMLDocument instance")
-            return
-        }
-        
         let expectedTitle = Seeds.htmlExampleTitle
         
         // When
@@ -185,16 +183,6 @@ class HTMLDocumentTests: XCTestCase {
     func testXPathTagWithAttributeQuery() {
         
         // Given
-        guard let htmlExampleData = getTestingResource(fromFile: "HTMLExample", ofType: "html") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = HTMLDocument(html: htmlExampleData, encoding: .utf8) else {
-            XCTFail("Could not initialize an HTMLDocument instance")
-            return
-        }
-        
         let expectedURLAddressesForTagLink = Seeds.linkURLAddresses
         
         // When
@@ -207,16 +195,6 @@ class HTMLDocumentTests: XCTestCase {
     func testXPathResultScalarValues() {
         
         // Given
-        guard let htmlExampleData = getTestingResource(fromFile: "HTMLExample", ofType: "html") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = HTMLDocument(html: htmlExampleData, encoding: .utf8) else {
-            XCTFail("Could not initialize an HTMLDocument instance")
-            return
-        }
-        
         let expectedBoolValue = Seeds.xpathBoolValue
         let expectedNumberValue = Seeds.xpathNumberValue
         let expectedStringValue = Seeds.xpathStringValue
@@ -238,16 +216,6 @@ class HTMLDocumentTests: XCTestCase {
     func testCSSSelectorTagWithAttributeQuery() {
         
         // Given
-        guard let htmlExampleData = getTestingResource(fromFile: "HTMLExample", ofType: "html") else {
-            XCTFail("Could not find a testing resource")
-            return
-        }
-        
-        guard let document = HTMLDocument(html: htmlExampleData, encoding: .utf8) else {
-            XCTFail("Could not initialize an HTMLDocument instance")
-            return
-        }
-        
         let expectedNumberOfRows = Seeds.numberOfRowsInTable
         let expectedNumberOfColumns = Seeds.numberOfColumnsInTable
         
