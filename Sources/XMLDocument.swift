@@ -75,11 +75,22 @@ public final class XMLDocument: XMLDocumentType {
     
     public convenience init?(url: URL, encoding: String.Encoding, options: XMLParserOptions = .default) {
         
-        if let data = try? Data(contentsOf: url) {
-            self.init(xml: data, url: url.absoluteString, encoding: encoding, options: options)
-        } else {
-            return nil
-        }
+        #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+            if let data = try? Data(contentsOf: url) {
+                self.init(xml: data, url: url.path, encoding: encoding, options: options)
+            } else {
+                return nil
+            }
+        #else
+            // FIXME: `try? Data(contentsOf: url)` causes segmentation fault in Linux
+            // (probably https://bugs.swift.org/browse/SR-1547)
+            if let nsdata = try? NSData(contentsOfFile: url.path, options: []) {
+                let data =  Data(referencing: nsdata)
+                self.init(xml: data, url: url.path, encoding: encoding, options: options)
+            } else {
+                return nil
+            }
+        #endif
     }
     
     deinit {
