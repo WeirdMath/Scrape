@@ -23,7 +23,7 @@ final class CSSSelectorTests: XCTestCase {
             ("testGetTwoClasses", testGetTwoClasses),
             ("testGetTwoElements", testGetTwoElements),
             ("testGetTwoElementsWithClasses", testGetTwoElementsWithClasses),
-            ("testGetElementsWithParent", testGetElementsWithDirectParent),
+            ("testGetElementsWithDirectParent", testGetElementsWithDirectParent),
             ("testGetElementsWithPlusCombinator", testGetElementsWithPlusCombinator),
             ("testGetElementsWithAttribute", testGetElementsWithAttribute),
             ("testGetElementsWithAttributeWithValue", testGetElementsWithAttributeWithValue),

@@ -10,6 +10,8 @@ import XCTest
 @testable import ScrapeTests
 
 XCTMain([
-    testCase(ScrapeTests.allTests),
-    testCase(ScrapeTutorialsTests.allTests)
+    testCase(XMLDocumentTests.allTests),
+    testCase(HTMLDocumentTests.allTests),
+    testCase(XMLNodeTests.allTests),
+    testCase(CSSSelectorTests.allTests)
 ])

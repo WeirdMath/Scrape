@@ -38,6 +38,8 @@ final class XMLDocumentTests: XCTestCase {
         static let librariesBitbucket = ["Hoge"]
     }
     
+    // MARK: - Test loading
+    
     func testLoadXMLFromData() {
         
         // Given
@@ -53,15 +55,15 @@ final class XMLDocumentTests: XCTestCase {
         let documentFromIncorrectData = XMLDocument(xml: incorrectData, encoding: .utf8)
         
         // Then
-        XCTAssertNotNil(documentFromCorrectData, "XMLDocument should be initialized from a correct Data")
-        XCTAssertNil(documentFromIncorrectData, "XMLDocument should not be initialized from an incorrect Data")
+        XCTAssertNotNil(documentFromCorrectData, "XMLDocument should be initialized from correct Data")
+        XCTAssertNil(documentFromIncorrectData, "XMLDocument should not be initialized from incorrect Data")
     }
     
     func testLoadXMLFromString() {
         
         // Given
         let correctString = Seeds.xmlString
-        let incorrectString = "🤔"
+        let incorrectString = "a><"
         
         // When
         let documentFromCorrectString = XMLDocument(xml: correctString, encoding: .utf8)
@@ -100,7 +102,7 @@ final class XMLDocumentTests: XCTestCase {
         let document = XMLDocument(xml: xmlString, encoding: .japaneseEUC)
         
         // Then
-        XCTAssertNotNil(document, "XMLDocument should be initialized even with with an encoding other than UTF8")
+        XCTAssertNotNil(document, "XMLDocument should be initialized even with an encoding other than UTF8")
     }
     
     func testLoadXMLWithParsingOptions() {
@@ -112,8 +114,10 @@ final class XMLDocumentTests: XCTestCase {
         let document = XMLDocument(xml: xmlString, encoding: .utf8, options: [.huge, .bigLines])
         
         // Then
-        XCTAssertNotNil(document, "XMLDocument should be initialized even with with options other than default")
+        XCTAssertNotNil(document, "XMLDocument should be initialized even with options other than default")
     }
+    
+    // MARK: - Test XPath queries
     
     func testXPathTagQuery() {
         
@@ -187,6 +191,11 @@ final class XMLDocumentTests: XCTestCase {
         
         let initialXML = Seeds.xmlString
         
+        guard let document = XMLDocument(xml: initialXML, encoding: .utf8) else {
+            XCTFail("Could not initialize an XMLDocument instance")
+            return
+        }
+
         // After:
         //
         // <all_item>
@@ -197,11 +206,6 @@ final class XMLDocumentTests: XCTestCase {
         //     <title>item0</title>
         //   </item>
         // </all_item>
-        
-        guard let document = XMLDocument(xml: initialXML, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
         
         let expectedModifiedXML = "<all_item><item><title>item1</title></item>" +
         "<item><title>item0</title></item></all_item>"
@@ -236,6 +240,11 @@ final class XMLDocumentTests: XCTestCase {
         
         let initialXML = Seeds.xmlString
         
+        guard let document = XMLDocument(xml: initialXML, encoding: .utf8) else {
+            XCTFail("Could not initialize an XMLDocument instance")
+            return
+        }
+        
         // After:
         //
         // <all_item>
@@ -246,11 +255,6 @@ final class XMLDocumentTests: XCTestCase {
         //     <title>item0</title>
         //   </item>
         // </all_item>
-        
-        guard let document = XMLDocument(xml: initialXML, encoding: .utf8) else {
-            XCTFail("Could not initialize an XMLDocument instance")
-            return
-        }
         
         let expectedModifiedXML = "<all_item><item><title>item1</title></item>" +
         "<item><title>item0</title></item></all_item>"
@@ -267,6 +271,8 @@ final class XMLDocumentTests: XCTestCase {
         // Then
         XCTAssertEqual(expectedModifiedXML, actualModifiedXML)
     }
+    
+    // MARK: - Test CSS selector queries
     
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     func testCSSSelectorTagQuery() {

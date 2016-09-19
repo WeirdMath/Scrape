@@ -124,3 +124,33 @@ extension XPathResult: Collection {
         return nodeSetValue.index(after: i)
     }
 }
+
+extension XPathResult: Equatable {
+    
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    public static func ==(lhs: XPathResult, rhs: XPathResult) -> Bool {
+        switch (lhs, rhs) {
+        case (.none, .none):
+            return true
+        case (.nodeSet(let value0), .nodeSet(let value1)):
+            return value0 == value1
+        case (.bool(let value0), .bool(let value1)):
+            return value0 == value1
+        case (.number(let value0), .number(let value1)):
+            return value0 == value1
+        case (.string(let value0), .string(let value1)):
+            return value0 == value1
+        default:
+            return false
+        }
+    }
+
+    
+}

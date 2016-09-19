@@ -16,7 +16,7 @@ public final class XMLNode: XMLElement {
     
     init?(documentPointer: xmlDocPtr) {
         
-        self.documentPointer  = documentPointer
+        self.documentPointer = documentPointer
         
         if let nodePointer = xmlDocGetRootElement(documentPointer) {
             self.nodePointer = nodePointer
@@ -73,7 +73,8 @@ public final class XMLNode: XMLElement {
         return libxmlGetNodeContent(nodePointer)
     }
     
-    /// HTML content of the node. May be `nil` if no content is available.
+    /// HTML content of the node. It is different from `xml` property, because the value can be formatted.
+    /// May be `nil` if no content is available.
     public var html: String? {
         
         let outputBuffer = xmlAllocOutputBuffer(nil)
@@ -86,7 +87,8 @@ public final class XMLNode: XMLElement {
         return String.decodeCString(xmlOutputBufferGetContent(outputBuffer), as: UTF8.self)?.result
     }
     
-    /// XML content of the node. May be `nil` if no content is available.
+    /// XML content of the node, i. e. content as it has been loaded.
+    /// May be `nil` if no content is available.
     public var xml: String? {
         
         let outputBuffer = xmlAllocOutputBuffer(nil)
@@ -107,11 +109,7 @@ public final class XMLNode: XMLElement {
     /// HTML content of the node without outermost tags. Only available if the `html` property is not `nil`.
     public var innerHTML: String? {
         
-        guard let html = html else {
-            return nil
-        }
-        
-        return html
+        return html?
             .replacingOccurrences(of: "</[^>]*>$", with: "", options: .regularExpression)
             .replacingOccurrences(of: "^<[^>]*>",  with: "", options: .regularExpression)
     }
@@ -131,7 +129,10 @@ public final class XMLNode: XMLElement {
         }
         set {
             if let newValue = newValue {
-                xmlNodeSetName(nodePointer, newValue)
+                xmlNodeSetName(nodePointer,
+                               newValue.replacingOccurrences(of: "[^a-zA-Z0-9]",
+                                                             with: "",
+                                                             options: .regularExpression))
             }
         }
     }
@@ -321,7 +322,7 @@ public final class XMLNode: XMLElement {
     /// </foo>
     /// ```
     ///
-    /// Calling `removeChild(bar)` results in the following:
+    /// Calling `foo.removeChild(bar)` results in the following:
     /// ```xml
     /// <foo>
     ///   Hello

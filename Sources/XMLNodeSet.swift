@@ -92,6 +92,23 @@ extension XMLNodeSet: Collection {
     }
 }
 
+extension XMLNodeSet: Equatable {
+    
+    /// Returns a Boolean value indicating whether two values are equal.
+    ///
+    /// Equality is the inverse of inequality. For any values `a` and `b`,
+    /// `a == b` implies that `a != b` is `false`.
+    ///
+    /// - Parameters:
+    ///   - lhs: A value to compare.
+    ///   - rhs: Another value to compare.
+    public static func ==(lhs: XMLNodeSet, rhs: XMLNodeSet) -> Bool {
+        return lhs.nodes.enumerated().map { (index: Int, element: XMLElement) in
+            element.xml == rhs[index].xml
+            }.reduce(true) { $0 && $1 }
+    }
+}
+
 extension XMLNodeSet: CustomStringConvertible {
     
     public var description: String {
@@ -102,7 +119,7 @@ extension XMLNodeSet: CustomStringConvertible {
                 return row.isEmpty ? "" : "\n    " + row
             }
             return indentedRows.joined()
-        }.joined(separator: ",")
+            }.joined(separator: ",")
         
         return "[" + nodesDescription + "\n]"
     }

@@ -6,4 +6,3 @@ let package = Package(
         .Package(url: "https://github.com/SJTBA/CLibxml2.git", majorVersion: 1)
     ]
 )
-
