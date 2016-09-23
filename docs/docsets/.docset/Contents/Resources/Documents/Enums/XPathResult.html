@@ -14,7 +14,7 @@
     <a title="XPathResult Enum Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> Docs</a> (75% documented)</p>
+        <p><a href="../index.html"> Docs</a> (100% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -59,9 +59,6 @@
                 <a href="../Extensions/HTMLDocumentType.html">HTMLDocumentType</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/String.html">String</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/XMLDocumentType.html">XMLDocumentType</a>
               </li>
             </ul>
@@ -83,6 +80,9 @@
           <li class="nav-group-name">
             <a href="../Structs.html">Structs</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/CSSSelector.html">CSSSelector</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Structs/HTMLParserOptions.html">HTMLParserOptions</a>
               </li>
@@ -275,9 +275,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vPs13IndexableBase10startIndexwx5Index"></a>
+                    <a name="/s:vO6Scrape11XPathResult10startIndexSi"></a>
                     <a name="//apple_ref/swift/Property/startIndex" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vPs13IndexableBase10startIndexwx5Index">startIndex</a>
+                    <a class="token" href="#/s:vO6Scrape11XPathResult10startIndexSi">startIndex</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -285,7 +285,10 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>The position of the first element in a nonempty collection.</p>
+
+<p>If the collection is empty, <code>startIndex</code> is equal to <code><a href="../Enums/XPathResult.html#/s:vO6Scrape11XPathResult8endIndexSi">endIndex</a></code>.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -301,9 +304,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vPs13IndexableBase8endIndexwx5Index"></a>
-                    <a name="//apple_ref/swift/Property/endIndex" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vPs13IndexableBase8endIndexwx5Index">endIndex</a>
+                    <a name="/s:iO6Scrape11XPathResult9subscriptFSiPS_10XMLElement_"></a>
+                    <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:iO6Scrape11XPathResult9subscriptFSiPS_10XMLElement_">subscript(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -311,7 +314,91 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Accesses the element at the specified position.</p>
+
+<p>The following example accesses an element of an array through its
+subscript to print its value:</p>
+
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">streets</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Adams"</span><span class="p">,</span> <span class="s">"Bryant"</span><span class="p">,</span> <span class="s">"Channing"</span><span class="p">,</span> <span class="s">"Douglas"</span><span class="p">,</span> <span class="s">"Evarts"</span><span class="p">]</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">streets</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1">// Prints "Bryant"</span>
+</code></pre>
+
+<p>You can subscript a collection with any valid index other than the
+collection&rsquo;s end index. The end index refers to the position one past
+the last element of a collection, so it doesn&rsquo;t correspond with an
+element.</p>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    Parameter position: The position of the element to access. <code>position</code>
+must be a valid index of the collection that is not equal to the
+<code><a href="../Enums/XPathResult.html#/s:vO6Scrape11XPathResult8endIndexSi">endIndex</a></code> property.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="nv">index</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Protocols/XMLElement.html">XMLElement</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>position</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The position of the element to access. <code>position</code> must be a valid index of the collection that is not equal to the <code>endIndex</code> property.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vO6Scrape11XPathResult8endIndexSi"></a>
+                    <a name="//apple_ref/swift/Property/endIndex" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vO6Scrape11XPathResult8endIndexSi">endIndex</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The collection&rsquo;s <q>past the end</q> position&mdash;that is, the position one
+greater than the last valid subscript argument.</p>
+
+<p>When you need a range that includes the last element of a collection, use
+the half-open range operator (<code>..&lt;</code>) with <code>endIndex</code>. The <code>..&lt;</code> operator
+creates a range that doesn&rsquo;t include the upper bound, so it&rsquo;s always
+safe to use with <code>endIndex</code>. For example:</p>
+
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">]</span>
+<span class="k">if</span> <span class="k">let</span> <span class="nv">index</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="mi">30</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="n">index</span> <span class="o">..&lt;</span> <span class="n">numbers</span><span class="o">.</span><span class="n">endIndex</span><span class="p">])</span>
+<span class="p">}</span>
+<span class="c1">// Prints "[30, 40, 50]"</span>
+</code></pre>
+
+<p>If the collection is empty, <code>endIndex</code> is equal to <code><a href="../Enums/XPathResult.html#/s:vO6Scrape11XPathResult10startIndexSi">startIndex</a></code>.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -327,9 +414,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FPs13IndexableBase5indexFT5afterwx5Index_wxS0_"></a>
+                    <a name="/s:FO6Scrape11XPathResult5indexFT5afterSi_Si"></a>
                     <a name="//apple_ref/swift/Method/index(after:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FPs13IndexableBase5indexFT5afterwx5Index_wxS0_">index(after:)</a>
+                    <a class="token" href="#/s:FO6Scrape11XPathResult5indexFT5afterSi_Si">index(after:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -337,7 +424,21 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Returns the position immediately after the given index.</p>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    Parameter i: A valid index of the collection. <code>i</code> must be less than
+<code><a href="../Enums/XPathResult.html#/s:vO6Scrape11XPathResult8endIndexSi">endIndex</a></code>.
+
+</div>
+
+<div class="aside aside-returns">
+    <p class="aside-title">Returns</p>
+    The index value immediately after <code>i</code>.
+
+</div>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -377,11 +478,87 @@
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFO6Scrape11XPathResultoi2eeFTS0_S0__Sb"></a>
+                    <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFO6Scrape11XPathResultoi2eeFTS0_S0__Sb">==(_:_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a Boolean value indicating whether two values are equal.</p>
+
+<p>Equality is the inverse of inequality. For any values <code>a</code> and <code>b</code>,
+<code>a == b</code> implies that <code>a != b</code> is <code>false</code>.</p>
+
+<ul>
+<li>Parameters:
+
+<ul>
+<li>lhs: A value to compare.</li>
+<li>rhs: Another value to compare.</li>
+</ul></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span><span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">XPathResult</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">XPathResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>lhs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A value to compare.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>rhs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Another value to compare.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-23)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -9,11 +9,19 @@
 #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     import Foundation
     
+    /// Represents a CSS3 selector that can be converted to an XPath expression.
     public struct CSSSelector {
         
+        /// The CSS3 selector.
         public let selector: String
+        
+        /// The XPath representation of the selector.
         public let xpath: String
         
+        /// Initializes a `CSSSelector` with a given string and converts it to an XPath expression.
+        /// If conversion fails, returns `nil`.
+        ///
+        /// - parameter selector: A selector to convert to XPath.
         public init?(_ selector: String) {
             
             // MARK: - Parse loop

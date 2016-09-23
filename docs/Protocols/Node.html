@@ -14,7 +14,7 @@
     <a title="Node Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> Docs</a> (75% documented)</p>
+        <p><a href="../index.html"> Docs</a> (100% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -59,9 +59,6 @@
                 <a href="../Extensions/HTMLDocumentType.html">HTMLDocumentType</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/String.html">String</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/XMLDocumentType.html">XMLDocumentType</a>
               </li>
             </ul>
@@ -84,6 +81,9 @@
             <a href="../Structs.html">Structs</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Structs/CSSSelector.html">CSSSelector</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/HTMLParserOptions.html">HTMLParserOptions</a>
               </li>
               <li class="nav-group-task">
@@ -99,7 +99,7 @@
             <h1>Node</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Node</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Searchable.html">Searchable</a></span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Node</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Searchable.html">Searchable</a></span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
 
                 </div>
               </div>
@@ -107,12 +107,15 @@
 that can be searched by an XPath or CSS selector and also provide the node&rsquo;s underlying data in a
 number of ways.</p>
 
-<p>In the HTML/XML DOM (Document Object Model), everything is a node:
-- The document itself is a document node;
-- All HTML/XML elements are element nodes;
-- All HTML/XML attributes are attribute nodes;
-- Text inside HTML elements are text nodes;
-- Comments are comment nodes.</p>
+<p>In the HTML/XML DOM (Document Object Model), everything is a node:</p>
+
+<ul>
+<li><p>The document itself is a document node;</p></li>
+<li><p>All HTML/XML elements are element nodes;</p></li>
+<li><p>All HTML/XML attributes are attribute nodes;</p></li>
+<li><p>Text inside HTML elements are text nodes;</p></li>
+<li><p>Comments are comment nodes.</p></li>
+</ul>
 
           </section>
           <section class="section task-group-section">
@@ -239,7 +242,7 @@ number of ways.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Value of the attribute <q>class</q> of the node. This property is <code>nil</code> if the node does not have
+                        <p>Value of the attribute <q>class</q> of the node. This property is <code>nil</code> if the node does not have a
 <q>class</q> attribute</p>
 
                       </div>
@@ -316,11 +319,66 @@ number of ways.</p>
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vE6ScrapePS_4Node11descriptionSS"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vE6ScrapePS_4Node11descriptionSS">description</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A textual representation of this instance.</p>
+
+<p>Instead of accessing this property directly, convert an instance of any
+type to a string by using the <code>String(describing:)</code> initializer. For
+example:</p>
+
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">Point</span><span class="p">:</span> <span class="kt">CustomStringConvertible</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">x</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="kt">Int</span>
+
+    <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">"(</span><span class="se">\(</span><span class="n">x</span><span class="se">)</span><span class="s">, </span><span class="se">\(</span><span class="n">y</span><span class="se">)</span><span class="s">)"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">p</span> <span class="o">=</span> <span class="kt">Point</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">30</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">s</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">describing</span><span class="p">:</span> <span class="n">p</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="c1">// Prints "(21, 30)"</span>
+</code></pre>
+
+<p>The conversion of <code>p</code> to a string in the assignment to <code>s</code> uses the
+<code>Point</code> type&rsquo;s <code>description</code> property.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-23)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

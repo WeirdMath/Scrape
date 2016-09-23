@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import CoreFoundation
 import CLibxml2
 
+/// Instances of this class represent XML documents.
 public final class XMLDocument: XMLDocumentType {
     
     var documentPointer: xmlDocPtr
@@ -18,6 +20,12 @@ public final class XMLDocument: XMLDocumentType {
     private var _url: String?
     private var _encoding: String.Encoding
     
+    /// Creates an `XMLDocument` instance from a string.
+    ///
+    /// - parameter xml:        A string to create the document from.
+    /// - parameter url:        The base URL to use for the document. Default is `nil`.
+    /// - parameter encoding:   Encoding to use for parsing XML.
+    /// - parameter options:    Options to use for parsing XML. Default value is `XMLParserOptions.default`.
     public init?(xml: String,
                  url: String? = nil,
                  encoding: String.Encoding,
@@ -61,6 +69,12 @@ public final class XMLDocument: XMLDocumentType {
         }
     }
     
+    /// Creates an `XMLDocument` instance from a string.
+    ///
+    /// - parameter xml:        Data to create the document from.
+    /// - parameter url:        The base URL to use for the document. Default is `nil`.
+    /// - parameter encoding:   Encoding to use for parsing XML.
+    /// - parameter options:    Options to use for parsing XML. Default value is `XMLParserOptions.default`.
     public convenience init?(xml: Data,
                              url: String? = nil,
                              encoding: String.Encoding,
@@ -73,6 +87,11 @@ public final class XMLDocument: XMLDocumentType {
         }
     }
     
+    /// Creates an `XMLDocument` instance from binary data.
+    ///
+    /// - parameter url:        URL to load the document from.
+    /// - parameter encoding:   Encoding to use for parsing XML.
+    /// - parameter options:    Options to use for parsing XML. Default value is `XMLParserOptions.default`.
     public convenience init?(url: URL, encoding: String.Encoding, options: XMLParserOptions = .default) {
         
         #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)

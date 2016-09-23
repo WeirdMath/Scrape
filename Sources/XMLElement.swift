@@ -131,6 +131,7 @@ public protocol XMLElement: Node {
     /// ```
     ///
     /// Calling `removeChild(bar)` results in the following:
+    ///
     /// ```xml
     /// <foo>
     ///   Hello

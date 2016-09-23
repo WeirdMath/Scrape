@@ -14,7 +14,7 @@
     <a title="HTMLDocumentType Extension Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> Docs</a> (75% documented)</p>
+        <p><a href="../index.html"> Docs</a> (100% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -59,9 +59,6 @@
                 <a href="../Extensions/HTMLDocumentType.html">HTMLDocumentType</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/String.html">String</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/XMLDocumentType.html">XMLDocumentType</a>
               </li>
             </ul>
@@ -84,6 +81,9 @@
             <a href="../Structs.html">Structs</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Structs/CSSSelector.html">CSSSelector</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/HTMLParserOptions.html">HTMLParserOptions</a>
               </li>
               <li class="nav-group-task">
@@ -97,8 +97,13 @@
         <section>
           <section class="section">
             <h1>HTMLDocumentType</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">internal</span> <span class="kd">protocol</span> <span class="kt">HTMLDocumentType</span> <span class="p">:</span> <span class="kt">XMLDocumentType</span></code></pre>
 
+                </div>
+              </div>
+            
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -116,8 +121,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The contents of the tag <code>title</code> in the document. <code>nil</code> if no such tag exist.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="k">var</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -135,8 +148,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The node representing the tag <code>head</code>. <code>nil</code> if no such tag exist.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="k">var</span> <span class="nv">head</span><span class="p">:</span> <span class="kt"><a href="../Protocols/XMLElement.html">XMLElement</a></span><span class="p">?</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -154,8 +175,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The node representing the tag <code>body</code>. <code>nil</code> if no such tag exist.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kt"><a href="../Protocols/XMLElement.html">XMLElement</a></span><span class="p">?</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -165,8 +194,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-23)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

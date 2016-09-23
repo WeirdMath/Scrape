@@ -35,7 +35,7 @@ public enum XPathResult {
 
 internal extension XPathResult {
     
-    init(documentPointer: xmlDocPtr, object: xmlXPathObject) {
+    internal init(documentPointer: xmlDocPtr, object: xmlXPathObject) {
         
         switch object.type {
         case XPATH_NODESET:
@@ -73,7 +73,7 @@ internal extension XPathResult {
         }
     }
     
-    var nodeSetValue: XMLNodeSet {
+    internal var nodeSetValue: XMLNodeSet {
         if case let .nodeSet(nodeset) = self {
             return nodeset
         } else {
@@ -81,7 +81,7 @@ internal extension XPathResult {
         }
     }
     
-    var boolValue: Bool {
+    internal var boolValue: Bool {
         if case let .bool(value) = self {
             return value
         } else {
@@ -89,7 +89,7 @@ internal extension XPathResult {
         }
     }
     
-    var numberValue: Double {
+    internal var numberValue: Double {
         if case let .number(value) = self {
             return value
         } else {
@@ -97,7 +97,7 @@ internal extension XPathResult {
         }
     }
     
-    var stringValue: String {
+    internal var stringValue: String {
         if case let .string(value) = self {
             return value
         } else {
@@ -108,18 +108,62 @@ internal extension XPathResult {
 
 extension XPathResult: Collection {
     
+    /// The position of the first element in a nonempty collection.
+    ///
+    /// If the collection is empty, `startIndex` is equal to `endIndex`.
     public var startIndex: Int {
         return nodeSetValue.startIndex
     }
     
+    /// The collection's "past the end" position---that is, the position one
+    /// greater than the last valid subscript argument.
+    ///
+    /// When you need a range that includes the last element of a collection, use
+    /// the half-open range operator (`..<`) with `endIndex`. The `..<` operator
+    /// creates a range that doesn't include the upper bound, so it's always
+    /// safe to use with `endIndex`. For example:
+    ///
+    /// ```swift
+    /// let numbers = [10, 20, 30, 40, 50]
+    /// if let index = numbers.index(of: 30) {
+    ///     print(numbers[index ..< numbers.endIndex])
+    /// }
+    /// // Prints "[30, 40, 50]"
+    /// ```
+    ///
+    /// If the collection is empty, `endIndex` is equal to `startIndex`.
     public var endIndex: Int {
         return nodeSetValue.endIndex
     }
     
+    /// Accesses the element at the specified position.
+    ///
+    /// The following example accesses an element of an array through its
+    /// subscript to print its value:
+    ///
+    /// ```swift
+    /// var streets = ["Adams", "Bryant", "Channing", "Douglas", "Evarts"]
+    /// print(streets[1])
+    /// // Prints "Bryant"
+    /// ```
+    ///
+    /// You can subscript a collection with any valid index other than the
+    /// collection's end index. The end index refers to the position one past
+    /// the last element of a collection, so it doesn't correspond with an
+    /// element.
+    ///
+    /// - Parameter position: The position of the element to access. `position`
+    ///   must be a valid index of the collection that is not equal to the
+    ///   `endIndex` property.
     public subscript(index: Int) -> XMLElement {
         return nodeSetValue[index]
     }
     
+    /// Returns the position immediately after the given index.
+    ///
+    /// - Parameter i: A valid index of the collection. `i` must be less than
+    ///   `endIndex`.
+    /// - Returns: The index value immediately after `i`.
     public func index(after i: Int) -> Int {
         return nodeSetValue.index(after: i)
     }

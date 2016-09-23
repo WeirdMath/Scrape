@@ -14,7 +14,7 @@
     <a title="HTMLParserOptions Struct Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> Docs</a> (75% documented)</p>
+        <p><a href="../index.html"> Docs</a> (100% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -59,9 +59,6 @@
                 <a href="../Extensions/HTMLDocumentType.html">HTMLDocumentType</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Extensions/String.html">String</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="../Extensions/XMLDocumentType.html">XMLDocumentType</a>
               </li>
             </ul>
@@ -84,6 +81,9 @@
             <a href="../Structs.html">Structs</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Structs/CSSSelector.html">CSSSelector</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Structs/HTMLParserOptions.html">HTMLParserOptions</a>
               </li>
               <li class="nav-group-task">
@@ -104,7 +104,7 @@
                 </div>
               </div>
             <p>This is the set of HTML parser options that can be passed down
-to the <code>htmlReadDoc(_:_:_:_:)</code> and similar calls.</p>
+to the <code><a href="../Classes/HTMLDocument.html">HTMLDocument</a></code> initializers.</p>
 
           </section>
           <section class="section task-group-section">
@@ -113,9 +113,9 @@ to the <code>htmlReadDoc(_:_:_:_:)</code> and similar calls.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vPs16RawRepresentable8rawValuewx8RawValue"></a>
+                    <a name="/s:vV6Scrape17HTMLParserOptions8rawValueSu"></a>
                     <a name="//apple_ref/swift/Property/rawValue" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vPs16RawRepresentable8rawValuewx8RawValue">rawValue</a>
+                    <a class="token" href="#/s:vV6Scrape17HTMLParserOptions8rawValueSu">rawValue</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -123,8 +123,22 @@ to the <code>htmlReadDoc(_:_:_:_:)</code> and similar calls.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>This is the set of HTML parser options that can be passed down
-to the <code>htmlReadDoc(_:_:_:_:)</code> and similar calls.</p>
+                        <p>The corresponding value of the raw type.</p>
+
+<p>A new instance initialized with <code>rawValue</code> will be equivalent to this
+instance. For example:</p>
+
+<pre class="highlight plaintext"><code>enum PaperSize: String {
+    case A4, A5, Letter, Legal
+}
+
+let selectedSize = PaperSize.Letter
+print(selectedSize.rawValue)
+// Prints "Letter"
+
+print(selectedSize == PaperSize(rawValue: selectedSize.rawValue)!)
+// Prints "true"
+</code></pre>
 
                       </div>
                       <div class="declaration">
@@ -141,9 +155,9 @@ to the <code>htmlReadDoc(_:_:_:_:)</code> and similar calls.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FPs9OptionSetcFT8rawValuewx8RawValue_x"></a>
+                    <a name="/s:FV6Scrape17HTMLParserOptionscFT8rawValueSu_S0_"></a>
                     <a name="//apple_ref/swift/Method/init(rawValue:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FPs9OptionSetcFT8rawValuewx8RawValue_x">init(rawValue:)</a>
+                    <a class="token" href="#/s:FV6Scrape17HTMLParserOptionscFT8rawValueSu_S0_">init(rawValue:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -151,8 +165,27 @@ to the <code>htmlReadDoc(_:_:_:_:)</code> and similar calls.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>This is the set of HTML parser options that can be passed down
-to the <code>htmlReadDoc(_:_:_:_:)</code> and similar calls.</p>
+                        <p>Creates a new option set from the given raw value.</p>
+
+<p>This initializer always succeeds, even if the value passed as <code><a href="../Structs/HTMLParserOptions.html#/s:vV6Scrape17HTMLParserOptions8rawValueSu">rawValue</a></code>
+exceeds the static properties declared as part of the option set. This
+example creates an instance of <code>ShippingOptions</code> with a raw value beyond
+the highest element, with a bit mask that effectively contains all the
+declared static members.</p>
+
+<pre class="highlight plaintext"><code>let extraOptions = ShippingOptions(rawValue: 255)
+print(extraOptions.isStrictSuperset(of: .all))
+// Prints "true"
+</code></pre>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    Parameter rawValue: The raw value of the option set to create. Each bit
+of <code><a href="../Structs/HTMLParserOptions.html#/s:vV6Scrape17HTMLParserOptions8rawValueSu">rawValue</a></code> potentially represents an element of the option set,
+though raw values may include bits that are not defined as distinct
+values of the <code>OptionSet</code> type.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -564,8 +597,8 @@ to the <code>htmlReadDoc(_:_:_:_:)</code> and similar calls.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-23)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

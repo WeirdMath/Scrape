@@ -8,13 +8,14 @@
 
 import CLibxml2
 
+/// The basic unit of an XML document — the default implementation of the protocol `Node`
 public final class XMLNode: XMLElement {
     
     private var documentPointer: xmlDocPtr
     private var nodePointer: xmlNodePtr
     private var isRoot: Bool = false
     
-    init?(documentPointer: xmlDocPtr) {
+    internal init?(documentPointer: xmlDocPtr) {
         
         self.documentPointer = documentPointer
         
@@ -27,7 +28,7 @@ public final class XMLNode: XMLElement {
         isRoot = true
     }
     
-    init(documentPointer: xmlDocPtr, nodePointer: xmlNodePtr) {
+    internal init(documentPointer: xmlDocPtr, nodePointer: xmlNodePtr) {
         self.documentPointer = documentPointer
         self.nodePointer = nodePointer
     }

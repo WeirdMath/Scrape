@@ -6,22 +6,29 @@
 //
 //
 
+/// Instances of conforming types represent HTML documents that can be asked to provide
+/// their `title`, `head` or `body`.
 internal protocol HTMLDocumentType: XMLDocumentType {
     var title: String? { get }
     var head: XMLElement? { get }
     var body: XMLElement? { get }
 }
 
+/// Instances of conforming types represent HTML documents that can be asked to provide
+/// their `title`, `head` or `body`.
 extension HTMLDocumentType {
     
+    /// The contents of the tag `title` in the document. `nil` if no such tag exist.
     public final var title: String? {
         return head?.atXPath("title")?.text
     }
     
+    /// The node representing the tag `head`. `nil` if no such tag exist.
     public final var head: XMLElement? {
         return atXPath("//head")
     }
     
+    /// The node representing the tag `body`. `nil` if no such tag exist.
     public final var body: XMLElement? {
         return atXPath("//body")
     }

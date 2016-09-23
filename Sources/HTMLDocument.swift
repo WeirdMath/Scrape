@@ -9,14 +9,21 @@
 import Foundation
 import CLibxml2
 
+/// Instances of this class represent HTML documents.
 public final class HTMLDocument: HTMLDocumentType {
     
-    var documentPointer: htmlDocPtr
-    var rootNode: XMLElement
+    internal var documentPointer: xmlDocPtr
+    internal var rootNode: XMLElement
     private var _html: String
     private var _url:  String?
     private var _encoding: String.Encoding
     
+    /// Creates an `HTMLDocument` instance from a string.
+    ///
+    /// - parameter html:       A string to create the document from.
+    /// - parameter url:        The base URL to use for the document. Default is `nil`.
+    /// - parameter encoding:   Encoding to use for parsing HTML.
+    /// - parameter options:    Options to use for parsing HTML. Default value is `HTMLParserOptions.default`.
     public init?(html: String,
                  url: String? = nil,
                  encoding: String.Encoding,
@@ -58,6 +65,12 @@ public final class HTMLDocument: HTMLDocumentType {
         }
     }
     
+    /// Creates an `HTMLDocument` instance from binary data.
+    ///
+    /// - parameter html:       Data to create the document from.
+    /// - parameter url:        The base URL to use for the document. Default is `nil`.
+    /// - parameter encoding:   Encoding to use for parsing HTML.
+    /// - parameter options:    Options to use for parsing HTML. Default value is `HTMLParserOptions.default`.
     public convenience init?(html: Data,
                              url: String? = nil,
                              encoding: String.Encoding,
@@ -70,10 +83,13 @@ public final class HTMLDocument: HTMLDocumentType {
         }
     }
     
-    // FIXME: Here must be `return try? Data(contentsOf: url)`, but it causes segmentation fault in Linux
-    // (probably https://bugs.swift.org/browse/SR-1547)
+    /// Creates an `HTMLDocument` instance from binary data.
+    ///
+    /// - parameter url:        URL to load the document from.
+    /// - parameter encoding:   Encoding to use for parsing HTML.
+    /// - parameter options:    Options to use for parsing HTML. Default value is `HTMLParserOptions.default`.
     public convenience init?(url: URL, encoding: String.Encoding, options: HTMLParserOptions = .default) {
-        
+
         #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
             if let data = try? Data(contentsOf: url) {
                 self.init(html: data, url: url.path, encoding: encoding, options: options)

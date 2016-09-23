@@ -9,11 +9,46 @@
 import CLibxml2
 
 /// This is the set of XML parser options that can be passed down
-/// to the `xmlReadDoc(_:_:_:_:)` and similar calls.
+/// to the `XMLDocument` initializers.
 public struct XMLParserOptions: OptionSet {
     
+    /// The corresponding value of the raw type.
+    ///
+    /// A new instance initialized with `rawValue` will be equivalent to this
+    /// instance. For example:
+    ///
+    /// ```swift
+    /// enum PaperSize: String {
+    ///     case A4, A5, Letter, Legal
+    /// }
+    ///
+    /// let selectedSize = PaperSize.Letter
+    /// print(selectedSize.rawValue)
+    /// // Prints "Letter"
+    ///
+    /// print(selectedSize == PaperSize(rawValue: selectedSize.rawValue)!)
+    /// // Prints "true"
+    /// ```
     public var rawValue: UInt = 0
     
+    /// Creates a new option set from the given raw value.
+    ///
+    /// This initializer always succeeds, even if the value passed as `rawValue`
+    /// exceeds the static properties declared as part of the option set. This
+    /// example creates an instance of `ShippingOptions` with a raw value beyond
+    /// the highest element, with a bit mask that effectively contains all the
+    /// declared static members.
+    ///
+    /// ```swift
+    /// let extraOptions = ShippingOptions(rawValue: 255)
+    /// print(extraOptions.isStrictSuperset(of: .all))
+    /// // Prints "true"
+    /// ```
+    ///
+    /// - Parameter rawValue: The raw value of the option set to create. Each bit
+    ///   of `rawValue` potentially represents an element of the option set,
+    ///   though raw values may include bits that are not defined as distinct
+    ///   values of the `OptionSet` type.
     public init(rawValue: UInt) {
         self.rawValue = rawValue
     }
