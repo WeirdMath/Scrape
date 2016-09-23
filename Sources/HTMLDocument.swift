@@ -7,17 +7,18 @@
 //
 
 import Foundation
+import CoreFoundation
 import CLibxml2
 
 /// Instances of this class represent HTML documents.
 public final class HTMLDocument: HTMLDocumentType {
-    
+
     internal var documentPointer: xmlDocPtr
     internal var rootNode: XMLElement
     private var _html: String
     private var _url:  String?
     private var _encoding: String.Encoding
-    
+
     /// Creates an `HTMLDocument` instance from a string.
     ///
     /// - parameter html:       A string to create the document from.
@@ -28,35 +29,28 @@ public final class HTMLDocument: HTMLDocumentType {
                  url: String? = nil,
                  encoding: String.Encoding,
                  options: HTMLParserOptions = .default) {
-        
+
         _html = html
         _url  = url
         _encoding = encoding
-        
+
         guard html.lengthOfBytes(using: encoding) > 0 else { return nil }
-        
-        // TODO: Remove this check when Foundation has these functions on Linux
-        #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
-            let cfEncoding = CFStringConvertNSStringEncodingToEncoding(encoding.rawValue)
-            let cfEncodingName = CFStringConvertEncodingToIANACharSetName(cfEncoding)
-        #endif
-        
+
+        let cfEncoding = CFStringConvertNSStringEncodingToEncoding(encoding.rawValue)
+        let cfEncodingName = CFStringConvertEncodingToIANACharSetName(cfEncoding)
+
         guard let htmlCString = html.cString(using: encoding), !htmlCString.isEmpty else { return nil }
-        
+
         let documentPointer: xmlDocPtr? = htmlCString.withUnsafeBufferPointer {
             return $0.baseAddress!.withMemoryRebound(to: xmlChar.self, capacity: $0.count) {
-                
-                #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
-                    let encodingName: String? =
-                        cfEncodingName == nil ? nil : String(describing: cfEncodingName!)
-                    
-                    return htmlReadDoc($0, url, encodingName, CInt(options.rawValue))
-                #else
-                    return htmlReadDoc($0, url, encoding.ianaName, CInt(options.rawValue))
-                #endif
+
+                let encodingName: String? =
+                    cfEncodingName == nil ? nil : String(describing: cfEncodingName!)
+
+                return htmlReadDoc($0, url, encodingName, CInt(options.rawValue))
             }
         }
-        
+
         if let documentPointer = documentPointer, let rootNode = XMLNode(documentPointer: documentPointer) {
             self.documentPointer = documentPointer
             self.rootNode = rootNode
@@ -64,7 +58,7 @@ public final class HTMLDocument: HTMLDocumentType {
             return nil
         }
     }
-    
+
     /// Creates an `HTMLDocument` instance from binary data.
     ///
     /// - parameter html:       Data to create the document from.
@@ -75,14 +69,14 @@ public final class HTMLDocument: HTMLDocumentType {
                              url: String? = nil,
                              encoding: String.Encoding,
                              options: HTMLParserOptions = .default) {
-        
+
         if let htmlString = String(data: html, encoding: encoding) {
             self.init(html: htmlString, url: url, encoding: encoding, options: options)
         } else {
             return nil
         }
     }
-    
+
     /// Creates an `HTMLDocument` instance from binary data.
     ///
     /// - parameter url:        URL to load the document from.
@@ -107,7 +101,7 @@ public final class HTMLDocument: HTMLDocumentType {
             }
         #endif
     }
-    
+
     deinit {
         xmlFreeDoc(documentPointer)
     }
