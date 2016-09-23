@@ -16,10 +16,6 @@ public final class XMLDocument: XMLDocumentType {
     var documentPointer: xmlDocPtr
     var rootNode: XMLElement
 
-    private var _xml: String
-    private var _url: String?
-    private var _encoding: String.Encoding
-
     /// Creates an `XMLDocument` instance from a string.
     ///
     /// - parameter xml:        A string to create the document from.
@@ -30,10 +26,6 @@ public final class XMLDocument: XMLDocumentType {
                  url: String? = nil,
                  encoding: String.Encoding,
                  options: XMLParserOptions = .default) {
-
-        _xml  = xml
-        _url  = url
-        _encoding = encoding
 
         guard xml.lengthOfBytes(using: encoding) > 0 else { return nil }
 

@@ -15,10 +15,7 @@ public final class HTMLDocument: HTMLDocumentType {
 
     internal var documentPointer: xmlDocPtr
     internal var rootNode: XMLElement
-    private var _html: String
-    private var _url:  String?
-    private var _encoding: String.Encoding
-
+    
     /// Creates an `HTMLDocument` instance from a string.
     ///
     /// - parameter html:       A string to create the document from.
@@ -29,10 +26,6 @@ public final class HTMLDocument: HTMLDocumentType {
                  url: String? = nil,
                  encoding: String.Encoding,
                  options: HTMLParserOptions = .default) {
-
-        _html = html
-        _url  = url
-        _encoding = encoding
 
         guard html.lengthOfBytes(using: encoding) > 0 else { return nil }
 
