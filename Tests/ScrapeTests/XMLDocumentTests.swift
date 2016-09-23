@@ -370,7 +370,7 @@ final class XMLDocumentTests: XCTestCase {
 
         item0.addPreviousSibling(item1)
 
-        let actualModifiedXML = document.atXPath("//all_item")?.xml
+        let actualModifiedXML = document.element(atXPath: "//all_item")?.xml
 
         // Then
         XCTAssertEqual(expectedModifiedXML, actualModifiedXML)
@@ -419,7 +419,7 @@ final class XMLDocumentTests: XCTestCase {
 
         item1.addNextSibling(item0)
 
-        let actualModifiedXML = document.atXPath("//all_item")?.xml
+        let actualModifiedXML = document.element(atXPath: "//all_item")?.xml
 
         // Then
         XCTAssertEqual(expectedModifiedXML, actualModifiedXML)
@@ -436,7 +436,7 @@ final class XMLDocumentTests: XCTestCase {
 
         // When
         let returnedVersionsForTagsIOSName = versions.search(byCSSSelector: "ios name").map { $0.text ?? "" }
-        let returnedVersionForTagsTVOSName = versions.atCSSSelector("tvos name")?.text
+        let returnedVersionForTagsTVOSName = versions.element(atCSSSelector: "tvos name")?.text
 
         // Then
         XCTAssertEqual(expectedVersionsForTagsIOSName, returnedVersionsForTagsIOSName)

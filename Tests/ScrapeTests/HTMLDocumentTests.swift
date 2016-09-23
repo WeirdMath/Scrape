@@ -221,9 +221,9 @@ final class HTMLDocumentTests: XCTestCase {
 
         // When
 
-        let table = document.atCSSSelector("#sequence-number")
+        let table = document.element(atCSSSelector: "#sequence-number")
         let actualNumberOfRows = table?.search(byCSSSelector: "tr").count
-        let actualNumberOfColumns = table?.atCSSSelector("tr")?.search(byCSSSelector: "td").count
+        let actualNumberOfColumns = table?.element(atCSSSelector: "tr")?.search(byCSSSelector: "td").count
 
         // Then
         XCTAssertEqual(expectedNumberOfRows, actualNumberOfRows)

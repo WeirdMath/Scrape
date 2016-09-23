@@ -20,16 +20,16 @@ extension HTMLDocumentType {
     
     /// The contents of the tag `title` in the document. `nil` if no such tag exist.
     public final var title: String? {
-        return head?.atXPath("title")?.text
+        return head?.element(atXPath: "title")?.text
     }
     
     /// The node representing the tag `head`. `nil` if no such tag exist.
     public final var head: XMLElement? {
-        return atXPath("//head")
+        return element(atXPath: "//head")
     }
     
     /// The node representing the tag `body`. `nil` if no such tag exist.
     public final var body: XMLElement? {
-        return atXPath("//body")
+        return element(atXPath: "//body")
     }
 }

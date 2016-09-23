@@ -23,7 +23,7 @@ public protocol Searchable {
     /// - parameter namespaces: XML namespace to search in. Default value is `nil`.
     ///
     /// - returns: The first element matching given XPath. `nil` if XPath does not contain any nodes.
-    func atXPath(_ xpath: String, namespaces: [String : String]?) -> XMLElement?
+    func element(atXPath xpath: String, namespaces: [String : String]?) -> XMLElement?
     
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
     /// Searches for a node from a current node by provided CSS selector.
@@ -41,7 +41,7 @@ public protocol Searchable {
     ///
     /// - returns: The first element matching given selector. `nil` if corresponding XPath does not
     /// contain any nodes.
-    func atCSSSelector(_ selector: String, namespaces: [String : String]?) -> XMLElement?
+    func element(atCSSSelector selector: String, namespaces: [String : String]?) -> XMLElement?
     #endif
 }
 
@@ -62,7 +62,7 @@ public extension Searchable {
     /// - parameter namespaces: XML namespace to search in. Default value is `nil`.
     ///
     /// - returns: The first element matching given XPath. `nil` if XPath does not contain any nodes.
-    public final func atXPath(_ xpath: String, namespaces: [String : String]?) -> XMLElement? {
+    public final func element(atXPath xpath: String, namespaces: [String : String]?) -> XMLElement? {
         return search(byXPath: xpath, namespaces: namespaces).nodeSetValue.first
     }
     
@@ -71,8 +71,8 @@ public extension Searchable {
     /// - parameter xpath:      XPath to search by.
     ///
     /// - returns: The first element matching given XPath. `nil` if XPath does not contain any nodes.
-    public final func atXPath(_ xpath: String) -> XMLElement? {
-        return atXPath(xpath, namespaces: nil)
+    public final func element(atXPath xpath: String) -> XMLElement? {
+        return element(atXPath: xpath, namespaces: nil)
     }
     
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
@@ -92,7 +92,7 @@ public extension Searchable {
     ///
     /// - returns: The first element matching given selector. `nil` if corresponding XPath does not
     /// contain any nodes.
-    public final func atCSSSelector(_ selector: String, namespaces: [String : String]?) -> XMLElement? {
+    public final func element(atCSSSelector selector: String, namespaces: [String : String]?) -> XMLElement? {
         return search(byCSSSelector: selector, namespaces: namespaces).nodeSetValue.first
     }
     
@@ -102,8 +102,8 @@ public extension Searchable {
     ///
     /// - returns: The first element matching given selector. `nil` if corresponding XPath does not
     /// contain any nodes.
-    public final func atCSSSelector(_ selector: String) -> XMLElement? {
-        return atCSSSelector(selector, namespaces: nil)
+    public final func element(atCSSSelector selector: String) -> XMLElement? {
+        return element(atCSSSelector: selector, namespaces: nil)
     }
     #endif
 }

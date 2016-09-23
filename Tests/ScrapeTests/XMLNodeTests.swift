@@ -50,7 +50,7 @@ final class XMLNodeTests: XCTestCase {
     func testGetText() {
         
         // Given
-        guard let node = document.atXPath("//div[@id='farewell']") as? Scrape.XMLNode else {
+        guard let node = document.element(atXPath: "//div[@id='farewell']") as? Scrape.XMLNode else {
             XCTFail("Could not get an XML node from the document")
             return
         }
@@ -67,7 +67,7 @@ final class XMLNodeTests: XCTestCase {
     func testGetHTML() {
         
         // Given
-        guard let node = document.atXPath("//thead") as? Scrape.XMLNode else {
+        guard let node = document.element(atXPath: "//thead") as? Scrape.XMLNode else {
             XCTFail("Could not get an XML node from the document")
             return
         }
@@ -85,7 +85,7 @@ final class XMLNodeTests: XCTestCase {
     func testGetXML() {
         
         // Given
-        guard let node = document.atXPath("//thead") as? Scrape.XMLNode else {
+        guard let node = document.element(atXPath: "//thead") as? Scrape.XMLNode else {
             XCTFail("Could not get an XML node from the document")
             return
         }
@@ -103,7 +103,7 @@ final class XMLNodeTests: XCTestCase {
     func testGetInnerHTML() {
         
         // Given
-        guard let node = document.atXPath("//thead") as? Scrape.XMLNode else {
+        guard let node = document.element(atXPath: "//thead") as? Scrape.XMLNode else {
             XCTFail("Could not get an XML node from the document")
             return
         }
@@ -121,8 +121,8 @@ final class XMLNodeTests: XCTestCase {
         
         // Given
         guard let nodeWithClass = document
-            .atXPath("//a[@href='http://github.com/jessesquires/JSQCoreDataKit']"),
-            let nodeWithoutClass = document.atXPath("//head") as? Scrape.XMLNode else {
+            .element(atXPath: "//a[@href='http://github.com/jessesquires/JSQCoreDataKit']"),
+            let nodeWithoutClass = document.element(atXPath: "//head") as? Scrape.XMLNode else {
                 
             XCTFail("Could not get an XML node from the document")
             return
@@ -144,7 +144,7 @@ final class XMLNodeTests: XCTestCase {
     func testGetSetTagName() {
         
         // Given
-        guard let node = document.atXPath("//*[@id='farewell']") as? Scrape.XMLNode else {
+        guard let node = document.element(atXPath: "//*[@id='farewell']") as? Scrape.XMLNode else {
             XCTFail("Could not get an XML node from the document")
             return
         }
@@ -176,7 +176,7 @@ final class XMLNodeTests: XCTestCase {
     func testGetSetContent() {
         
         // Given
-        guard let node = document.atXPath("//*[@id='farewell']") as? Scrape.XMLNode else {
+        guard let node = document.element(atXPath: "//*[@id='farewell']") as? Scrape.XMLNode else {
             XCTFail("Could not get an XML node from the document")
             return
         }
@@ -245,7 +245,7 @@ final class XMLNodeTests: XCTestCase {
         
         // Given
         guard let repoNode = document.search(byXPath: "//span[@class='repo']").first as? Scrape.XMLNode,
-            let starsNode = repoNode.atXPath("following-sibling::*[1]") as? Scrape.XMLNode else {
+            let starsNode = repoNode.element(atXPath: "following-sibling::*[1]") as? Scrape.XMLNode else {
             XCTFail("Could not get an XML node from the document")
             return
         }
@@ -284,7 +284,7 @@ final class XMLNodeTests: XCTestCase {
         
         // Given
         guard let parent = document.search(byXPath: "//span[@class='stars']").first as? Scrape.XMLNode,
-            let child = parent.atXPath("descendant::*[1]") as? Scrape.XMLNode else {
+            let child = parent.element(atXPath: "descendant::*[1]") as? Scrape.XMLNode else {
                 XCTFail("Could not get an XML node from the document")
                 return
         }

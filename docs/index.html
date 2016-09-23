@@ -98,44 +98,126 @@
             
             <a href='#scrape' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='scrape'>Scrape</h1>
 
-<p>Cross-platform HTML and XML parser written in Swift.</p>
+<p><img src="https://travis-ci.org/SJTBA/Scrape.svg?branch=master" alt="Build Status">
+<img src="https://img.shields.io/badge/Swift-3.0-orange.svg" alt="Language">
+<img src="https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20iOS%20%7C%20watchOS%20%7C%20tvOS-lightgrey.svg" alt="Platform">
+<img src="https://codecov.io/gh/SJTBA/Scrape/branch/master/graph/badge.svg" alt="codecov">
+<img src="https://codebeat.co/badges/b4f7ff5c-02e4-40cc-bc48-cd515ff613bd" alt="codebeat badge"></p>
 
-<table><thead>
-<tr>
-<th></th>
-<th>Status</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Travis-CI</td>
-<td><a href="https://travis-ci.org/SJTBA/Scrape"><img src="https://travis-ci.org/SJTBA/Scrape.svg?branch=master" alt="Build Status"></a></td>
-</tr>
-<tr>
-<td>Code Coverage</td>
-<td><a href="https://codecov.io/gh/SJTBA/Scrape"><img src="https://codecov.io/gh/SJTBA/Scrape/branch/master/graph/badge.svg" alt="codecov"></a></td>
-</tr>
-<tr>
-<td>Code Quality</td>
-<td><a href="https://codebeat.co/projects/github-com-sjtba-scrape"><img src="https://codebeat.co/badges/b4f7ff5c-02e4-40cc-bc48-cd515ff613bd" alt="codebeat badge"></a></td>
-</tr>
-<tr>
-<td>Language</td>
-<td><img src="https://img.shields.io/badge/Swift-3.0-orange.svg" alt="Language"></td>
-</tr>
-<tr>
-<td>Compatibility</td>
-<td><img src="https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20iOS%20%7C%20watchOS%20%7C%20tvOS-lightgrey.svg" alt="Platform"></td>
-</tr>
-</tbody></table>
+<p>Scrape is a cross-platform HTML and XML parser written in Swift.</p>
+
+<p>This project was forked from <a href="https://github.com/tid-kijyun/Kanna">Kanna</a>, then completely rewritten and refined.</p>
+<a href='#about' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='about'>About</h2>
+
+<p>This framework wraps well-known C library Libxml2, letting you use Swifty interface for HTML and XML parsing. You can use XPath queries or CSS selectors to search elements in XML and HTML documents.</p>
+
+<p><strong>Important:</strong>
+due to immaturity of open source Foundation framework implementation which is used in Linux version
+of Scrape, CSS selectors are not currently supported in Linux. When all the methods of <code>NSRegularExpression</code> are fully implemented, CSS selectors will come back. In macOS they work just fine.</p>
+<a href='#requirements' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='requirements'>Requirements</h2>
+
+<ul>
+<li>macOS 10.9 or newer</li>
+<li>iOS 8.0 or newer</li>
+<li>watchOS 2.0 or newer</li>
+<li>tvOS 9.0 or newer</li>
+<li>Ubuntu 14.04, 15.10 or 16.10</li>
+<li>Other Linux distributions haven&rsquo;t been tested, but everything should work fine.</li>
+</ul>
+<a href='#installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='installation'>Installation</h2>
+
+<p>For now only Swift Package Manager is supported. If you want CocoaPods or Carthage support, please feel free
+to submit a PR 😊</p>
+
+<p>In order to use Scrape in your SPM project add the following into your <code>Package.swift</code> file:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
+    <span class="nv">name</span><span class="p">:</span> <span class="s">"YourPackageName"</span><span class="p">,</span>
+    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+        <span class="o">.</span><span class="kt">Package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/SJTBA/Scrape.git"</span><span class="p">,</span> <span class="nv">majorVersion</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>   
+</code></pre>
+<a href='#usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='usage'>Usage</h2>
+
+<p>Consider the following HTML fragment:</p>
+<pre class="highlight html"><code>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"single-column"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"boxed-group-inner mini-repo-list"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"public source "</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://github.com/jessesquires/JSQCoreDataKit"</span> <span class="na">class=</span><span class="s">"mini-repo-list-item css-truncate"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"repo"</span> <span class="na">title=</span><span class="s">"JSQCoreDataKit"</span><span class="nt">&gt;</span>JSQCoreDataKit<span class="nt">&lt;/span&gt;</span>
+            <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"stars"</span><span class="nt">&gt;</span>
+              357
+              <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"oction oction-star"</span><span class="nt">&gt;&lt;/span&gt;</span>
+            <span class="nt">&lt;/span&gt;</span>
+            <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"repo-description css-truncate-target"</span><span class="nt">&gt;</span>A swifter Core Data stack<span class="nt">&lt;/span&gt;</span>
+          <span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+</code></pre>
+
+<p>We can initialize an HTML document from string:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">document</span> <span class="o">=</span> <span class="kt">HTMLDocument</span><span class="p">(</span><span class="nv">html</span><span class="p">:</span> <span class="n">htmlString</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span>
+</code></pre>
+
+<p>We then can access its contents by querying it using XPath:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">element</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="nf">element</span><span class="p">(</span><span class="nv">atXPath</span><span class="p">:</span> <span class="s">"//span[@class='stars']"</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+<span class="c1">// Prints "357".</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+
+<span class="c1">// Prints:</span>
+<span class="c1">// &lt;span class="stars"&gt;</span>
+<span class="c1">//               357</span>
+<span class="c1">//               &lt;span class="oction oction-star"&gt;&lt;/span&gt;</span>
+<span class="c1">//             &lt;/span&gt;</span>
+</code></pre>
+
+<p>…or CSS selector:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">element</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="nf">element</span><span class="p">(</span><span class="nv">atCSSSelector</span><span class="p">:</span> <span class="s">"span.stars"</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+<span class="c1">// Prints "357".</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+
+<span class="c1">// Prints:</span>
+<span class="c1">// &lt;span class="stars"&gt;</span>
+<span class="c1">//               357</span>
+<span class="c1">//               &lt;span class="oction oction-star"&gt;&lt;/span&gt;</span>
+<span class="c1">//             &lt;/span&gt;</span>
+</code></pre>
+
+<p>We can even change the contents:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">element</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="nf">element</span><span class="p">(</span><span class="nv">atXPath</span><span class="p">:</span> <span class="s">"//span[@class='repo']"</span><span class="p">)</span>
+
+<span class="n">element</span><span class="p">[</span><span class="s">"title"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Scrape"</span>
+<span class="n">element</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s">"Scrape"</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">html</span><span class="p">)</span>
+
+<span class="c1">// Prints:</span>
+<span class="c1">// &lt;span class="repo" title="Scrape"&gt;Scrape&lt;/span&gt;</span>
+</code></pre>
+
+<p>It is also possible to reorder nodes, provide parsing options and convert CSS selectors to XPath queries.</p>
 <a href='#documentation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='documentation'>Documentation</h2>
 
 <p>Available <a href="https://sjtba.github.io/Scrape/">here</a>.</p>
+<a href='#why-not-kanna' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='why-not-kanna'>Why not Kanna?</h2>
+
+<p><a href="https://github.com/tid-kijyun/Kanna">Kanna</a> can be used on Apple platforms only, while Scrape can be used
+in Linux environment. Scrape also provides more consistent and clearer API, and also a better test coverage.
+And the most important — there is a complete documentation with examples!</p>
 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-23)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-09-24)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
