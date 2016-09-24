@@ -1,9 +1,9 @@
 # Scrape
-[![Build Status](https://travis-ci.org/SJTBA/Scrape.svg?branch=master)](https://travis-ci.org/SJTBA/Scrape)
+[![Build Status](https://travis-ci.org/WeirdMath/Scrape.svg?branch=master)](https://travis-ci.org/WeirdMath/Scrape)
 ![Language](https://img.shields.io/badge/Swift-3.0-orange.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20iOS%20%7C%20watchOS%20%7C%20tvOS-lightgrey.svg)
-[![codecov](https://codecov.io/gh/SJTBA/Scrape/branch/master/graph/badge.svg)](https://codecov.io/gh/SJTBA/Scrape)
-[![codebeat badge](https://codebeat.co/badges/b4f7ff5c-02e4-40cc-bc48-cd515ff613bd)](https://codebeat.co/projects/github-com-sjtba-scrape)
+[![codecov](https://codecov.io/gh/WeirdMath/Scrape/branch/master/graph/badge.svg)](https://codecov.io/gh/WeirdMath/Scrape)
+[![codebeat badge](https://codebeat.co/badges/d2568e1a-5443-492b-9976-c80f8a807150)](https://codebeat.co/projects/github-com-weirdmath-scrape)
 
 Scrape is a cross-platform HTML and XML parser written in Swift.
 
@@ -37,7 +37,7 @@ In order to use Scrape in your SPM project add the following into your `Package.
 let package = Package(
     name: "YourPackageName",
     dependencies: [
-        .Package(url: "https://github.com/SJTBA/Scrape.git", majorVersion: 1)
+        .Package(url: "https://github.com/WeirdMath/Scrape.git", majorVersion: 1)
     ]
 )	
 ```
@@ -122,7 +122,7 @@ It is also possible to reorder nodes, provide parsing options and convert CSS se
 
 ## Documentation
 
-Available [here](https://sjtba.github.io/Scrape/).
+Available [here](https://weirdmath.github.io/Scrape/).
 
 ## Why not Kanna?
 
